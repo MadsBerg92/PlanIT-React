@@ -1,1 +1,38 @@
+/* button.module.css */
+.normalButton {
+  background-color: #1877f2; /* Facebook blue */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
+.normalButton:hover {
+  background-color: #0e5a97; /* Darker blue on hover */
+}
+
+.specialButton {
+  background-color: grey;
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.specialButton:hover {
+  background-color: rgb(189, 179, 179); /* Darker blue on hover */
+}
+
+.customButton {
+  /* Add your custom button styles here */
+}
+
+.active {
+  background-color: #0e5a97; /* Darker blue for active state */
+}

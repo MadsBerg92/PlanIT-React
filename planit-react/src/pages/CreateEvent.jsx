@@ -5,8 +5,8 @@ const CreateEvent = () => {
     return (
       <div>
       <NavBar></NavBar>
-     <Button></Button>
      <p>I AM CREATE EVENT PAGE</p>
+     <Button className={"special"}></Button>
      </div>
     );
   };
