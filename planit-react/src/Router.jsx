@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
-import EventPage from "./pages/EventPage.jsx";
+import EventPage from "./pages/EventPage/EventPage.jsx";
 
 const Router = () => {
   return (
