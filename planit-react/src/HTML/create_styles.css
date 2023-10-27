@@ -1,0 +1,259 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Gabarito", sans-serif;
+}
+
+.logo {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 20px;
+}
+h1 {
+  font-size: 50px;
+  line-height: "64px";
+  color: #222;
+}
+
+h2 {
+  font-size: 46px;
+  line-height: 54px;
+  color: #222;
+}
+h4 {
+  font-size: 20px;
+  color: #222;
+}
+h6 {
+  font-weight: 700;
+  font-size: 12px;
+}
+p {
+  font-size: 16px;
+  color: #465b52;
+  margin: 15px 0 20px 0;
+}
+
+.section-p1 {
+  padding: 40px 80px;
+}
+
+.section-m1 {
+  margin: 40px 0;
+}
+
+button.normal {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 15px 30px;
+  color: #000;
+  background-color: #fff2e5;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: 0.2s;
+}
+
+button.transparant {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 18px;
+  color: #fff;
+  background-color: transparent;
+  cursor: pointer;
+  border: 1px solid #fff;
+  outline: none;
+  transition: 0.2s;
+}
+
+:root {
+  --ITUgreen: #abcda4;
+
+  --SoftBlack: #1c1c1c;
+}
+
+.navbar {
+  font-family: "Gabarito", sans-serif;
+}
+
+.btn:focus,
+.btn:active {
+  outline: none !important;
+  box-shadow: none;
+}
+
+/* Changing navbar menu item spacing to fit size */
+@media (max-width: 880px) {
+  #navbar_menu li {
+    padding: 0px 9px !important;
+  }
+}
+/* big navbar menu item spacing to fit big screen */
+#navbar_menu li {
+  padding: 0px 23px;
+}
+
+/* navbar menu item */
+#navbar_menu a {
+  font-size: 21px;
+  font-weight: bold;
+  color: #1c1c1c !important;
+}
+#navbar_menu a:hover {
+  color: var(--ITUgreen) !important;
+}
+#search_minimized {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.navbarMenuLine {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  height: 1px !important;
+  color: #1c1c1c !important;
+}
+
+#offcanvasScrollingLabel {
+  padding-left: 10px;
+  font-weight: bold;
+}
+
+/* moving icon in */
+#icon_container {
+  margin-right: 2%;
+}
+
+#icon_container li button {
+  padding: 0%;
+}
+
+/* moving logo in*/
+#largeLogo {
+  margin-left: 2%;
+}
+
+#icons li {
+  margin: 0px 5px;
+}
+
+/* setting icon list to horizontal */
+#icons {
+  flex-direction: row;
+}
+
+/*icon looks */
+#icons li a {
+  font-size: 16px;
+  color: #1c1c1c !important;
+}
+
+.inline-button {
+  margin-top: 7px;
+  font-size: 15px;
+}
+@media (max-width: 800px) {
+  .offcanvas {
+    width: 60% !important;
+  }
+}
+.offcanvas {
+  width: 30%;
+}
+
+#offcanvasRight {
+  height: 70px !important;
+  top: 70px !important;
+  max-width: 350px !important;
+}
+
+.small_menu a {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1c1c1c !important;
+}
+.small_menu a:hover {
+  color: var(--ITUgreen) !important;
+}
+
+/*************** ******************/
+
+/* NEW CSS */
+.event-image-preview {
+  display: block;
+  margin: 0 auto;
+  max-width: 30%;
+  height: auto;
+  margin-top: 10px;
+}
+/* eslint-disable-next-line camelcase */
+.form-group {
+  text-align: center;
+  background-color: white;
+  font-family: "Gabarito", sans-serif;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Gabarito", sans-serif;
+}
+form label,
+form input,
+form textarea,
+form select {
+  display: block;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 16px;
+  max-width: 500px;
+  border-radius: 20px;
+}
+
+input[type="submit"] {
+  background-color: #1a8652;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+}
+
+input[type="submit"]:hover {
+  background-color: #1a7345;
+}
+
+#error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+div nav ul {
+  background-color: #f9f3db;
+}
