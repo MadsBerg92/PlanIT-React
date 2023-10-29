@@ -1,5 +1,5 @@
 import Button from "../components/buttons/Button.jsx";
-import NavBar from "../components/navbar/NavBar.jsx";
+import NavBar from "../../components/navbar/Navbar.jsx";
 
 const ProfilePage = () => {
     return (
