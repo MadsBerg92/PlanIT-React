@@ -1,14 +1,45 @@
-import Button from "../components/buttons/Button.jsx";
-import NavBar from "../../components/navbar/Navbar.jsx";
+// Profile.jsx
+import { useNavigate } from "react-router-dom";
+import NavBar from "../../components/navbar/NavBar";
+import styles from "./ProfilePage.module.css";
 
 const ProfilePage = () => {
-    return (
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <NavBar />
       <div>
-      <NavBar></NavBar>
-     <Button label="click me"></Button>
-     <p>I AM PROFILE PAGE</p>
-     </div>
-    );
-  };
-  
-  export default ProfilePage;
+        <div className={styles.header}>
+          <img
+            alt="user pic"
+            src="/images/user-profile.png"
+            className={styles.profileImage}
+          />
+          <h1>Mads Nielsen</h1>
+          <p>Copenhagen, Denmark</p>
+        </div>
+        <div className={styles.details}>
+          <h2>Profile Details</h2>
+          <p>
+            <strong>Email:</strong> mads.nielsen@email.dk
+          </p>
+          <p>
+            <strong>Phone:</strong> +45 1234 5678
+          </p>
+          <p>
+            <strong>Birthday:</strong> 15th April 1990
+          </p>
+          <button
+            className={styles.editButton}
+            onClick={() => navigate("/EditProfile")}
+          >
+            Edit Profile
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default ProfilePage;
