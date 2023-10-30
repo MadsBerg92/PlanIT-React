@@ -1,26 +1,31 @@
 import Button from "../../components/button/Button.jsx";
-import NavBar from "../../components/navbar/Navbar.jsx";
-import styles from "./EventPage.module.css"
-// import image from "/images/Birthday.png"
+import NavBar from "../../components/navbar/NavBar.jsx";
+import styles from "./EventPage.module.css";
 
 const EventPage = () => {
-  
   const handleButtonClick = () => {
-    //Add relevant code here isntead of alert
-    alert('Button clicked!');
+    alert("Button clicked!");
   };
 
-    return (
-      <div>
-      <NavBar></NavBar>
+  return (
+    <div>
+      <NavBar />
       <div className={styles.centered}>
-      <img className={styles.image} src="/images/Birthday.png" alt="logo"></img>
+        <img
+          className={styles.image}
+          src="/images/Birthday.png"
+          alt="logo"
+        ></img>
       </div>
-      <Button label="click me" type={"normal"} ></Button>
-      <Button label="click! " type={"special"} onClick={handleButtonClick}></Button>
-     <p>I AM EVENT PAGE</p>
-     </div>
-    );
-  };
-  
-  export default EventPage;
+      <Button label="click me" type={"normal"}></Button>
+      <Button
+        label="click! "
+        type={"special"}
+        onClick={handleButtonClick}
+      ></Button>
+      <p>I AM EVENT PAGE</p>
+    </div>
+  );
+};
+
+export default EventPage;
