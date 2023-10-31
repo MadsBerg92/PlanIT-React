@@ -16,6 +16,7 @@ const AppRouter = () => {
         <Route path="/ProfilePage" element={<ProfilePage />} />
         <Route path="/EditProfile" element={<EditProfile />} />
         <Route path="/CreateEvent" element={<CreateEvent />} />
+        <Route path="/MyEvents" element={<EventPage />} />
       </Routes>
     </BrowserRouter>
   );
