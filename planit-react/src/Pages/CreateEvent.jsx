@@ -1,6 +1,6 @@
-import InputBox from "../components/inputBox/inputBox";
-import styles from "../components/inputBox/create_styles.module.css";
-import Button from "../components/buttons/Button";
+import InputBox from "../components/Inputbox/InputBox";
+import styles from "../components/Inputbox/create_styles.module.css";
+import Button from "../components/Button/Button";
 
 const CreateEvent = () => {
   // handle form submission

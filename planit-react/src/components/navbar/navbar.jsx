@@ -1,16 +1,16 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import styles from './navbar.module.css';
-import Dropdown from 'react-bootstrap/Dropdown';
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import styles from "./navbar.module.css";
+import Dropdown from "react-bootstrap/Dropdown";
 
 function NavBar() {
   return (
     <Navbar className={styles.bar} data-bs-theme="dark">
-      <Container >
-      <Navbar.Brand className={`${styles.title} ms-auto`} href="#home">
-        <img
+      <Container>
+        <Navbar.Brand className={`${styles.title} ms-auto`} href="#home">
+          <img
             src="./././logo.png"
             width="50"
             height="40"
@@ -32,8 +32,12 @@ function NavBar() {
               My Events
             </Nav.Link>
           </Nav>
-          <NavDropdown className={`${styles.dropdown} ms-auto`} title="Profile" id="basic-nav-dropdown">
-            <NavDropdown.Item className='dropdownitem' href="#action/3.2">
+          <NavDropdown
+            className={`${styles.dropdown} ms-auto`}
+            title="Profile"
+            id="basic-nav-dropdown"
+          >
+            <NavDropdown.Item className="dropdownitem" href="#action/3.2">
               My Profile
             </NavDropdown.Item>
             <NavDropdown.Item href="#action/3.3">Edit Profile</NavDropdown.Item>
