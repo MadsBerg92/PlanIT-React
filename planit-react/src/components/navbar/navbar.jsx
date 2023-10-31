@@ -3,8 +3,11 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import styles from "./navbar.module.css";
+import { useNavigate } from "react-router-dom";
 
 function NavBar() {
+  const navigate = useNavigate();
+
   return (
     <Navbar className={styles.bar} data-bs-theme="dark">
       <Container>
@@ -21,13 +24,19 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto justify-content-between">
-            <Nav.Link className={styles.navlink} href="/">
+            <Nav.Link className={styles.navlink} onClick={() => navigate("/")}>
               Home
             </Nav.Link>
-            <Nav.Link className={styles.navlink} href="/CreateEvent">
+            <Nav.Link
+              className={styles.navlink}
+              onClick={() => navigate("/CreateEvent")}
+            >
               Create Event
             </Nav.Link>
-            <Nav.Link className={styles.navlink} href="/">
+            <Nav.Link
+              className={styles.navlink}
+              onClick={() => navigate("/MyEvents")}
+            >
               My Events
             </Nav.Link>
           </Nav>
