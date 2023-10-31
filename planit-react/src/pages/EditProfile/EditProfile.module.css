@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.editSection {
+  margin-top: 50px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.editSection input {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 60%;
+  border: 1px solid #d3e4cd;
+  border-radius: 5px;
+}
+
+.editSection button {
+  padding: 10px;
+  width: 60%;
+  border: 1px solid #d3e4cd;
+  border-radius: 5px;
+  background-color: #9ab693;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto;
+}
+
+.editSection button:hover {
+  background-color: #d3e4cd;
+  color: #9ab693;
+}
