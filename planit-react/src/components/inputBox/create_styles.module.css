@@ -189,10 +189,11 @@ button.transparant {
 /*************** ******************/
 
 /* NEW CSS */
+
 .eventImagePreview {
   display: block;
   margin: 0 auto;
-  max-width: 30%;
+  max-width: 50%;
   height: auto;
   margin-top: 10px;
 }
