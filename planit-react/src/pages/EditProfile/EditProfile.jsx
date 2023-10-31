@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../components/navbar/NavBar";
+import NavBar from "../../components/Navbar/NavBar";
 import styles from "./EditProfile.module.css";
 
 const EditProfile = () => {
