@@ -1,7 +1,7 @@
 import Button from "../../components/button/Button.jsx";
 import NavBar from "../../components/navbar/Navbar.jsx";
 import styles from "./EventPage.module.css"
-// import image from "/images/Birthday.png"
+
 
 const EventPage = () => {
   
@@ -16,9 +16,10 @@ const EventPage = () => {
       <div className={styles.centered}>
       <img className={styles.image} src="/images/Birthday.png" alt="logo"></img>
       </div>
-      <Button label="click me" type={"normal"} ></Button>
-      <Button label="click! " type={"special"} onClick={handleButtonClick}></Button>
-     <p>I AM EVENT PAGE</p>
+      <div className={styles.centered}>
+      <Button textActive={"Attending"} textInactive={"Not Attending"} type={"normal"} ></Button>
+      <Button textInactive={"Invite Friends"} type={"special"} onClick={handleButtonClick}></Button>
+      </div>
      </div>
     );
   };
