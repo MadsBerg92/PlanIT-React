@@ -1,5 +1,5 @@
 import Button from "../components/buttons/Button.jsx";
-import NavBar from "../components/navbar/NavBar.jsx";
+import NavBar from "../components/navbar/NavBar.jsx"
 
 const Feed = () => {
     return (
@@ -12,3 +12,4 @@ const Feed = () => {
   };
   
   export default Feed;
+  
