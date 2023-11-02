@@ -38,6 +38,10 @@ const EventPage = () => {
       <InformationBox  title="Event Details" content={eventData}></InformationBox>
       <DescriptionBox  title="Event Description" content={description}></DescriptionBox>
       </div>
+      <div className={styles.centered}>
+      <Button textActive={"Attending"} textInactive={"Not Attending"} type={"normal"} ></Button>
+      <Button textInactive={"Invite Friends"} type={"special"} onClick={handleButtonClick}></Button>
+      </div>
      </div>
     );
   };
