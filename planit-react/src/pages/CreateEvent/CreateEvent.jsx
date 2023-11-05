@@ -1,5 +1,5 @@
 import Button from "../../components/button/Button.jsx";
-import NavBar from "../../components/navbar/NavBar.jsx";
+import NavBar from "../../components/navbar/navbar.jsx";
 
 const CreateEvent = () => {
   return (

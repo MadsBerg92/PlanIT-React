@@ -1,6 +1,7 @@
 // Profile.jsx
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../components/navbar/NavBar";
+import NavBar from "../../components/navbar/navbar.jsx";
+
 import styles from "./ProfilePage.module.css";
 
 const ProfilePage = () => {
