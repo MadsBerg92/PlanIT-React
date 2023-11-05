@@ -1,6 +1,7 @@
-import logo from "./logo.svg";
+
 import "./App.css";
 import NavBar from "./components/Navbar/NavBar";
+import ShoppingListModal from "./components/Shoppinglistmodal/ShoppingListModal";
 import CreateEvent from "./Pages/CreateEvent";
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
     <>
       <NavBar> </NavBar>
       <CreateEvent></CreateEvent>
+      <ShoppingListModal> </ShoppingListModal>
     </>
   );
 }
