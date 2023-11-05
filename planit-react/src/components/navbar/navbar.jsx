@@ -11,7 +11,7 @@ function NavBar() {
       <Container>
         <Navbar.Brand className={`${styles.title} ms-auto`} href="#home">
           <img
-            src="./././logo.png"
+            src="/images/logo.png"
             width="50"
             height="40"
             className="d-inline-block align-top image"

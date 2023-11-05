@@ -11,6 +11,7 @@ function InputBox(props) {
           name={props.name}
           placeholder={props.placeholder}
           required={props.required}
+          value={props.value}
           onChange={props.onChange}
         />
         <br />
@@ -26,6 +27,8 @@ function InputBox(props) {
           name={props.name}
           placeholder={props.placeholder}
           required={props.required}
+          value={props.value}
+          onChange={props.onChange}
         />
         <br />
       </>
@@ -40,6 +43,8 @@ function InputBox(props) {
         name={props.name}
         placeholder={props.placeholder}
         required={props.required}
+        value={props.value}
+        onChange={props.onChange}
       />
       <br />
     </>

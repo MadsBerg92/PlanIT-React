@@ -1,4 +1,4 @@
-import InputBox from "../components/inputBox/InputBox";
+import InputBox from "../components/inputBox/inputBox";
 import styles from "../components/inputBox/inputBox.module.css";
 import Button from "../components/Button/Button";
 

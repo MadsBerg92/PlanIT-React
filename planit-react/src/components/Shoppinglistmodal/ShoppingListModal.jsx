@@ -2,97 +2,140 @@ import React from "react";
 import Button from "../Button/Button";
 import styles from "./shoppingList.module.css";
 import Bootstrap from "bootstrap/dist/css/bootstrap.css";
+import InputBox from "../inputBox/inputBox";
+import { useState, useEffect } from "react";
 
 function ShoppingListModal(props) {
+  const [showModal, setShowModal] = useState(false);
+  const [items, setItems] = useState([]);
+  const [inputs, setInputs] = useState([{ id: 1, name: "" }]);
+
+  useEffect(() => {
+    console.log(items);
+  }, [items]);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  const handleDelete = (id) => {
+    const newInputs = inputs.filter((input) => input.id !== id);
+    setInputs(newInputs);
+  };
+
+  const handleInputChange = (id, event) => {
+    console.log(`Changing item with id ${id} to ${event.target.value}`);
+    const newInputs = inputs.map((input) => {
+      if (input.id === id) {
+        return { ...input, name: event.target.value };
+      }
+      return input;
+    });
+    setInputs(newInputs);
+  };
+  const handleAddItem = (e) => {
+    setInputs([...inputs, { id: inputs.length + 1, name: "" }]);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setItems(inputs);
+    console.log(items);
+  };
+
   return (
     <>
-      <Button
-        type="Custom"
-        data-toggle="modal"
-        data-target="#shoppingListModal"
-        label="Shopping List"
-        onClick={props.onClick}
-      ></Button>
-      <button
-        type="button"
-        className="btn btn-success"
-        data-toggle="modal"
-        data-target="#shopping-list-modal"
-        id="shopping-list-button"
-      >
-        Add Shopping List
-      </button>
+      <form onSubmit={handleSubmit}>
+        <Button
+          type="Custom"
+          label="Add Shopping List"
+          onClick={handleOpenModal}
+        ></Button>
 
-      <div
-        className="modal fade"
-        id="shopping-list-modal"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="shopping-list-modal-label"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="shopping-list-modal-label">
-                Shopping List
-              </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <label htmlFor="item-1">Item 1:</label>
-              <input
-                type="text"
-                id="item-1"
-                name="item-1"
-                placeholder="Enter item name"
-                required
-              />
-              <br />
-
-              <label htmlFor="item-2">Item 2:</label>
-              <input
-                type="text"
-                id="item-2"
-                name="item-2"
-                placeholder="Enter item name"
-                required
-              />
-              <br />
-
-              <label htmlFor="item-3">Item 3:</label>
-              <input
-                type="text"
-                id="item-3"
-                name="item-3"
-                placeholder="Enter item name"
-                required
-              />
-              <br />
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="submit" className="btn btn-primary">
-                Save changes
-              </button>
+        {showModal && (
+          <div
+            className="modal fade show"
+            style={{ display: "block" }}
+            id="shopping-list-modal"
+            tabIndex="-1"
+            role="dialog"
+            aria-labelledby="shopping-list-modal-label"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="shopping-list-modal-label">
+                    Shopping List
+                  </h5>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    onClick={handleCloseModal}
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  {inputs.map((input) => (
+                    <InputBox
+                      key={input.id}
+                      type="text"
+                      id={`item-${input.id}`}
+                      name={`item${input.id}`}
+                      label={`Item ${input.id}:`}
+                      placeholder="Enter item name"
+                      required
+                      value={input.name}
+                      onChange={(event) => handleInputChange(input.id, event)}
+                    />
+                  ))}
+                  <button
+                    type="button"
+                    onClick={handleAddItem}
+                    className={styles.btn}
+                  >
+                    Add Item
+                  </button>
+                  <div>
+                    {inputs.map((input) => (
+                      <li key={input.id}>
+                        Item {input.id}: {input.name}
+                        <button
+                          onClick={() => handleDelete(input.id)}
+                          className={styles.deletebtn}
+                        >
+                          Delete
+                        </button>
+                      </li>
+                    ))}
+                  </div>
+                  <br />
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className={styles.btnclose}
+                    data-dismiss="modal"
+                    onClick={handleCloseModal}
+                  >
+                    Close
+                  </button>
+                  <button type="submit" className={styles.btn}>
+                    Save changes
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <br />
+        )}
+        <br />
+      </form>
     </>
   );
 }
