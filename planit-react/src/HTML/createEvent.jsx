@@ -3,7 +3,6 @@ import "./create_styles.css";
 
 import flatpickr from "react-flatpickr";
 
-
 function CreateEvent() {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -12,13 +11,12 @@ function CreateEvent() {
 
   React.useEffect(() => {
     const eventDateInput = document.querySelector("#event-date");
-  
+
     new flatpickr(eventDateInput, {
       enableTime: false,
       dateFormat: "Y-m-d",
     });
   }, []);
-
 
   const previewImage = (event) => {
     const preview = document.querySelector("#event-image-preview");
@@ -171,7 +169,7 @@ function CreateEvent() {
           type="file"
           id="event-image"
           name="event-image"
-            onChange={previewImage}
+          onChange={previewImage}
           required
         />
         <br />

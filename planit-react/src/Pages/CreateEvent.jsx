@@ -1,30 +1,28 @@
-import InputBox from "../components/Inputbox/InputBox";
-import styles from "../components/Inputbox/create_styles.module.css";
+import InputBox from "../components/inputBox/InputBox";
+import styles from "../components/inputBox/inputBox.module.css";
 import Button from "../components/Button/Button";
 
 const CreateEvent = () => {
   // handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
 
-  function previewImage(e) {
+  const previewImage = (event) => {
     const preview = document.querySelector("#event-image-preview");
-    const file = e.target.files[0];
+    const file = event.target.files[0];
     const reader = new FileReader();
 
-    reader.addEventListener(
-      "load",
-      () => {
-        preview.src = reader.result;
-      },
-      false
-    );
+    reader.onloadend = () => {
+      preview.src = reader.result;
+    };
 
     if (file) {
       reader.readAsDataURL(file);
+    } else {
+      preview.src = "";
     }
-  }
+  };
   return (
     <div className={styles.formGroup}>
       <form>
@@ -78,7 +76,7 @@ const CreateEvent = () => {
           type="file"
           id="event-image"
           name="event-image"
-          onchange={(e) => this.props.previewImage(e)}
+          onChange={previewImage}
           required
         />
         <Button label="Create Event" type="special" onClick={handleSubmit} />
