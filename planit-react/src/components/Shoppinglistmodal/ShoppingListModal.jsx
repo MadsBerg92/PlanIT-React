@@ -36,8 +36,8 @@ function ShoppingListModal(props) {
     });
     setInputs(newInputs);
   };
-  const handleAddItem = (e) => {
-    setInputs([...inputs, { id: inputs.length + 1, name: "" }]);
+  const handleAddItem = (e, id) => {
+    setInputs(inputs.concat({ id: Date.now(), name: "" }));
   };
 
   const handleSubmit = (event) => {
@@ -82,13 +82,13 @@ function ShoppingListModal(props) {
                   </button>
                 </div>
                 <div className="modal-body">
-                  {inputs.map((input) => (
+                  {inputs.map((input, index) => (
                     <InputBox
                       key={input.id}
                       type="text"
                       id={`item-${input.id}`}
                       name={`item${input.id}`}
-                      label={`Item ${input.id}:`}
+                      label={`Item ${index + 1}:`}
                       placeholder="Enter item name"
                       required
                       value={input.name}
@@ -103,9 +103,9 @@ function ShoppingListModal(props) {
                     Add Item
                   </button>
                   <div>
-                    {inputs.map((input) => (
+                    {inputs.map((input, index) => (
                       <li key={input.id}>
-                        Item {input.id}: {input.name}
+                        Item {index + 1}: {input.name}
                         <button
                           onClick={() => handleDelete(input.id)}
                           className={styles.deletebtn}
