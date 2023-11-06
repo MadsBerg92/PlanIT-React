@@ -3,15 +3,22 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import styles from "./navbar.module.css";
+
 import Dropdown from "react-bootstrap/Dropdown";
 
+import { useNavigate } from "react-router-dom";
+
 function NavBar() {
+  const navigate = useNavigate();
+
   return (
     <Navbar className={styles.bar} data-bs-theme="dark">
       <Container>
+
         <Navbar.Brand className={`${styles.title} ms-auto`} href="#home">
           <img
             src="/images/logo.png"
+
             width="50"
             height="40"
             className="d-inline-block align-top image"
@@ -22,13 +29,19 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto justify-content-between">
-            <Nav.Link className={styles.navlink} href="#home">
+            <Nav.Link className={styles.navlink} onClick={() => navigate("/")}>
               Home
             </Nav.Link>
-            <Nav.Link className={styles.navlink} href="#create">
+            <Nav.Link
+              className={styles.navlink}
+              onClick={() => navigate("/CreateEvent")}
+            >
               Create Event
             </Nav.Link>
-            <Nav.Link className={styles.navlink} href="#event">
+            <Nav.Link
+              className={styles.navlink}
+              onClick={() => navigate("/MyEvents")}
+            >
               My Events
             </Nav.Link>
           </Nav>
@@ -37,14 +50,19 @@ function NavBar() {
             title="Profile"
             id="basic-nav-dropdown"
           >
-            <NavDropdown.Item className="dropdownitem" href="#action/3.2">
+
+
+            <NavDropdown.Item className="dropdownitem" href="/ProfilePage">
+
               My Profile
             </NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Edit Profile</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">
-              Separated link
+            <NavDropdown.Item href="/EditProfile">
+              Edit Profile
             </NavDropdown.Item>
+            {/* TODO: This is dummy to redirect to the login page, log out will be added later */}
+            <NavDropdown.Item href="/Login">Logout</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="/">Separated link</NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>
       </Container>
