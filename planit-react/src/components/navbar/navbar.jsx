@@ -3,6 +3,9 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import styles from "./navbar.module.css";
+
+import Dropdown from "react-bootstrap/Dropdown";
+
 import { useNavigate } from "react-router-dom";
 
 function NavBar() {
@@ -11,9 +14,11 @@ function NavBar() {
   return (
     <Navbar className={styles.bar} data-bs-theme="dark">
       <Container>
-        <Navbar.Brand className={`${styles.title} ms-auto`} href="/">
+
+        <Navbar.Brand className={`${styles.title} ms-auto`} href="#home">
           <img
-            src="./././logo.png"
+            src="/images/logo.png"
+
             width="50"
             height="40"
             className="d-inline-block align-top image"
@@ -45,7 +50,10 @@ function NavBar() {
             title="Profile"
             id="basic-nav-dropdown"
           >
+
+
             <NavDropdown.Item className="dropdownitem" href="/ProfilePage">
+
               My Profile
             </NavDropdown.Item>
             <NavDropdown.Item href="/EditProfile">
