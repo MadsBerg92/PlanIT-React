@@ -11,6 +11,7 @@ function Button(props) {
   const toggleStatus = () => {
     setIsActive(!isActive);
   }
+  
 
   // Changing the styling by defining type.
   let buttonClass = styles.normalButton;

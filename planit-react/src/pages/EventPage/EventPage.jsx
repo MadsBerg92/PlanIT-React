@@ -3,6 +3,7 @@ import NavBar from "../../components/navbar/NavBar.jsx";
 import styles from "./EventPage.module.css"
 import InformationBox from "../../components/InfoBox/InfoBox.jsx";
 import DescriptionBox from "../../components/descriptionBox/DescriptionBox.jsx";
+import EventCalendar from "../../components/calendar/Calendar.tsx";
 
 const EventPage = () => {
   
@@ -34,14 +35,18 @@ const EventPage = () => {
       <div className={styles.centered}>
       <img className={styles.image} src="/images/Birthday.png" alt="logo"></img>
       </div >
-      <div className={styles.boxContainer}>
-      <InformationBox  title="Event Details" content={eventData}></InformationBox>
-      <DescriptionBox  title="Event Description" content={description}></DescriptionBox>
-      </div>
       <div className={styles.centered}>
       <Button textActive={"Attending"} textInactive={"Not Attending"} type={"normal"} ></Button>
       <Button textInactive={"Invite Friends"} type={"special"} onClick={handleButtonClick}></Button>
       </div>
+      <div className={styles.boxContainer}>
+      <InformationBox  title="Event Details" content={eventData}></InformationBox>
+      <DescriptionBox  title="Event Description" content={description}></DescriptionBox>
+      </div>
+      <div>
+        <EventCalendar></EventCalendar>
+      </div>
+      
      </div>
     );
   };
