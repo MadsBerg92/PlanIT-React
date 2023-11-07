@@ -1,37 +1,39 @@
 import React from "react";
 import styles from "./shoppingList.module.css";
-import Bootstrap from "bootstrap/dist/css/bootstrap.css";
 import InputBox from "../InputBox/InputBox";
 import { useState, useEffect } from "react";
 import Button from "../Button/Button";
 import { ShoppingListContext } from "../../Context/ShoppingListContext";
 
-function ShoppingListModal(props) {
+function ShoppingListModal() {
+  //useState for modal starting as false
   const [showModal, setShowModal] = useState(false);
-  const [items, setItems] = useState([]);
+
+  //useState for inputs starting as empty array with one object
   const [inputs, setInputs] = useState([{ id: 1, name: "" }]);
 
+  //useContext for shoppingList
   const { shoppingList, setShoppingList } =
     React.useContext(ShoppingListContext);
 
-  useEffect(() => {
-    console.log(inputs);
-  }, [inputs]);
-
+  //Opens the shopping list modal
   const handleOpenModal = () => {
     setShowModal(true);
   };
 
+  //Closes the shopping list modal
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  //Handler for deleting items from the shopping list
   const handleDelete = (id) => {
     const newInputs = inputs.filter((input) => input.id !== id);
     setInputs(newInputs);
   };
 
+  //Handler for changing the input value
   const handleInputChange = (id, event) => {
-    console.log(`Changing item with id ${id} to ${event.target.value}`);
     const newInputs = inputs.map((input) => {
       if (input.id === id) {
         return { ...input, name: event.target.value };
@@ -40,21 +42,25 @@ function ShoppingListModal(props) {
     });
     setInputs(newInputs);
   };
+
+  //Handler for adding a new inputfield and Object to the shopping lists with a unique id through Date.now()
   const handleAddItem = (e, id) => {
     setInputs(inputs.concat({ id: Date.now(), name: "" }));
   };
 
+  //Handler for submitting the shopping list storing the inputs in the shoppingList state
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    console.log(inputs);
     setShoppingList(inputs);
+    console.log(inputs);
   };
+
+  //useEffect for closing the modal when the shopping list is updated
   useEffect(() => {
     if (showModal) {
       setShowModal(false);
     }
-  }, [shoppingList]);
+  }, [shoppingList, showModal]);
 
   return (
     <>
@@ -83,7 +89,7 @@ function ShoppingListModal(props) {
                   </h5>
                   <button
                     type="button"
-                    className={styles.btncloseTop}
+                    className={styles["modal-close"]}
                     data-dismiss="modal"
                     aria-label="Close"
                     onClick={handleCloseModal}
@@ -108,7 +114,7 @@ function ShoppingListModal(props) {
                   <button
                     type="button"
                     onClick={handleAddItem}
-                    className={styles.btnAdd}
+                    className={styles.btn}
                   >
                     Add Item
                   </button>
@@ -118,7 +124,7 @@ function ShoppingListModal(props) {
                         Item {index + 1}: {input.name}
                         <button
                           onClick={() => handleDelete(input.id)}
-                          className={styles.deletebtn}
+                          className={styles["delete-btn"]}
                         >
                           Delete
                         </button>
@@ -130,7 +136,7 @@ function ShoppingListModal(props) {
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className={styles.btnclose}
+                    className={styles["btn-close"]}
                     data-dismiss="modal"
                     onClick={handleCloseModal}
                   >

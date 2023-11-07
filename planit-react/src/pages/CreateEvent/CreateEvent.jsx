@@ -5,10 +5,8 @@ import ShoppingListModal from "../../components/Shoppinglistmodal/ShoppingListMo
 
 const CreateEvent = () => {
   // handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
 
+  // preview image when changing image for an event
   const previewImage = (event) => {
     const preview = document.querySelector("#event-image-preview");
     const file = event.target.files[0];

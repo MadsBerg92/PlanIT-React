@@ -14,7 +14,7 @@ function EventCard() {
             <div className={styles.info}>
               <h5>Louise's Event</h5>
               <h5>Dinner Party!</h5>
-              <img src="./images/Birthday.png" />
+              <img src="./images/Birthday.png" alt="event" />
             </div>
             <div className={styles.description}>
               <span>
