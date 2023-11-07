@@ -16,9 +16,9 @@ const Layout = () => {
     <>
       {showNavBar && <NavBar />}
       <Routes>
-        <Route path="/" element={<FeedPage />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/Home" element={<FeedPage />} />
         <Route path="/Eventpage" element={<EventPage />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/event-creation" element={<CreateEvent />} />

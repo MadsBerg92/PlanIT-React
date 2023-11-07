@@ -15,7 +15,7 @@ function NavBar() {
         <Nav.Link>
           <Navbar.Brand
             className={`${styles.title} ms-auto`}
-            onClick={() => navigate("/")}
+            onClick={() => navigate("Home")}
           >
             <img
               src="/images/logo.png"
@@ -30,7 +30,10 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto justify-content-between">
-            <Nav.Link className={styles.navlink} onClick={() => navigate("/")}>
+            <Nav.Link
+              className={styles.navlink}
+              onClick={() => navigate("Home")}
+            >
               Home
             </Nav.Link>
             <Nav.Link
@@ -39,7 +42,10 @@ function NavBar() {
             >
               Create Event
             </Nav.Link>
-            <Nav.Link className={styles.navlink} onClick={() => navigate("/")}>
+            <Nav.Link
+              className={styles.navlink}
+              onClick={() => navigate("Home")}
+            >
               My Events
             </Nav.Link>
           </Nav>
@@ -58,11 +64,11 @@ function NavBar() {
               Edit Profile
             </NavDropdown.Item>
             {/* TODO: This is dummy to redirect to the login page, log out will be added later */}
-            <NavDropdown.Item onClick={() => navigate("/login")}>
+            <NavDropdown.Item onClick={() => navigate("/")}>
               Logout
             </NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item onClick={() => navigate("/")}>
+            <NavDropdown.Item onClick={() => navigate("Home")}>
               Separated link
             </NavDropdown.Item>
           </NavDropdown>

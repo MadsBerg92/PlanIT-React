@@ -1,11 +1,13 @@
 import Button from "../../components/Button/Button.jsx";
 import styles from "./EventPage.module.css";
-import InformationBox from "../../components/InfoBox/InfoBox.jsx";
-import DescriptionBox from "../../components/descriptionBox/DescriptionBox.jsx";
 import EventCalendar from "../../components/calendar/Calendar.tsx";
+
 import { ShoppingListContext } from "../../Context/ShoppingListContext.jsx";
 import React, { useContext } from "react";
 import ShoppingList from "../../components/ShoppingList/ShoppingList.jsx";
+
+import Box from "../../components/box/Box.jsx";
+
 
 const EventPage = () => {
   const handleButtonClick = () => {
@@ -58,21 +60,18 @@ const EventPage = () => {
         ></Button>
       </div>
       <div className={styles.boxContainer}>
-        <InformationBox
-          title="Event Details"
-          content={eventData}
-        ></InformationBox>
-        <DescriptionBox
-          title="Event Description"
-          content={description}
-        ></DescriptionBox>
-      </div>
-      <div>
-        <EventCalendar></EventCalendar>
+
         <ShoppingList
           title="Shopping List"
           content={shoppingList}
         ></ShoppingList>
+
+        <Box title="Event Details" content={eventData} type="second"></Box>
+        <Box title="Event Description" content={description} type="first"></Box>
+      </div>
+      <div className={styles.calendarBox}>
+        <Box type="first" content={<EventCalendar />}></Box>
+
       </div>
     </div>
   );
