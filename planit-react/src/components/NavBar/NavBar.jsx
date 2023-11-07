@@ -12,19 +12,21 @@ function NavBar() {
   return (
     <Navbar className={styles.bar} data-bs-theme="dark">
       <Container>
-        <Navbar.Brand
-          className={`${styles.title} ms-auto`}
-          onClick={() => navigate("/Feed")}
-        >
-          <img
-            src="/images/logo.png"
-            width="50"
-            height="40"
-            className="d-inline-block align-top image"
-            alt="React Bootstrap logo"
-          />
-          PlanIT
-        </Navbar.Brand>
+        <Nav.Link>
+          <Navbar.Brand
+            className={`${styles.title} ms-auto`}
+            onClick={() => navigate("/")}
+          >
+            <img
+              src="/images/logo.png"
+              width="50"
+              height="40"
+              className="d-inline-block align-top image"
+              alt="React Bootstrap logo"
+            />
+            PlanIT
+          </Navbar.Brand>
+        </Nav.Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto justify-content-between">

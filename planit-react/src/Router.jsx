@@ -6,20 +6,15 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
 import EditProfile from "./pages/EditProfile/EditProfile.jsx";
 import CreateEvent from "./pages/CreateEvent/CreateEvent.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
-import Feed from "./pages/FeedPage/FeedPage.jsx";
-
+import FeedPage from "./pages/FeedPage/FeedPage.jsx";
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
-
-
       <NavBar />
-
-    
-
       <Routes>
-        <Route path="/Feed" element={<Feed />} />
+        <Route path="/" element={<FeedPage />} />
+        <Route path="/Eventpage" element={<EventPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/edit-profile" element={<EditProfile />} />
