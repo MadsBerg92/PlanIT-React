@@ -69,7 +69,7 @@ function NavBar() {
             </NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={() => navigate("Home")}>
-              Separated link
+              Home
             </NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>
