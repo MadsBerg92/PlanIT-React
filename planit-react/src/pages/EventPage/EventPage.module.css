@@ -11,3 +11,13 @@
   height: auto;
   margin-top: 10px;
 }
+
+.boxContainer {
+  display: flex;
+}
+
+.InformationBox,
+.DescriptionBox {
+  margin-right: 10px;
+  max-height: 100%; /* Adjust the maximum height as needed */
+}
