@@ -51,7 +51,7 @@ function ShoppingListModal(props) {
       <form onSubmit={handleSubmit}>
         <Button
           type="shoppingList"
-          label="Add Shopping List"
+          textInactive="Shopping List"
           onClick={handleOpenModal}
         ></Button>
 
