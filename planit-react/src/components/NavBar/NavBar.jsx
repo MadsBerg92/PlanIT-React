@@ -4,8 +4,6 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import styles from "./NavBar.module.css";
 
-import Dropdown from "react-bootstrap/Dropdown";
-
 import { useNavigate } from "react-router-dom";
 
 function NavBar() {
@@ -16,7 +14,7 @@ function NavBar() {
       <Container>
         <Navbar.Brand
           className={`${styles.title} ms-auto`}
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/Feed")}
         >
           <img
             src="/images/logo.png"
