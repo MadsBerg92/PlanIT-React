@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../components/NavBar/NavBar";
 import styles from "./EditProfile.module.css";
 
 const EditProfile = () => {
@@ -7,7 +6,6 @@ const EditProfile = () => {
 
   return (
     <>
-      <NavBar />
       <div>
         <div className={styles.header}>
           <h1>Edit Profile</h1>
