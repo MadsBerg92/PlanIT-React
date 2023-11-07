@@ -1,5 +1,5 @@
-import Button from "../../components/button/Button.jsx";
-import NavBar from "../../components/Navbar/NavBar.jsx";
+import Button from "../../components/Button/Button.jsx";
+import NavBar from "../../components/NavBar/NavBar.jsx";
 import styles from "./EventPage.module.css";
 
 const EventPage = () => {

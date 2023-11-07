@@ -3,6 +3,7 @@ import styles from "./shoppingList.module.css";
 import Bootstrap from "bootstrap/dist/css/bootstrap.css";
 import InputBox from "../inputBox/inputBox";
 import { useState, useEffect } from "react";
+import Button from "../Button/Button";
 
 function ShoppingListModal(props) {
   const [showModal, setShowModal] = useState(false);

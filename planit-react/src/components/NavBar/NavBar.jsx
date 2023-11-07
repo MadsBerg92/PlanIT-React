@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import styles from "./navbar.module.css";
+import styles from "./NavBar.module.css";
 
 import Dropdown from "react-bootstrap/Dropdown";
 
@@ -14,11 +14,12 @@ function NavBar() {
   return (
     <Navbar className={styles.bar} data-bs-theme="dark">
       <Container>
-
-        <Navbar.Brand className={`${styles.title} ms-auto`} href="#home">
+        <Navbar.Brand
+          className={`${styles.title} ms-auto`}
+          onClick={() => navigate("/")}
+        >
           <img
             src="/images/logo.png"
-
             width="50"
             height="40"
             className="d-inline-block align-top image"
@@ -34,14 +35,11 @@ function NavBar() {
             </Nav.Link>
             <Nav.Link
               className={styles.navlink}
-              onClick={() => navigate("/CreateEvent")}
+              onClick={() => navigate("/event-creation")}
             >
               Create Event
             </Nav.Link>
-            <Nav.Link
-              className={styles.navlink}
-              onClick={() => navigate("/MyEvents")}
-            >
+            <Nav.Link className={styles.navlink} onClick={() => navigate("/")}>
               My Events
             </Nav.Link>
           </Nav>
@@ -50,19 +48,23 @@ function NavBar() {
             title="Profile"
             id="basic-nav-dropdown"
           >
-
-
-            <NavDropdown.Item className="dropdownitem" href="/ProfilePage">
-
+            <NavDropdown.Item
+              className="dropdownitem"
+              onClick={() => navigate("/profile")}
+            >
               My Profile
             </NavDropdown.Item>
-            <NavDropdown.Item href="/EditProfile">
+            <NavDropdown.Item onClick={() => navigate("/edit-profile")}>
               Edit Profile
             </NavDropdown.Item>
             {/* TODO: This is dummy to redirect to the login page, log out will be added later */}
-            <NavDropdown.Item href="/Login">Logout</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => navigate("/login")}>
+              Logout
+            </NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="/">Separated link</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => navigate("/")}>
+              Separated link
+            </NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>
       </Container>
