@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import React from "react";
 import EventPage from "./pages/EventPage/EventPage.jsx";
 import Login from "./pages/LogIn/Login.jsx";
@@ -8,10 +8,13 @@ import CreateEvent from "./pages/CreateEvent/CreateEvent.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import FeedPage from "./pages/FeedPage/FeedPage.jsx";
 
-const AppRouter = () => {
+const Layout = () => {
+  const location = useLocation();
+  const showNavBar = location.pathname !== "/login";
+
   return (
-    <BrowserRouter>
-      <NavBar />
+    <>
+      {showNavBar && <NavBar />}
       <Routes>
         <Route path="/" element={<FeedPage />} />
         <Route path="/Eventpage" element={<EventPage />} />
@@ -20,6 +23,14 @@ const AppRouter = () => {
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/event-creation" element={<CreateEvent />} />
       </Routes>
+    </>
+  );
+};
+
+const AppRouter = () => {
+  return (
+    <BrowserRouter>
+      <Layout />
     </BrowserRouter>
   );
 };
