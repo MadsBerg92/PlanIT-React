@@ -56,12 +56,12 @@ function ShoppingListModal() {
   };
 
   //useEffect for closing the modal when the shopping list is updated
+
   useEffect(() => {
     if (showModal) {
       setShowModal(false);
     }
-  }, [shoppingList, showModal]);
-
+  }, [shoppingList]);
   return (
     <>
       <form onSubmit={handleSubmit}>

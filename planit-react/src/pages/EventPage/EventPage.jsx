@@ -54,16 +54,15 @@ const EventPage = () => {
         ></Button>
       </div>
       <div className={styles.boxContainer}>
-        <ShoppingList
-          title="Shopping List"
-          content={shoppingList}
-        ></ShoppingList>
-
         <Box title="Event Details" content={eventData} type="second"></Box>
         <Box title="Event Description" content={description} type="first"></Box>
       </div>
       <div className={styles.calendarBox}>
         <Box type="first" content={<EventCalendar />}></Box>
+        <ShoppingList
+          title="Shopping List"
+          content={shoppingList}
+        ></ShoppingList>
       </div>
     </div>
   );

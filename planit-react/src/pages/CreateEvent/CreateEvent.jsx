@@ -24,6 +24,7 @@ const CreateEvent = () => {
   };
   return (
     <>
+      {/* <div className={`${styles["site-content"]} ${styles.body} `}> */}
       <div className={styles.formGroup}>
         <form>
           <img
@@ -85,6 +86,7 @@ const CreateEvent = () => {
           />
         </form>
       </div>
+
       <ShoppingListModal />
     </>
   );
