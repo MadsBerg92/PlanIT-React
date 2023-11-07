@@ -12,9 +12,11 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
 
+
       <NavBar />
 
     
+
       <Routes>
         <Route path="/" element={<EventPage />} />
         <Route path="/login" element={<Login />} />
