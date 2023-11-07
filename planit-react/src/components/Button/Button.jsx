@@ -9,6 +9,7 @@ function Button(props) {
   //If you want to define a different onClick function, then define textInactive only.
   const buttonText = isActive ? props.textActive : props.textInactive
   
+  //standard onClick behavior, Define another onClick function when using it, if you want another behavior
   const toggleStatus = () => {
     setIsActive(!isActive);
   }
@@ -26,7 +27,7 @@ function Button(props) {
   } else if (props.type === "shoppingList") {
     buttonClass = styles.shoppingListBtn;
 }
-  //Define a different onclick function when you create an instance of button to change the onclick behavior!
+
   return (
     <button
       className={`${buttonClass} ${isActive ? styles.active : ""}`}  // Optional: Pass a class name as a prop for styling

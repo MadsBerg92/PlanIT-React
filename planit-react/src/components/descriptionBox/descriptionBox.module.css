@@ -6,7 +6,7 @@
   border-radius: 5px;
   margin-right: 10px; /* Add spacing between the boxes */
   flex: 2;
-  max-width: 45%;
+  max-width: 40%;
 }
 
 .descriptionBox h2 {

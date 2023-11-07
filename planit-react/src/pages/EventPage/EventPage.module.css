@@ -12,10 +12,6 @@
   margin-top: 10px;
 }
 
-.boxContainer {
-  display: flex;
-}
-
 .InformationBox,
 .DescriptionBox {
   margin-right: 10px;
