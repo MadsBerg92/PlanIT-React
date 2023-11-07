@@ -20,11 +20,10 @@ function Button(props) {
     buttonClass = styles.specialButton;
   } else if (props.type === 'custom') {
     buttonClass = styles.customButton;
-  } 
-    else if (props.type === "create") {
-  buttonClass = styles.createButton;
+  } else if (props.type === "create") {
+    buttonClass = styles.createButton;
   } else if (props.type === "shoppingList") {
-  buttonClass = styles.shoppingListBtn;
+    buttonClass = styles.shoppingListBtn;
 }
   //Define a different onclick function when you create an instance of button to change the onclick behavior!
   return (
