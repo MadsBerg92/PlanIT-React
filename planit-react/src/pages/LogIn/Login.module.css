@@ -46,9 +46,10 @@ form {
 form input {
   margin-bottom: 20px;
   padding: 10px;
-  width: 60%;
+  width: 100%;
+  max-width: 500px;
   border: 1px solid #d3e4cd;
-  border-radius: 5px;
+  border-radius: 55px;
 }
 
 form input:focus {
@@ -92,4 +93,12 @@ form p a:hover {
   width: 10rem; /* Adjust this to your desired width */
   height: auto; /* This keeps the aspect ratio of the image */
   margin-left: 10%;
+}
+
+.form-input {
+  margin-bottom: 20px;
+  padding: 10px;
+  width: 60%;
+  border: 1px solid #d3e4cd;
+  border-radius: 5px;
 }
