@@ -1,9 +1,7 @@
 import Button from "../../components/Button/Button.jsx";
 import styles from "./EventPage.module.css";
-import InformationBox from "../../components/InfoBox/InfoBox.jsx";
-import DescriptionBox from "../../components/descriptionBox/DescriptionBox.jsx";
 import EventCalendar from "../../components/calendar/Calendar.tsx";
-
+import Box from "../../components/box/Box.jsx";
 
 const EventPage = () => {
   const handleButtonClick = () => {
@@ -12,10 +10,10 @@ const EventPage = () => {
 
   //data for information box
   const eventData = [
-    { label: 'Event Location', value: 'My house at Frederiksberg' },
-    { label: 'Date', value: 'October 15, 2023, 17:00' },
-    { label: 'Host', value: 'Pernille Svendsen' },
-    { label: 'Attending', value: 'You are going!' },
+    { label: "Event Location", value: "My house at Frederiksberg" },
+    { label: "Date", value: "October 15, 2023, 17:00" },
+    { label: "Host", value: "Pernille Svendsen" },
+    { label: "Attending", value: "You are going!" },
   ];
 
   const description = `Celebrate with us as we mark a significant milestone in life! It's
@@ -29,7 +27,6 @@ const EventPage = () => {
 
   return (
     <div>
-
       <div className={styles.centered}>
         <img
           className={styles.image}
@@ -38,15 +35,23 @@ const EventPage = () => {
         ></img>
       </div>
       <div className={styles.centered}>
-      <Button textActive={"Attending"} textInactive={"Not Attending"} type={"normal"} ></Button>
-      <Button textInactive={"Invite Friends"} type={"special"} onClick={handleButtonClick}></Button>
+        <Button
+          textActive={"Attending"}
+          textInactive={"Not Attending"}
+          type={"normal"}
+        ></Button>
+        <Button
+          textInactive={"Invite Friends"}
+          type={"special"}
+          onClick={handleButtonClick}
+        ></Button>
       </div>
       <div className={styles.boxContainer}>
-      <InformationBox  title="Event Details" content={eventData}></InformationBox>
-      <DescriptionBox  title="Event Description" content={description}></DescriptionBox>
+        <Box title="Event Details" content={eventData} type="second"></Box>
+        <Box title="Event Description" content={description} type="first"></Box>
       </div>
-      <div>
-        <EventCalendar></EventCalendar>
+      <div className={styles.calendarBox}>
+        <Box type="first" content={<EventCalendar />}></Box>
       </div>
     </div>
   );
