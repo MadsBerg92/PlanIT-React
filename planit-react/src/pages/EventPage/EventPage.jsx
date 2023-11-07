@@ -9,7 +9,7 @@ const EventPage = () => {
 
   return (
     <div>
-      <NavBar />
+      {/* <NavBar /> */}
       <div className={styles.centered}>
         <img
           className={styles.image}
