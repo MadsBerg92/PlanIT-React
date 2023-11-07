@@ -29,6 +29,7 @@ const EventPage = () => {
 
   return (
     <div>
+
       <div className={styles.centered}>
         <img
           className={styles.image}

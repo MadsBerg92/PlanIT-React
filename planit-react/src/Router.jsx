@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import React from "react";
 import EventPage from "./pages/EventPage/EventPage.jsx";
 import Login from "./pages/LogIn/Login.jsx";
@@ -11,7 +11,10 @@ import NavBar from "./components/NavBar/NavBar.jsx";
 const AppRouter = () => {
   return (
     <BrowserRouter>
-    <NavBar/>
+
+      <NavBar />
+
+    
       <Routes>
         <Route path="/" element={<EventPage />} />
         <Route path="/login" element={<Login />} />
