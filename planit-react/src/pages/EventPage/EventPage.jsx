@@ -1,5 +1,4 @@
 import Button from "../../components/Button/Button.jsx";
-import NavBar from "../../components/NavBar/NavBar.jsx";
 import styles from "./EventPage.module.css";
 import InformationBox from "../../components/InfoBox/InfoBox.jsx";
 import DescriptionBox from "../../components/descriptionBox/DescriptionBox.jsx";
@@ -30,7 +29,6 @@ const EventPage = () => {
 
   return (
     <div>
-      <NavBar />
       <div className={styles.centered}>
         <img
           className={styles.image}

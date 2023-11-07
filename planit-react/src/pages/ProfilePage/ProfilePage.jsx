@@ -1,6 +1,5 @@
 // Profile.jsx
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../components/NavBar/NavBar";
 import styles from "./ProfilePage.module.css";
 
 const ProfilePage = () => {
@@ -8,7 +7,6 @@ const ProfilePage = () => {
 
   return (
     <>
-      <NavBar />
       <div>
         <div className={styles.header}>
           <img

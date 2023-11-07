@@ -5,10 +5,13 @@ import Login from "./pages/LogIn/Login.jsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
 import EditProfile from "./pages/EditProfile/EditProfile.jsx";
 import CreateEvent from "./pages/CreateEvent/CreateEvent.jsx";
+import NavBar from "./components/NavBar/NavBar.jsx";
+
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
+    <NavBar/>
       <Routes>
         <Route path="/" element={<EventPage />} />
         <Route path="/login" element={<Login />} />
