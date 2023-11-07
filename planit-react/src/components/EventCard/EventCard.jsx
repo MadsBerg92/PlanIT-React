@@ -9,7 +9,7 @@ function EventCard() {
   return (
     <Container>
       <div className={styles.mainDiv}>
-        <Nav.Link onClick={() => navigate("/SpecificEvent")}>
+        <Nav.Link onClick={() => navigate("/EventPage")}>
           <div className={styles.contentDiv}>
             <div className={styles.info}>
               <h5>Louise's Event</h5>
