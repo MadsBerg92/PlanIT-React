@@ -3,7 +3,9 @@ import styles from "./EventPage.module.css";
 import InformationBox from "../../components/InfoBox/InfoBox.jsx";
 import DescriptionBox from "../../components/descriptionBox/DescriptionBox.jsx";
 import EventCalendar from "../../components/calendar/Calendar.tsx";
-
+import { ShoppingListContext } from "../../Context/ShoppingListContext.jsx";
+import React, { useContext } from "react";
+import ShoppingList from "../../components/ShoppingList/ShoppingList.jsx";
 
 const EventPage = () => {
   const handleButtonClick = () => {
@@ -12,11 +14,13 @@ const EventPage = () => {
 
   //data for information box
   const eventData = [
-    { label: 'Event Location', value: 'My house at Frederiksberg' },
-    { label: 'Date', value: 'October 15, 2023, 17:00' },
-    { label: 'Host', value: 'Pernille Svendsen' },
-    { label: 'Attending', value: 'You are going!' },
+    { label: "Event Location", value: "My house at Frederiksberg" },
+    { label: "Date", value: "October 15, 2023, 17:00" },
+    { label: "Host", value: "Pernille Svendsen" },
+    { label: "Attending", value: "You are going!" },
   ];
+
+  const { shoppingList } = React.useContext(ShoppingListContext);
 
   const description = `Celebrate with us as we mark a significant milestone in life! It's
     time to revel in the joy of reaching 35 years, filled with memories,
@@ -26,10 +30,14 @@ const EventPage = () => {
     immerse yourself in a world of [Theme Description], from the
     decorations to the music and everything in between. Dress up according
     to the theme, or come as you are; the choice is yours!`;
+  const list = [
+    { id: 1, name: "Cake" },
+    { id: 2, name: "Beer" },
+    { id: 3, name: "Soda" },
+  ];
 
   return (
     <div>
-
       <div className={styles.centered}>
         <img
           className={styles.image}
@@ -38,15 +46,33 @@ const EventPage = () => {
         ></img>
       </div>
       <div className={styles.centered}>
-      <Button textActive={"Attending"} textInactive={"Not Attending"} type={"normal"} ></Button>
-      <Button textInactive={"Invite Friends"} type={"special"} onClick={handleButtonClick}></Button>
+        <Button
+          textActive={"Attending"}
+          textInactive={"Not Attending"}
+          type={"normal"}
+        ></Button>
+        <Button
+          textInactive={"Invite Friends"}
+          type={"special"}
+          onClick={handleButtonClick}
+        ></Button>
       </div>
       <div className={styles.boxContainer}>
-      <InformationBox  title="Event Details" content={eventData}></InformationBox>
-      <DescriptionBox  title="Event Description" content={description}></DescriptionBox>
+        <InformationBox
+          title="Event Details"
+          content={eventData}
+        ></InformationBox>
+        <DescriptionBox
+          title="Event Description"
+          content={description}
+        ></DescriptionBox>
       </div>
       <div>
         <EventCalendar></EventCalendar>
+        <ShoppingList
+          title="Shopping List"
+          content={shoppingList}
+        ></ShoppingList>
       </div>
     </div>
   );

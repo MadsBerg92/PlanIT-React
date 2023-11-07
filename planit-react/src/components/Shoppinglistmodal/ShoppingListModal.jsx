@@ -4,15 +4,19 @@ import Bootstrap from "bootstrap/dist/css/bootstrap.css";
 import InputBox from "../InputBox/InputBox";
 import { useState, useEffect } from "react";
 import Button from "../Button/Button";
+import { ShoppingListContext } from "../../Context/ShoppingListContext";
 
 function ShoppingListModal(props) {
   const [showModal, setShowModal] = useState(false);
   const [items, setItems] = useState([]);
   const [inputs, setInputs] = useState([{ id: 1, name: "" }]);
 
+  const { shoppingList, setShoppingList } =
+    React.useContext(ShoppingListContext);
+
   useEffect(() => {
-    console.log(items);
-  }, [items]);
+    console.log(inputs);
+  }, [inputs]);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -42,9 +46,15 @@ function ShoppingListModal(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setItems(inputs);
-    console.log(items);
+
+    console.log(inputs);
+    setShoppingList(inputs);
   };
+  useEffect(() => {
+    if (showModal) {
+      setShowModal(false);
+    }
+  }, [shoppingList]);
 
   return (
     <>
@@ -126,11 +136,7 @@ function ShoppingListModal(props) {
                   >
                     Close
                   </button>
-                  <button
-                    type="submit"
-                    className={styles.btn}
-                    onClick={handleCloseModal}
-                  >
+                  <button type="submit" className={styles.btn}>
                     Save changes
                   </button>
                 </div>
