@@ -1,0 +1,62 @@
+input[type="submit"] {
+    background-color: #1a8652;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 50px;
+    font-size: 16px;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #1a7345;
+  }
+  
+  #error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  div nav ul {
+    background-color: #f9f3db;
+  }
+
+  .btn  {
+    background-color: #50a717;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 50px;
+    font-size: 16px;
+  }
+  .btnclose{
+    background-color: #922626;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 50px;
+    font-size: 16px;
+
+  }
+  
+  .deletebtn{
+    background-color: #922626;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 50px;
+    font-size: 12px;
+    margin-left: 5px;
+
+  }

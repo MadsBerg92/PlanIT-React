@@ -1,0 +1,23 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
+import EventPage from "./pages/EventPage/EventPage.jsx";
+import Login from "./pages/LogIn/Login.jsx";
+import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
+import EditProfile from "./pages/EditProfile/EditProfile.jsx";
+import CreateEvent from "./pages/CreateEvent/CreateEvent.jsx";
+
+const AppRouter = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<EventPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/event-creation" element={<CreateEvent />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default AppRouter;
