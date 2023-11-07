@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./shoppingList.module.css";
 import Bootstrap from "bootstrap/dist/css/bootstrap.css";
-import InputBox from "../inputBox/inputBox";
+import InputBox from "../InputBox/InputBox";
 import { useState, useEffect } from "react";
 import Button from "../Button/Button";
 
@@ -50,14 +50,14 @@ function ShoppingListModal(props) {
     <>
       <form onSubmit={handleSubmit}>
         <Button
-          type="Custom"
+          type="shoppingList"
           label="Add Shopping List"
           onClick={handleOpenModal}
         ></Button>
 
         {showModal && (
           <div
-            className="modal fade show"
+            className={`modal fade show ${styles.modal}`}
             style={{ display: "block" }}
             id="shopping-list-modal"
             tabIndex="-1"
@@ -73,7 +73,7 @@ function ShoppingListModal(props) {
                   </h5>
                   <button
                     type="button"
-                    className="close"
+                    className={styles.btncloseTop}
                     data-dismiss="modal"
                     aria-label="Close"
                     onClick={handleCloseModal}
@@ -98,7 +98,7 @@ function ShoppingListModal(props) {
                   <button
                     type="button"
                     onClick={handleAddItem}
-                    className={styles.btn}
+                    className={styles.btnAdd}
                   >
                     Add Item
                   </button>
@@ -126,7 +126,11 @@ function ShoppingListModal(props) {
                   >
                     Close
                   </button>
-                  <button type="submit" className={styles.btn}>
+                  <button
+                    type="submit"
+                    className={styles.btn}
+                    onClick={handleCloseModal}
+                  >
                     Save changes
                   </button>
                 </div>
