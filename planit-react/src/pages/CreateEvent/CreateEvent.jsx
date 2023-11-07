@@ -72,7 +72,6 @@ const CreateEvent = () => {
             placeholder="Enter event description"
             required
           />
-
           <InputBox
             label="Event Image"
             type="file"
@@ -81,7 +80,11 @@ const CreateEvent = () => {
             onChange={previewImage}
             required
           />
-          <Button label="Create Event" type="create" onClick={handleSubmit} />
+          <Button
+            textInactive="Create Event"
+            textActive="Create Event"
+            type="create"
+          />
         </form>
       </div>
       <ShoppingListModal />
