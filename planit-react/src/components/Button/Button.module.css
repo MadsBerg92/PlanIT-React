@@ -1,38 +1,89 @@
 /* button.module.css */
 .normalButton {
-  background-color: #1877f2; /* Facebook blue */
-  color: #ffffff; /* White text */
+  display: inline-block;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-size: 16px;
+  border-radius: 50px; /* Use a high value to create a circular shape */
+  background-color: #d3e4cd;
+  color: #000000;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  width: 150px;
 }
 
 .normalButton:hover {
-  background-color: #0e5a97; /* Darker blue on hover */
+  background-color: #a0c686; /* Darker Green */
 }
 
+.active {
+  /* Define your active state styling here */
+  background-color: #a0c686; /* Change the background color to green when active */
+}
+
+.active:hover {
+  background-color: #d3e4cd;
+}
+
+/* Add different styling here */
 .specialButton {
-  background-color: grey;
-  color: #ffffff; /* White text */
+  display: inline-block;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-size: 16px;
+  border-radius: 50px; /* Use a high value to create a circular shape */
+  background-color: #d3e4cd;
+  color: #000000;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  width: 150px;
 }
 
 .specialButton:hover {
-  background-color: rgb(189, 179, 179); /* Darker blue on hover */
+  background-color: #a0c686; /* Darker Green */
 }
 
 .customButton {
   /* Add your custom button styles here */
 }
 
-.active {
-  background-color: #0e5a97; /* Darker blue for active state */
+.btn {
+  background-color: #50a717;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  width: 30%;
+}
+
+.createButton {
+  background-color: #50a717;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  width: 10%;
+}
+
+.shoppingListBtn {
+  background-color: rgb(4, 98, 221);
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  width: 10%;
 }
