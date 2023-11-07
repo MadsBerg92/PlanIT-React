@@ -2,7 +2,7 @@ import Button from "../../components/Button/Button.jsx";
 import styles from "./EventPage.module.css";
 import InformationBox from "../../components/InfoBox/InfoBox.jsx";
 import DescriptionBox from "../../components/descriptionBox/DescriptionBox.jsx";
-import EventCalendar from "../../components/calendar/Calendar.tsx";
+import EventCalendar from "../../components/calendar/Calendar.jsx";
 
 
 const EventPage = () => {
@@ -45,9 +45,8 @@ const EventPage = () => {
       <InformationBox  title="Event Details" content={eventData}></InformationBox>
       <DescriptionBox  title="Event Description" content={description}></DescriptionBox>
       </div>
-      <div>
-        <EventCalendar></EventCalendar>
-      </div>
+        <EventCalendar/>
+      
     </div>
   );
 };

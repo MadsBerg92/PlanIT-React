@@ -5,7 +5,8 @@ import {useState} from 'react';
 function Button(props) {
   //Setting the status
   const [isActive, setIsActive] = useState(false);
-
+  //If you want standard behavior define textActive and textInactive (default is inactive)
+  //If you want to define a different onClick function, then define textInactive only.
   const buttonText = isActive ? props.textActive : props.textInactive
   
   const toggleStatus = () => {

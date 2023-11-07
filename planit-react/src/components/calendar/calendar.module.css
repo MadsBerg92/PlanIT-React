@@ -1,0 +1,17 @@
+.calendarBox {
+  margin-top: 10px;
+  background-color: #f0f0f0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px; /* Add spacing between the boxes */
+  max-width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 45%;
+}
+
+.calendar {
+  width: 100%;
+}
