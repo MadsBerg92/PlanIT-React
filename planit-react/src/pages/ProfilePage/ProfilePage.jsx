@@ -1,6 +1,6 @@
 // Profile.jsx
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../components/Navbar/NavBar";
+import NavBar from "../../components/NavBar/NavBar";
 import styles from "./ProfilePage.module.css";
 
 const ProfilePage = () => {
@@ -32,7 +32,7 @@ const ProfilePage = () => {
           </p>
           <button
             className={styles.editButton}
-            onClick={() => navigate("/EditProfile")}
+            onClick={() => navigate("/edit-profile")}
           >
             Edit Profile
           </button>

@@ -1,6 +1,6 @@
-import InputBox from "../components/inputBox/inputBox";
-import styles from "../components/inputBox/inputBox.module.css";
-import Button from "../components/Button/Button";
+import styles from "../../components/InputBox/InputBox.module.css";
+import Button from "../../components/Button/Button";
+import InputBox from "../../components/InputBox/InputBox";
 
 const CreateEvent = () => {
   // handle form submission
@@ -30,7 +30,7 @@ const CreateEvent = () => {
           id="event-image-preview"
           className={styles.eventImagePreview}
           src="/images/event-photography.jpg"
-          alt="Event Image Preview"
+          alt="Preview"
         />
         <InputBox
           label="Event Name"

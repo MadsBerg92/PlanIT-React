@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../components/Navbar/NavBar";
+import NavBar from "../../components/NavBar/NavBar";
 import styles from "./EditProfile.module.css";
 
 const EditProfile = () => {
@@ -35,7 +35,7 @@ const EditProfile = () => {
               type="submit"
               onClick={() => {
                 alert("Dummy Edit on point");
-                navigate("/ProfilePage");
+                navigate("/profile");
               }}
               className={styles.updateButton}
             >

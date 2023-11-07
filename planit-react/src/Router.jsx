@@ -11,12 +11,10 @@ const AppRouter = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<EventPage />} />
-        <Route path="/EventPage" element={<EventPage />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/ProfilePage" element={<ProfilePage />} />
-        <Route path="/EditProfile" element={<EditProfile />} />
-        <Route path="/CreateEvent" element={<CreateEvent />} />
-        <Route path="/MyEvents" element={<EventPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/event-creation" element={<CreateEvent />} />
       </Routes>
     </BrowserRouter>
   );

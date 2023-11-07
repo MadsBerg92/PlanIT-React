@@ -1,20 +1,8 @@
-
-
 import "./App.css";
-import NavBar from "./components/Navbar/navbar";
-import ShoppingListModal from "./components/Shoppinglistmodal/ShoppingListModal";
-import CreateEvent from "./Pages/CreateEvent";
-
-
+import AppRouter from "./Router";
 
 function App() {
-  return (
-    <>
-      <NavBar> </NavBar>
-      <CreateEvent></CreateEvent>
-      <ShoppingListModal> </ShoppingListModal>
-    </>
-  );
+  return <AppRouter />;
 }
 
 export default App;
