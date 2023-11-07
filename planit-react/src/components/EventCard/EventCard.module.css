@@ -1,0 +1,24 @@
+.mainDiv {
+  margin-top: 50px;
+  background-color: #f9f3db;
+  padding: 20px 40px;
+}
+
+.contentDiv {
+  display: flex;
+}
+
+.info img {
+  width: 200px;
+  margin-right: 40px;
+}
+
+.description {
+  position: relative;
+}
+
+.date {
+  position: absolute;
+  bottom: 0;
+  margin-left: 20px;
+}
