@@ -10,7 +10,7 @@ import FeedPage from "./pages/FeedPage/FeedPage.jsx";
 
 const Layout = () => {
   const location = useLocation();
-  const showNavBar = location.pathname !== "/login";
+  const showNavBar = location.pathname !== "/";
 
   return (
     <>
