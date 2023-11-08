@@ -5,10 +5,9 @@ export const ShoppingListContext = React.createContext();
 
 export const ShoppingListProvider = ({ children }) => {
   const [shoppingList, setShoppingList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading] = useState(true);
 
-  // Fetch your data here and update the shopping list and loading state
-  // ...
+  // Here we will ultimately fetch the shopping list from the backend
 
   return (
     <ShoppingListContext.Provider

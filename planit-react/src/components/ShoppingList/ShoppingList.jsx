@@ -1,5 +1,5 @@
 import styles from "./ShoppingList.module.css";
-import React, { useContext } from "react";
+import React from "react";
 import { ShoppingListContext } from "../../Context/ShoppingListContext.jsx";
 
 function ShoppingList({ title, content }) {

@@ -8,3 +8,8 @@
   flex: 2;
   max-width: 45%;
 }
+
+.shoppingListBox h2 {
+  font-size: 18px;
+ 
+}
