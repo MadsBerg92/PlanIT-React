@@ -7,6 +7,7 @@ import EditProfile from "./pages/EditProfile/EditProfile.jsx";
 import CreateEvent from "./pages/CreateEvent/CreateEvent.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import FeedPage from "./pages/FeedPage/FeedPage.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 
 const Layout = () => {
   const location = useLocation();
@@ -23,6 +24,7 @@ const Layout = () => {
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/event-creation" element={<CreateEvent />} />
       </Routes>
+      <Footer/>
     </>
   );
 };

@@ -1,0 +1,54 @@
+footer .follow {
+  margin-top: 30px;
+  align-self: start;
+}
+
+footer .follow i {
+  color: #465b52;
+  padding-right: 4px;
+  cursor: pointer;
+}
+
+footer .follow i:hover,
+footer a:hover {
+  color: #088178;
+}
+
+.black {
+  color: #6c765d;
+}
+.icon a {
+  margin-right: 10px;
+}
+h1,
+h2,
+p,
+._centerText_1opy1_27 {
+  text-align: left;
+}
+
+.topMargin {
+  margin-top: 20px;
+}
+
+.borderTop {
+  border-top: 1px solid #ccc;
+}
+
+@media (max-width: 799px) {
+  h1,
+  h2,
+  p,
+  ._centerText_1opy1_27 {
+    text-align: center;
+  }
+}
+
+@media (max-width: 477px) {
+  h1,
+  h2,
+  p,
+  ._centerText_1opy1_27 {
+    text-align: center;
+  }
+}

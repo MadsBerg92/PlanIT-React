@@ -20,8 +20,7 @@ function Button(props) {
     buttonClass = styles.specialButton;
   } else if (props.type === 'custom') {
     buttonClass = styles.customButton;
-  } 
-    else if (props.type === "create") {
+  } else if (props.type === "create") {
   buttonClass = styles.createButton;
   } else if (props.type === "shoppingList") {
   buttonClass = styles.shoppingListBtn;
@@ -38,10 +37,11 @@ function Button(props) {
           toggleStatus();
         }
       }}    
+      
       // disabled={props.disabled}    // Optional: Disable the button based on a prop
       type={props.type}
     >
-      {buttonText}              {/* Button label passed as a prop */}
+      {buttonText}   
     </button>
   );
 }
