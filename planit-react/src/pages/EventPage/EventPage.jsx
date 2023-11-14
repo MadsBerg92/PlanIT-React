@@ -1,12 +1,14 @@
 import Button from "../../components/Button/Button.jsx";
 import styles from "./EventPage.module.css";
 import EventCalendar from "../../components/calendar/Calendar.tsx";
+import { useState, useEffect } from "react";
 
 import { ShoppingListContext } from "../../Context/ShoppingListContext.jsx";
 import React from "react";
 import ShoppingList from "../../components/ShoppingList/ShoppingList.jsx";
 
 import Box from "../../components/box/Box.jsx";
+import Parse from "parse";
 
 const EventPage = () => {
   const handleButtonClick = () => {
@@ -14,23 +16,70 @@ const EventPage = () => {
   };
 
   //data for information box
-  const eventData = [
-    { label: "Event Location", value: "My house at Frederiksberg" },
-    { label: "Date", value: "October 15, 2023, 17:00" },
-    { label: "Host", value: "Pernille Svendsen" },
-    { label: "Attending", value: "You are going!" },
-  ];
+  const [eventData, setEventData] = useState([]);
 
   const { shoppingList } = React.useContext(ShoppingListContext);
 
-  const description = `Celebrate with us as we mark a significant milestone in life! It's
-    time to revel in the joy of reaching 35 years, filled with memories,
-    accomplishments, and laughter. Join us for a remarkable evening that
-    promises to be an unforgettable chapter in the book of our lives. Our
-    35th birthday party has a fantastic theme—[Theme Name]. Get ready to
-    immerse yourself in a world of [Theme Description], from the
-    decorations to the music and everything in between. Dress up according
-    to the theme, or come as you are; the choice is yours!`;
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    const fetchEventData = async () => {
+      try {
+        const ParseEvents = Parse.Object.extend("Events");
+        const query = new Parse.Query(ParseEvents);
+
+        query.select("location", "createdBy", "eventDate");
+
+        const results = await query.find();
+
+        const eventDataFromParse = results.map((result) => ({
+          label: "Location",
+          value: result.get("location"),
+        }));
+
+        results.forEach((result) => {
+          eventDataFromParse.push({
+            label: "Created By",
+            value: result.get("createdBy"),
+          });
+
+          eventDataFromParse.push({
+            label: "Event Date",
+            value: result.get("eventDate"),
+          });
+        });
+
+        setEventData(eventDataFromParse);
+      } catch (error) {
+        console.error("Error fetching event data:", error);
+      }
+    };
+
+    fetchEventData();
+  }, []);
+
+  useEffect(() => {
+    const fetchEventDescription = async () => {
+      try {
+        const ParseEvents = Parse.Object.extend("Events");
+        const query = new Parse.Query(ParseEvents);
+
+        query.select("description");
+
+        const results = await query.find();
+
+        const eventDescriptionFromParse = results[0].get("description");
+
+        setDescription(eventDescriptionFromParse);
+      } catch (error) {
+        console.error("Error fetching event description:", error);
+      }
+    };
+
+    fetchEventDescription();
+  }, []);
+
+
 
   return (
     <div>

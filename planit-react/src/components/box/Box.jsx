@@ -16,7 +16,7 @@ function Box({ title, content, type }) {
         <ul>
           {content.map((item, index) => (
             <li key={index}>
-              <strong>{item.label}:</strong> {item.value}
+              <strong>{item.label}:</strong> {renderValue(item.value)}
             </li>
           ))}
         </ul>
@@ -25,6 +25,15 @@ function Box({ title, content, type }) {
   } else {
     return null;
   }
+}
+
+function renderValue(value) {
+  // Handle special rendering for certain types, e.g., Date
+  if (value instanceof Date) {
+    return value.toLocaleString(); // Adjust this based on your date formatting preference
+  }
+
+  return value;
 }
 
 export default Box;
