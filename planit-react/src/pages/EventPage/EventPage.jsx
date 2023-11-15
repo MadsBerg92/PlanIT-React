@@ -4,7 +4,7 @@ import EventCalendar from "../../components/calendar/Calendar.tsx";
 
 import { ShoppingListContext } from "../../Context/ShoppingListContext.jsx";
 import React from "react";
-import ShoppingList from "../../components/ShoppingList/ShoppingList.jsx";
+// import ShoppingList from "../../components/ShoppingList/ShoppingList.jsx";
 
 import Box from "../../components/box/Box.jsx";
 
@@ -59,10 +59,7 @@ const EventPage = () => {
       </div>
       <div className={styles.calendarBox}>
         <Box type="first" content={<EventCalendar />}></Box>
-        <ShoppingList
-          title="Shopping List"
-          content={shoppingList}
-        ></ShoppingList>
+        <Box title="Shopping List" content={shoppingList} type="shopping"></Box>
       </div>
     </div>
   );
