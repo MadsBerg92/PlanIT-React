@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Parse from "parse";
 import styles from "../../pages/LogIn/Login.module.css";
+import style from "./Form.module.css";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 
@@ -9,10 +10,12 @@ const Form = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
   const switchForm = () => {
     setIsSignUp(!isSignUp);
+    setErrorMessage(null);
   };
 
   const handleSubmit = (e) => {
@@ -40,6 +43,9 @@ const Form = () => {
         })
         .catch((error) => {
           console.log("Error: " + error.code + " " + error.message);
+          setErrorMessage(
+            "Sign up failed. Please check your details and try again."
+          );
         });
     } else {
       Parse.User.logIn(username, password)
@@ -51,6 +57,9 @@ const Form = () => {
         })
         .catch((error) => {
           console.log("Error: " + error.code + " " + error.message);
+          setErrorMessage(
+            "Login failed. Please check your details and try again."
+          );
         });
     }
   };
@@ -70,7 +79,7 @@ const Form = () => {
             <br />
             <form onSubmit={handleSubmit}>
               <input
-                type="text"
+                type="username"
                 placeholder="Username"
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -84,6 +93,9 @@ const Form = () => {
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {errorMessage && (
+                <p className={style.error_message}>{errorMessage}</p>
+              )}
               <button type="submit">Sign Up</button>
             </form>
           </>
@@ -95,7 +107,7 @@ const Form = () => {
             <br />
             <form onSubmit={handleSubmit}>
               <input
-                type="text"
+                type="username"
                 placeholder="Username"
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -104,12 +116,15 @@ const Form = () => {
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {errorMessage && (
+                <p className={style.error_message}>{errorMessage}</p>
+              )}
               <button type="submit">Login</button>
             </form>
           </>
         )}
-        <div className={styles.is_signed_up}>
-          <button onClick={switchForm} className={styles.question_button}>
+        <div className={style.is_signed_up}>
+          <button onClick={switchForm} className={style.question_button}>
             {isSignUp
               ? "Already have an account? Sign In"
               : "Don't have an account? Sign Up"}

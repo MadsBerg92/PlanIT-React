@@ -12,6 +12,7 @@ import Footer from "./components/Footer/Footer.jsx";
 const Layout = () => {
   const location = useLocation();
   const showNavBar = location.pathname !== "/";
+  const showFooter = location.pathname !== "/";
 
   return (
     <>
@@ -21,10 +22,10 @@ const Layout = () => {
         <Route path="/Home" element={<FeedPage />} />
         <Route path="/Eventpage/:eventId" element={<EventPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/edit-profile" element={<EditProfile />} />
+        {/* <Route path="/edit-profile" element={<EditProfile />} /> */}
         <Route path="/event-creation" element={<CreateEvent />} />
       </Routes>
-      <Footer/>
+      {showFooter && <Footer />}
     </>
   );
 };

@@ -1,12 +1,15 @@
 // EditProfile.jsx
 
+import style from "./EditProfile.module.css";
 import styles from "../../pages/ProfilePage/ProfilePage.module.css";
 import { useState, useEffect } from "react";
 import Parse from "parse";
+import InputBox from "../../components/InputBox/InputBox.jsx";
 
 const EditProfile = (props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState(null);
+
   useEffect(() => {
     const user = Parse.User.current();
     if (user) {
@@ -19,32 +22,57 @@ const EditProfile = (props) => {
   if (!profile) {
     return <div>Loading...</div>;
   }
+  const previewImage = (event) => {
+    const preview = document.querySelector("#profile-picture-preview");
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
+    reader.onloadend = () => {
+      preview.src = reader.result;
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      preview.src = "";
+    }
+  };
   return (
     <div>
       {isEditing ? (
         <div>
-          <div className={styles.header}>
-            <h1>My Profile</h1>
+          <div className={style.header}>
+            <h2>My Profile</h2>
           </div>
-          <div className={styles.editSection}>
-            <form action="/updateProfile" method="post">
-              <input type="file" id="img" name="img" accept="image/*" />
-              <input defaultValue={profile.get("username")} />
-              <input
+          <img
+            id="profile-picture-preview"
+            className={style.profile_picture}
+            src="./Images/user-profile.png"
+          ></img>
+          <div className={style.editSection}>
+            <form>
+              <InputBox
+                id="user-name"
+                label="User Name"
+                name="user-name"
+                type="username"
+                placeholder={profile.get("username")}
+                required
+              />
+              <InputBox
+                id="email"
+                label="Email"
+                name="email"
                 type="email"
-                placeholder="Email"
-                defaultValue={profile.get("email")}
+                placeholder={profile.get("email")}
+                required
               />
 
               <button
-                type="submit"
-                onClick={() => {
-                  setIsEditing(false);
-                }}
-                className={styles.updateButton}
+                className={style.button}
+                onClick={() => setIsEditing(false)}
               >
-                Update
+                Save Changes
               </button>
             </form>
           </div>
@@ -52,27 +80,51 @@ const EditProfile = (props) => {
       ) : (
         <div>
           <div className={styles.header}>
-            <h2>Edit Profile</h2>
+            <h1>Edit Your Profile</h1>
           </div>
+
+          <img
+            id="profile-picture-preview"
+            className={style.profile_picture}
+            src="./Images/user-profile.png"
+          ></img>
+
           <div className={styles.editSection}>
-            <p>
-              <strong>User Name:</strong>{" "}
-              <input type="email" defaultValue={profile.get("name")} />
-            </p>
-            <p>
-              <strong>Email:</strong>{" "}
-              <input type="name" defaultValue={profile.get("email")} />
-            </p>
-            {/* <p>
-            <strong>Birthday:</strong>{" "}
-            <input type="date" defaultValue="1990-04-15" />
-          </p> */}
-            <button
-              className={styles.saveButton}
-              onClick={() => setIsEditing(true)}
-            >
-              Save Changes
-            </button>
+            <form action="/updateProfile" method="post">
+              <InputBox
+                label="Profile Picture"
+                type="file"
+                onChange={previewImage}
+                required
+              />
+              <InputBox
+                id="user-name"
+                label="User Name"
+                name="user-name"
+                type="username"
+                placeholder={profile.get("username")}
+                required
+              />
+
+              <InputBox
+                id="email"
+                label="Email"
+                name="email"
+                type="email"
+                placeholder={profile.get("email")}
+                required
+              />
+
+              <button
+                type="submit"
+                onClick={() => {
+                  setIsEditing(true);
+                }}
+                className={styles.updateButton}
+              >
+                Update
+              </button>
+            </form>
           </div>
         </div>
       )}

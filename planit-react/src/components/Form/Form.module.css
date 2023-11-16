@@ -1,0 +1,25 @@
+.error_message {
+  color: red;
+  margin-top: 10px;
+}
+.question_button {
+    margin-top: 20px;
+    padding: 10px;
+    width: 15%;
+    border: 1px solid #d3e4cd;
+    border-radius: 5px;
+    background-color: #9ab693;
+    color: white;
+    font-weight: bold;
+  }
+  .question_button:hover {
+    background-color: #d3e4cd;
+    color: #9ab693;
+    color: black;
+  }
+  .is_signed_up {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }

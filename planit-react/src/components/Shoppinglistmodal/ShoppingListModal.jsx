@@ -101,7 +101,7 @@ function ShoppingListModal() {
                   {inputs.map((input, index) => (
                     <InputBox
                       key={input.id}
-                      type="text"
+                      type="item"
                       id={`item-${input.id}`}
                       name={`item${input.id}`}
                       label={`Item ${index + 1}:`}
