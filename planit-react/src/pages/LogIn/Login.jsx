@@ -1,26 +1,11 @@
+import React from "react";
 import styles from "./Login.module.css";
+import Form from "../../components/Form/Form"; // Make sure the path is correct
 
 const Login = () => {
   return (
-    <div>
-      <div className={styles.header}>
-        {/* <i className="material-icons">edit_calendar</i> */}
-        <img src=".\Images\logo.png" alt="logo" className={styles.logo} />
-        <h1>PlanIT</h1>
-      </div>
-      <div className={styles.stroke}>
-        <h2>Log in</h2>
-        <br />
-        <h5>Stay updated on your favourite events</h5>
-        <br />
-        <form action="Home" method="get">
-          <input type="text" placeholder="Username or email" />
-          <input type="password" placeholder="Password" />
-          <button type="submit" className="button-4">
-            Login
-          </button>
-        </form>
-      </div>
+    <div className={styles.stroke}>
+      <Form />
     </div>
   );
 };
