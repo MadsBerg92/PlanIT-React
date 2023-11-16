@@ -1,3 +1,7 @@
+.topMargin {
+  margin-top: 100px;
+}
+
 footer .follow {
   margin-top: 30px;
   align-self: start;
@@ -25,10 +29,6 @@ h2,
 p,
 ._centerText_1opy1_27 {
   text-align: left;
-}
-
-.topMargin {
-  margin-top: 20px;
 }
 
 .borderTop {

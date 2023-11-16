@@ -15,26 +15,11 @@ function EventCard({ type, eventData }) {
             <li>RSVP: {eventData.eventRSVP}</li>
           </div>
         );
+      case "openPoll":
       case "specificPoll":
         return (
-          /* Denne? */
-          eventData.eventDateOptions.map((date, index) => (
-            <li key={index}>
-              Option {index + 1}: {date}
-            </li>
-          ))
-        );
-
-      /* Eller denne? */
-      // <div>
-      //   <li>Date: {eventData.eventDateOptions}</li>
-      //   <li>RSVP: {eventData.eventRSVP}</li>
-      // </div>
-      // );
-      case "openPoll":
-        return (
           <div>
-            <li>Date: {eventData.eventDate}</li>
+            <li>Date: To be decided</li>
             <li>RSVP: {eventData.eventRSVP}</li>
           </div>
         );

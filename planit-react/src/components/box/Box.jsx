@@ -6,7 +6,7 @@ function Box({ title, content, type }) {
     if (type === "second") {
       return (
         <li key={index}>
-          <strong>{item.label}:</strong> {item.value}
+          <strong>{item.label}:</strong> {renderValue(item.value)}
         </li>
       );
     } else if (type === "shopping") {
@@ -29,15 +29,7 @@ function Box({ title, content, type }) {
     return (
       <div className={styles.box}>
         <h2>{title}</h2>
-
-        <ul>
-          {content.map((item, index) => (
-            <li key={index}>
-              <strong>{item.label}:</strong> {renderValue(item.value)}
-            </li>
-          ))}
-        </ul>
-
+        <ul>{content.map((item, index) => renderContent(item, index))}</ul>
       </div>
     );
   }
