@@ -1,5 +1,4 @@
 //styles is used to give the body margin-bottom 75px
-import styles from "./FeedPage.module.css";
 import EventCard from "../../components/EventCard/EventCard.jsx";
 
 const Feed = () => {

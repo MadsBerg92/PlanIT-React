@@ -31,6 +31,7 @@ function Box({ title, content, type }) {
         <h2>{title}</h2>
         <ul>{content.map((item, index) => renderContent(item, index))}</ul>
       </div>
+      
     );
   }
 }
