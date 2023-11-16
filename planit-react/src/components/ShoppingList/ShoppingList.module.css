@@ -1,10 +1,10 @@
-.shoppingListBox {
+/* .shoppingListBox {
   margin-top: 10px;
   background-color: #f0f0f0;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-right: 10px; /* Add spacing between the boxes */
+  margin-right: 10px; Add spacing between the boxes 
   flex: 2;
   max-width: 45%;
 }
@@ -12,4 +12,4 @@
 .shoppingListBox h2 {
   font-size: 18px;
  
-}
+} */

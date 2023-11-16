@@ -1,7 +1,12 @@
 .mainDiv {
+  border-radius: 30px;
   margin-top: 50px;
-  background-color: #f9f3db;
+  margin-left: 160px;
+  margin-right: 160px;
   padding: 20px 40px;
+  box-shadow: 5px 5px #e4e2e2cc;
+  border-style: inset;
+  border-color: #e4e2e22d;
 }
 
 .contentDiv {
@@ -13,12 +18,21 @@
   margin-right: 40px;
 }
 
+.descriptionDateContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  justify-content: space-between;
+}
+
 .description {
-  position: relative;
+  word-wrap: break-word;
+  max-height: 150px;
+  overflow: hidden;
+  width: 450px;
 }
 
 .date {
-  position: absolute;
-  bottom: 0;
   margin-left: 20px;
+  width: 200px;
 }

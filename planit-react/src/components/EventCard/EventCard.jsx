@@ -3,8 +3,45 @@ import Nav from "react-bootstrap/Nav";
 import styles from "./EventCard.module.css";
 import { useNavigate } from "react-router-dom";
 
-function EventCard() {
+function EventCard({ type, eventData }) {
   const navigate = useNavigate();
+
+  const renderContent = () => {
+    switch (type) {
+      case "specific":
+        return (
+          <div>
+            <li>Date: {eventData.eventDate}</li>
+            <li>RSVP: {eventData.eventRSVP}</li>
+          </div>
+        );
+      case "specificPoll":
+        return (
+          /* Denne? */
+          eventData.eventDateOptions.map((date, index) => (
+            <li key={index}>
+              Option {index + 1}: {date}
+            </li>
+          ))
+        );
+
+      /* Eller denne? */
+      // <div>
+      //   <li>Date: {eventData.eventDateOptions}</li>
+      //   <li>RSVP: {eventData.eventRSVP}</li>
+      // </div>
+      // );
+      case "openPoll":
+        return (
+          <div>
+            <li>Date: {eventData.eventDate}</li>
+            <li>RSVP: {eventData.eventRSVP}</li>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <Container>
@@ -12,21 +49,16 @@ function EventCard() {
         <Nav.Link onClick={() => navigate("/EventPage")}>
           <div className={styles.contentDiv}>
             <div className={styles.info}>
-              <h5>Louise's Event</h5>
-              <h5>Dinner Party!</h5>
+              <h5>{eventData.eventCreator}'s event</h5>
+              <h5>{eventData.eventName}</h5>
               <img src="./images/Birthday.png" alt="event" />
             </div>
-            <div className={styles.description}>
-              <span>
-                Heya! I wanted to invited you all for dinner at my place! I’ve
-                proposed 3 dates that fits well for me. Please choose the days
-                that fit you so we can get this thing rolling :D
-              </span>
+            <div className={styles.descriptionDateContainer}>
+              <div className={styles.description}>
+                <span>{eventData.eventDescription}</span>
+              </div>
               <div className={styles.date}>
-                <span>
-                  Date: Fixed Date Poll <br />
-                  RSVP: 5/1 - 2023
-                </span>
+                <ul>{renderContent()}</ul>
               </div>
             </div>
           </div>
@@ -35,4 +67,5 @@ function EventCard() {
     </Container>
   );
 }
+
 export default EventCard;
