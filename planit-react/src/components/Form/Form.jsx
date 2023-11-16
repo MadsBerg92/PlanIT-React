@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import Parse from "parse";
 import styles from "../../pages/LogIn/Login.module.css";
+import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const Form = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const switchForm = () => {
     setIsSignUp(!isSignUp);
@@ -19,6 +22,7 @@ const Form = () => {
       user.set("username", username);
       user.set("password", password);
       user.set("email", email);
+      user.set("userID", uuidv4());
 
       user
         .signUp()
@@ -32,6 +36,7 @@ const Form = () => {
           console.log(
             "User logged in successful with name: " + user.get("username")
           );
+          navigate("/Home"); // navigate to FeedPage after successful login
         })
         .catch((error) => {
           console.log("Error: " + error.code + " " + error.message);
@@ -42,6 +47,7 @@ const Form = () => {
           console.log(
             "User logged in successful with name: " + user.get("username")
           );
+          navigate("/Home"); // navigate to FeedPage after successful login
         })
         .catch((error) => {
           console.log("Error: " + error.code + " " + error.message);
