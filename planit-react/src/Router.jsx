@@ -20,7 +20,7 @@ const Layout = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/Home" element={<FeedPage />} />
-        <Route path="/Eventpage" element={<EventPage />} />
+        <Route path="/Eventpage/:eventId" element={<EventPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         {/* <Route path="/edit-profile" element={<EditProfile />} /> */}
         <Route path="/event-creation" element={<CreateEvent />} />
