@@ -38,6 +38,8 @@ const navigate = useNavigate();
       newEvent.set("createdDate", new Date());
       newEvent.set("attendees", attendeesArray);
       newEvent.set("createdBy", currentUser);
+      newEvent.set("image", new Parse.File("eventImage.jpg", eventImage));
+
       
 
       // Save the new event
