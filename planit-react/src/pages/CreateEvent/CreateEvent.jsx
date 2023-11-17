@@ -98,7 +98,7 @@ const navigate = useNavigate();
             label="Event Name"
             id="event-name"
             name="event-name"
-            type="text"
+            type="event-name"
             placeholder="Enter event name"
             required
           />
@@ -120,7 +120,7 @@ const navigate = useNavigate();
             label="Event Location"
             id="event-location"
             name="event-location"
-            type="text"
+            type="event-location"
             placeholder="Enter event location"
             required
           />

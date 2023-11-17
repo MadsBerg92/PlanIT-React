@@ -45,6 +45,7 @@ function InputBox(props) {
         required={props.required}
         value={props.value}
         onChange={props.onChange}
+        disabled={props.disabled}
       />
       <br />
     </>

@@ -60,7 +60,7 @@ function NavBar() {
             >
               My Profile
             </NavDropdown.Item>
-            <NavDropdown.Item onClick={() => navigate("/edit-profile")}>
+            <NavDropdown.Item onClick={() => navigate("/profile")}>
               Edit Profile
             </NavDropdown.Item>
             {/* TODO: This is dummy to redirect to the login page, log out will be added later */}
