@@ -1,4 +1,4 @@
-import styles from "./Footer.module.css"
+import styles from "./Footer.module.css";
 import {
   faTwitter,
   faInstagram,
@@ -12,7 +12,10 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div className={styles.topMargin}>
-        <footer className={`text-center text-lg-start text-muted ${styles.borderTop} ${styles.footer}`} id="footer">
+      <footer
+        className={`text-center text-lg-start text-muted ${styles.borderTop} ${styles.footer}`}
+        id="footer"
+      >
         <section className="">
           <div className="container text-center text-md-start mt-5">
             <div className="row mt-3">
@@ -21,14 +24,15 @@ const Footer = () => {
                   <i className="fas fa-gem me-3"></i>PostIT
                 </h6>
                 <p>
-                  A Space to keep up with all your friends through social gatherings and interactive... bla bla
+                  A Space to keep up with all your friends through social
+                  gatherings and interactive... bla bla
                 </p>
               </div>
 
               <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                 <h6 className="text-uppercase fw-bold mb-4">Go to</h6>
                 <p>
-                  <Link to="/About" className={styles.black}>
+                  <Link to="/Home" className={styles.black}>
                     Feed
                   </Link>
                 </p>
@@ -38,7 +42,7 @@ const Footer = () => {
                   </Link>
                 </p>
                 <p>
-                  <Link to="/About" className={styles.black}>
+                  <Link to="/event-creation" className={styles.black}>
                     Create Event
                   </Link>
                 </p>
@@ -72,7 +76,9 @@ const Footer = () => {
                 </a>
               </div>
 
-              <div className={`follow col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 ${styles.follow}`}>
+              <div
+                className={`follow col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 ${styles.follow}`}
+              >
                 <h4>Follow us on</h4>
                 <div className={styles.icon}>
                   <a href="https://www.facebook.com/" target="_blank">
@@ -97,8 +103,8 @@ const Footer = () => {
         </section>
 
         <div className="text-center p-4">
-          Technical interaction design project - Group PlanIT (Including external photo and video
-          content)
+          Technical interaction design project - Group PlanIT (Including
+          external photo and video content)
         </div>
       </footer>
     </div>

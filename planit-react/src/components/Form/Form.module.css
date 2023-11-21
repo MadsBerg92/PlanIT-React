@@ -5,15 +5,15 @@
 .question_button {
     margin-top: 20px;
     padding: 10px;
-    width: 15%;
-    border: 1px solid #d3e4cd;
+    width: 10%;
+    border: 1px solid #050607;
     border-radius: 5px;
-    background-color: #9ab693;
-    color: white;
+    background-color: #fafafa;
+    color: rgb(0, 0, 0);
     font-weight: bold;
   }
   .question_button:hover {
-    background-color: #d3e4cd;
+    background-color: #ebebeb;
     color: #9ab693;
     color: black;
   }

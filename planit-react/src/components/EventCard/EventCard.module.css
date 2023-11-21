@@ -9,6 +9,13 @@
   border-color: #e4e2e22d;
 }
 
+.mainDiv:hover {
+  box-shadow: 5px 5px #e4e2e2;
+  border-style: inset;
+  border-bottom: solid thin rgb(9, 180, 9);
+  border-top: solid thin rgb(9, 180, 9);
+  border-right: solid thin rgb(9, 180, 9);
+}
 .contentDiv {
   display: flex;
 }

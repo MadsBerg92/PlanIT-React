@@ -1,24 +1,44 @@
 .title {
   font-size: x-large;
-  color: white;
+  color: rgb(0, 0, 0);
 }
+.title:hover {
+  color: #9ab693;
+} 
 
 .bar {
-  background-color: #a0c686;
+  background-color: #ffffff;
+  border-bottom: solid thin green;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  
+
+}
+.navlink:active, .navlink:focus {
+  color: rgb(0, 0, 0); /* Or any other color you prefer */
 }
 
 .navlink {
   font-size: larger;
-  color: white;
+  color: rgb(0, 0, 0);
   margin-right: 50px;
 }
+.navlink:hover {
+  color: #9ab693;
+} 
 
 .dropdown {
   font-size: larger;
-  color: white;
+  color: rgb(0, 0, 0);
+
 }
+.dropdown:hover {
+  color: #9ab693;
+} 
 
 .dropdownitem {
   color: white;
-  background-color: white;
+
 }

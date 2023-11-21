@@ -110,7 +110,7 @@ const EditProfile = (props) => {
               />
 
               <button type="submit" className={styles.updateButton}>
-                Update
+                Save Changes
               </button>
             </form>
           </div>
