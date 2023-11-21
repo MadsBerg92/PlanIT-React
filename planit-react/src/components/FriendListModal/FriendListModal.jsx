@@ -13,7 +13,7 @@ const FriendListModal = ({ show, onHide, friendList }) => {
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Invite friends</Modal.Title>
+        <Modal.Title>Invite to event</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div>{renderFriends()}</div>

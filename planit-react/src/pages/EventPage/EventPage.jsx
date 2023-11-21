@@ -8,6 +8,7 @@ import React from "react";
 // import ShoppingList from "../../components/ShoppingList/ShoppingList.jsx";
 import Box from "../../components/box/Box.jsx";
 import Parse from "parse";
+import FriendListModal from "../../components/FriendListModal/FriendListModal.jsx";
 
 const EventPage = () => {
   const { eventId } = useParams();
@@ -17,9 +18,40 @@ const EventPage = () => {
   const [eventData, setEventData] = useState([]);
   const { shoppingList } = React.useContext(ShoppingListContext);
   const [description, setDescription] = useState("");
+  const [showFriendList, setShowFriendList] = useState(false);
+  const [userFriendList, setUserFriendList] = useState([]);
 
-  const handleButtonClick = () => {
-    alert("Button clicked!");
+  const handleButtonClick = async () => {
+    try {
+      const currentUser = Parse.User.current();
+      if (currentUser) {
+        const userQuery = new Parse.Query(Parse.User);
+        userQuery.equalTo("objectId", currentUser.id);
+        userQuery.include("friendList");
+
+        const userResult = await userQuery.first();
+        const friendListFromParse = userResult.get("friendList");
+        setUserFriendList([]);
+
+        if (friendListFromParse) {
+          // Fetch User objects for each friend
+          const friendUserQuery = new Parse.Query(Parse.User);
+          friendUserQuery.containedIn("objectId", friendListFromParse);
+          const friends = await friendUserQuery.find();
+
+          // Extract usernames and update state
+          const friendUsernames = friends.map((friend) =>
+            friend.get("username")
+          );
+          console.log(friendUsernames);
+          setUserFriendList(friendUsernames);
+        }
+
+        setShowFriendList(true);
+      }
+    } catch (error) {
+      console.error("Error fetching friend list:", error);
+    }
   };
 
   useEffect(() => {
@@ -33,7 +65,8 @@ const EventPage = () => {
           "eventLocation",
           "createdBy",
           "eventDate",
-          "eventDescription"
+          "eventDescription",
+          "creatorName"
         );
 
         console.log(query);
@@ -47,7 +80,7 @@ const EventPage = () => {
           },
           {
             label: "Created By",
-            value: result.get("createdBy"),
+            value: result.get("creatorName"),
           },
           {
             label: "Event Date",
@@ -94,6 +127,11 @@ const EventPage = () => {
         <Box type="first" content={<EventCalendar />}></Box>
         <Box title="Shopping List" content={shoppingList} type="shopping"></Box>
       </div>
+      <FriendListModal
+        show={showFriendList}
+        onHide={() => setShowFriendList(false)}
+        friendList={userFriendList}
+      />
     </div>
   );
 };
