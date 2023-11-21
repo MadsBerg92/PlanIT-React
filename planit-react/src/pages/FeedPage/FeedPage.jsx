@@ -31,7 +31,7 @@ const Feed = () => {
           const eventsFromParse = results.map((result) => ({
             type: "specific",
             eventData: {
-              eventId: result.get("eventId"),
+              eventID: result.get("eventId"),
               eventCreator: result.get("creatorName"),
               eventName: result.get("title"),
               eventDescription: result.get("eventDescription"),
@@ -50,9 +50,11 @@ const Feed = () => {
   }, []);
 
   function renderValue(value) {
+    // Handle special rendering for certain types, e.g., Date
     if (value instanceof Date) {
       return value.toLocaleDateString();
     }
+
     return value;
   }
 
@@ -67,7 +69,7 @@ const Feed = () => {
           key={index}
           type={event.type}
           eventData={event.eventData}
-          onClick={() => handleEventClick(event.eventData.eventId)}
+          onClick={() => handleEventClick(event.eventId)}
         />
       ))}
     </div>
