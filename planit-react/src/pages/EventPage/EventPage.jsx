@@ -8,6 +8,7 @@ import React from "react";
 // import ShoppingList from "../../components/ShoppingList/ShoppingList.jsx";
 import Box from "../../components/box/Box.jsx";
 import Parse, { User } from "parse";
+import { set } from "lodash";
 
 const EventPage = () => {
   const { eventId } = useParams();
@@ -25,21 +26,41 @@ const EventPage = () => {
   };
 
   const handleToggle = async () => {
-    console.log("Event ID:", eventIdAsNumber);
-    setIsActive(!isActive);
+    console.log("Event ID:", eventId);
 
     try {
       const ParseEvents = Parse.Object.extend("Events");
       const query = new Parse.Query(ParseEvents);
 
+      // Log the eventId before the query
+      console.log("Querying event with ID:", eventIdAsNumber);
+
       // Fetch the specific event using the eventId
-      const event = await query.get("rZksBvJUBT"); // Ensure eventIdAsNumber is a string if it's required by your Parse setup
-      console.log(event);
-      if (!isActive) {
-        event.addUnique("attendees", userId); // Assuming 'userId' is defined
+      query.equalTo("eventId", eventIdAsNumber);
+
+      const event = await query.first(); // Use the dynamic eventId here
+
+      // Log the event
+      console.log("Fetched event:", event);
+
+      // Get the userId
+      const userId = Parse.User.current().id;
+
+      // Fetch the attendees array
+      const attendees = event.get("attendees") || [];
+
+      if (!isActive && !attendees.includes(userId)) {
+        attendees.push(userId); // Add the userId to the attendees array
+        setIsActive(true);
       } else {
-        event.remove("attendees", userId);
+        const index = attendees.indexOf(userId);
+        if (index > -1) {
+          attendees.splice(index, 1); // Remove the userId from the attendees array
+        }
+        setIsActive(false);
       }
+
+      event.set("attendees", attendees); // Update the attendees array
 
       await event.save(); // Save the updated event
     } catch (error) {
