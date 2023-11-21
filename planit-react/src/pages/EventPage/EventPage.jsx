@@ -29,14 +29,16 @@ const EventPage = () => {
         const query = new Parse.Query(ParseEvents);
         console.log(eventId);
         query.equalTo("eventId", eventIdAsNumber);
-        query.select("eventLocation", "createdBy", "eventDate", "eventDescription");
+        query.select(
+          "eventLocation",
+          "createdBy",
+          "eventDate",
+          "eventDescription"
+        );
 
         console.log(query);
         const result = await query.first();
         console.log(result);
-
-        
-       
 
         const eventDataFromParse = [
           {
@@ -62,8 +64,6 @@ const EventPage = () => {
 
     fetchEventData();
   }, [eventId]);
-
-
 
   return (
     <div>
