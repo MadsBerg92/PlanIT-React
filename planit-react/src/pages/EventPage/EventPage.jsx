@@ -2,84 +2,68 @@ import Button from "../../components/Button/Button.jsx";
 import styles from "./EventPage.module.css";
 import EventCalendar from "../../components/calendar/Calendar.tsx";
 import { useState, useEffect } from "react";
-
+import { useParams } from "react-router";
 import { ShoppingListContext } from "../../Context/ShoppingListContext.jsx";
 import React from "react";
 // import ShoppingList from "../../components/ShoppingList/ShoppingList.jsx";
-
 import Box from "../../components/box/Box.jsx";
 import Parse from "parse";
 
 const EventPage = () => {
+  const { eventId } = useParams();
+  //useParams returns a string - so we parse it to a number to match the eventId datatype
+  const eventIdAsNumber = parseInt(eventId, 10);
+  // Data for information box
+  const [eventData, setEventData] = useState([]);
+  const { shoppingList } = React.useContext(ShoppingListContext);
+  const [description, setDescription] = useState("");
+
   const handleButtonClick = () => {
     alert("Button clicked!");
   };
-
-  //data for information box
-  const [eventData, setEventData] = useState([]);
-
-  const { shoppingList } = React.useContext(ShoppingListContext);
-
-  const [description, setDescription] = useState("");
 
   useEffect(() => {
     const fetchEventData = async () => {
       try {
         const ParseEvents = Parse.Object.extend("Events");
         const query = new Parse.Query(ParseEvents);
+        console.log(eventId);
+        query.equalTo("eventId", eventIdAsNumber);
+        query.select(
+          "eventLocation",
+          "createdBy",
+          "eventDate",
+          "eventDescription"
+        );
 
-        query.select("location", "createdBy", "eventDate");
+        console.log(query);
+        const result = await query.first();
+        console.log(result);
 
-        const results = await query.find();
-
-        const eventDataFromParse = results.map((result) => ({
-          label: "Location",
-          value: result.get("location"),
-        }));
-
-        results.forEach((result) => {
-          eventDataFromParse.push({
+        const eventDataFromParse = [
+          {
+            label: "Location",
+            value: result.get("eventLocation"),
+          },
+          {
             label: "Created By",
             value: result.get("createdBy"),
-          });
-
-          eventDataFromParse.push({
+          },
+          {
             label: "Event Date",
             value: result.get("eventDate"),
-          });
-        });
+          },
+        ];
 
         setEventData(eventDataFromParse);
+        setDescription(result.get("eventDescription"));
       } catch (error) {
         console.error("Error fetching event data:", error);
       }
     };
 
     fetchEventData();
-  }, []);
-
-  useEffect(() => {
-    const fetchEventDescription = async () => {
-      try {
-        const ParseEvents = Parse.Object.extend("Events");
-        const query = new Parse.Query(ParseEvents);
-
-        query.select("description");
-
-        const results = await query.find();
-
-        const eventDescriptionFromParse = results[0].get("description");
-
-        setDescription(eventDescriptionFromParse);
-      } catch (error) {
-        console.error("Error fetching event description:", error);
-      }
-    };
-
-    fetchEventDescription();
-  }, []);
-
-
+  }, [eventId]);
 
   return (
     <div>

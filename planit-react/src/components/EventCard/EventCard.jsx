@@ -28,10 +28,14 @@ function EventCard({ type, eventData }) {
     }
   };
 
+  const handleEventClick = () => {
+    navigate(`/EventPage/${eventData.eventId}`);
+  }
+
   return (
     <Container>
       <div className={styles.mainDiv}>
-        <Nav.Link onClick={() => navigate("/EventPage")}>
+        <Nav.Link onClick={handleEventClick}>
           <div className={styles.contentDiv}>
             <div className={styles.info}>
               <h5>{eventData.eventCreator}'s event</h5>
