@@ -31,7 +31,7 @@ const Feed = () => {
           const eventsFromParse = results.map((result) => ({
             type: "specific",
             eventData: {
-              eventID: result.get("eventId"),
+              eventId: result.get("eventId"),
               eventCreator: result.get("creatorName"),
               eventName: result.get("title"),
               eventDescription: result.get("eventDescription"),

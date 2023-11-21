@@ -25,7 +25,6 @@ const Form = () => {
       user.set("username", username);
       user.set("password", password);
       user.set("email", email);
-      user.set("userID", uuidv4());
 
       user
         .signUp()

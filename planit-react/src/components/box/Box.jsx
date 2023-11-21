@@ -1,18 +1,20 @@
 import React from "react";
 import styles from "./box.module.css";
 
-function Box({ title, content, type }) {
+function Box({ title, content, type, Button: Button, children }) {
   const renderContent = (item, index) => {
     if (type === "second") {
       return (
         <li key={index}>
           <strong>{item.label}:</strong> {renderValue(item.value)}
+          {Button && Button(item)}
         </li>
       );
     } else if (type === "shopping") {
       return (
         <li key={index}>
           {index + 1}: {item.name}
+          {Button && Button(item)}
         </li>
       );
     }
@@ -29,9 +31,11 @@ function Box({ title, content, type }) {
     return (
       <div className={styles.box}>
         <h2>{title}</h2>
+
         <ul>{content.map((item, index) => renderContent(item, index))}</ul>
+
+        {children}
       </div>
-      
     );
   }
 }
