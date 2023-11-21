@@ -25,6 +25,7 @@ const Form = () => {
       user.set("username", username);
       user.set("password", password);
       user.set("email", email);
+      user.set("userID", uuidv4());
 
       user
         .signUp()
@@ -67,7 +68,7 @@ const Form = () => {
     <div>
       <div className={styles.header}>
         <img src=".\Images\logo.png" alt="logo" className={styles.logo} />
-        <h1>PlanIT</h1>
+        <h1 style={{ borderBottom: "2px solid black" }}>PlanIT</h1>
       </div>
       <div className={styles.stroke}>
         {isSignUp ? (
@@ -95,7 +96,10 @@ const Form = () => {
               {errorMessage && (
                 <p className={style.error_message}>{errorMessage}</p>
               )}
-              <button type="submit">Sign Up</button>
+              <button type="submit">Create Account</button>
+              <br />
+              <br />
+              <h5>Already have an account?</h5>
             </form>
           </>
         ) : (
@@ -119,14 +123,15 @@ const Form = () => {
                 <p className={style.error_message}>{errorMessage}</p>
               )}
               <button type="submit">Login</button>
+              <br />
+              <br />
+              <h5>Don't have an account?</h5>
             </form>
           </>
         )}
         <div className={style.is_signed_up}>
           <button onClick={switchForm} className={style.question_button}>
-            {isSignUp
-              ? "Already have an account? Sign In"
-              : "Don't have an account? Sign Up"}
+            {isSignUp ? "Sign In" : "Create Account"}
           </button>
         </div>
       </div>

@@ -6,7 +6,7 @@ import Parse from "parse";
 import { useNavigate } from "react-router";
 
 const CreateEvent = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // handle form submission
   const handleSubmit = async (event) => {
@@ -40,8 +40,6 @@ const navigate = useNavigate();
       newEvent.set("createdBy", currentUser);
       newEvent.set("image", new Parse.File("eventImage.jpg", eventImage));
 
-      
-
       // Save the new event
       const savedEvent = await newEvent.save();
 
@@ -57,11 +55,10 @@ const navigate = useNavigate();
       // Save the image object
       await eventImageObject.save();
 
-
       // Handle success or redirect to the event page
       console.log("Event created successfully!", savedEvent);
-      
-      navigate("/Home")
+
+      navigate("/Home");
     } catch (error) {
       console.error("Error creating event:", error);
     }
@@ -154,11 +151,3 @@ const navigate = useNavigate();
 };
 
 export default CreateEvent;
-
-
-
-
-
-
-
-
