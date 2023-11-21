@@ -66,9 +66,41 @@ const FriendList = () => {
       currentUser.addUnique("friendList", objectId);
 
       await currentUser.save();
-      alert("Friend added successfully!");
+
+      // Fetch the updated friend list
+      const User = Parse.Object.extend("User");
+      const friendList = currentUser.get("friendList");
+      const query = new Parse.Query(User);
+      query.containedIn("objectId", friendList);
+
+      const results = await query.find();
+      setFriends(results);
     } catch (error) {
       console.error("Error while adding friend", error);
+    }
+  };
+
+  const handleRemoveFriend = (objectId) => async () => {
+    try {
+      const currentUser = Parse.User.current();
+
+      await currentUser.fetch();
+
+      // Fetch the friendList array
+      let friendList = currentUser.get("friendList") || [];
+
+      // Filter out the objectId
+      friendList = friendList.filter((id) => id !== objectId);
+
+      // Update the friendList field
+      currentUser.set("friendList", friendList);
+
+      await currentUser.save();
+
+      // Update the friends state
+      setFriends(friends.filter((friend) => friend.id !== objectId));
+    } catch (error) {
+      console.error("Error while removing friend", error);
     }
   };
 
@@ -85,7 +117,14 @@ const FriendList = () => {
           content={friends.map((friend, index) => ({
             label: "Friend " + (index + 1),
             value: friend.get("username"),
+            friend: friend,
           }))}
+          Button={(item) => (
+            <Button
+              textInactive="Remove Friend"
+              onClick={handleRemoveFriend(item.friend.id)}
+            ></Button>
+          )}
         />
 
         <Box
