@@ -10,32 +10,39 @@ const Feed = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const ParseEvents = Parse.Object.extend("Events");
-        const query = new Parse.Query(ParseEvents);
-        query.select(
-          "eventId",
-          "creatorName",
-          "title",
-          "eventDescription",
-          "eventDate"
-        );
+        // Fetch current user and their event IDs
+        const currentUser = Parse.User.current();
+        const userEventIds = currentUser.get("eventId"); // Assuming 'eventIds' is the field
+        console.log(currentUser.get("eventId"));
+        if (userEventIds && userEventIds.length > 0) {
+          const ParseEvents = Parse.Object.extend("Events");
+          const query = new Parse.Query(ParseEvents);
+          query.containedIn("eventId", userEventIds);
+          query.select(
+            "eventId",
+            "creatorName",
+            "title",
+            "eventDescription",
+            "eventDate"
+          );
 
-        const results = await query.find();
+          const results = await query.find();
 
-        const eventsFromParse = results.map((result) => ({
-          type: "specific",
-          eventData: {
-            eventId: result.get("eventId"),
-            eventCreator: result.get("creatorName"),
-            eventName: result.get("title"),
-            eventDescription: result.get("eventDescription"),
-            eventDate: renderValue(result.get("eventDate")),
-          },
-        }));
+          const eventsFromParse = results.map((result) => ({
+            type: "specific",
+            eventData: {
+              eventID: result.get("eventId"),
+              eventCreator: result.get("creatorName"),
+              eventName: result.get("title"),
+              eventDescription: result.get("eventDescription"),
+              eventDate: renderValue(result.get("eventDate")),
+            },
+          }));
 
-        setEvents(eventsFromParse);
+          setEvents(eventsFromParse);
+        }
       } catch (error) {
-        console.error("Error fethcing events:", error);
+        console.error("Error fetching events:", error);
       }
     };
 
