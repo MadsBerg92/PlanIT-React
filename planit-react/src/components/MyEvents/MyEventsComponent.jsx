@@ -33,7 +33,7 @@ const MyEventsComponent = () => {
             eventName: result.get("title"),
             eventDescription: result.get("eventDescription"),
             eventDate: renderValue(result.get("eventDate")),
-            eventImage: result.get("image").url(),
+            image: result.get("image").url(),
           },
         }));
 
