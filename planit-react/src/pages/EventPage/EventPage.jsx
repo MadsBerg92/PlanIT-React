@@ -17,6 +17,7 @@ const EventPage = () => {
   const [eventData, setEventData] = useState([]);
   const { shoppingList } = React.useContext(ShoppingListContext);
   const [description, setDescription] = useState("");
+  const [eventImage, setEventImage] = useState("");
 
   const handleButtonClick = () => {
     alert("Button clicked!");
@@ -33,7 +34,8 @@ const EventPage = () => {
           "eventLocation",
           "createdBy",
           "eventDate",
-          "eventDescription"
+          "eventDescription",
+          "image"
         );
 
         console.log(query);
@@ -54,7 +56,9 @@ const EventPage = () => {
             value: result.get("eventDate"),
           },
         ];
+        const eventImage = result.get("image").url();
 
+        setEventImage(eventImage);
         setEventData(eventDataFromParse);
         setDescription(result.get("eventDescription"));
       } catch (error) {
@@ -68,11 +72,7 @@ const EventPage = () => {
   return (
     <div>
       <div className={styles.centered}>
-        <img
-          className={styles.image}
-          src="/images/Birthday.png"
-          alt="logo"
-        ></img>
+        <img className={styles.image} src={eventImage} alt="logo"></img>
       </div>
       <div className={styles.centered}>
         <Button

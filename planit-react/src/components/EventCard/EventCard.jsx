@@ -30,7 +30,7 @@ function EventCard({ type, eventData }) {
 
   const handleEventClick = () => {
     navigate(`/EventPage/${eventData.eventId}`);
-  }
+  };
 
   return (
     <Container>
@@ -40,7 +40,7 @@ function EventCard({ type, eventData }) {
             <div className={styles.info}>
               <h5>{eventData.eventCreator}'s event</h5>
               <h5>{eventData.eventName}</h5>
-              <img src="./images/Birthday.png" alt="event" />
+              <img src={eventData.image} alt="event" />
             </div>
             <div className={styles.descriptionDateContainer}>
               <div className={styles.description}>

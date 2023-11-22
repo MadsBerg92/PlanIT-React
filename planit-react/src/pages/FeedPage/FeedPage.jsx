@@ -23,7 +23,8 @@ const Feed = () => {
             "creatorName",
             "title",
             "eventDescription",
-            "eventDate"
+            "eventDate",
+            "image"
           );
 
           const results = await query.find();
@@ -36,6 +37,7 @@ const Feed = () => {
               eventName: result.get("title"),
               eventDescription: result.get("eventDescription"),
               eventDate: renderValue(result.get("eventDate")),
+              image: result.get("image").url(),
             },
           }));
 
