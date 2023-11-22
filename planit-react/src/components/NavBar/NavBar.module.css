@@ -1,11 +1,14 @@
 .title {
-  font-size: x-large;
+  font-size: 2em; /* Make the font larger */
+  font-weight: bold; /* Make the font bold */
   color: rgb(0, 0, 0);
+  letter-spacing: 2px; /* Increase spacing between letters */
 }
+
 .title:hover {
   color: #9ab693;
-} 
-
+  text-decoration: none; /* Remove underline on hover */
+}
 .bar {
   background-color: #ffffff;
   border-bottom: solid thin green;

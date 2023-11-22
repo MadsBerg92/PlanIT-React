@@ -66,11 +66,11 @@ const Form = () => {
 
   return (
     <div>
-      <div className={styles.header}>
+      <div className={style.header}>
         <img src=".\Images\logo.png" alt="logo" className={styles.logo} />
-        <h1 style={{ borderBottom: "2px solid black" }}>PlanIT</h1>
+        <h1 className={style.name}>PlanIT</h1>
       </div>
-      <div className={styles.stroke}>
+      <div className={style.stroke}>
         {isSignUp ? (
           <>
             <h2>Sign Up</h2>
