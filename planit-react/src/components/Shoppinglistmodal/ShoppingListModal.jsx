@@ -1,11 +1,13 @@
 import React from "react";
 import styles from "./shoppingList.module.css";
 import InputBox from "../InputBox/InputBox";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Button from "../Button/Button";
 import { ShoppingListContext } from "../../Context/ShoppingListContext";
 
 function ShoppingListModal() {
+  const { saveShoppingList } = useContext(ShoppingListContext);
+
   //useState for modal starting as false
   const [showModal, setShowModal] = useState(false);
 

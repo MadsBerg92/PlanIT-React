@@ -4,9 +4,11 @@ import InputBox from "../../components/InputBox/InputBox";
 import ShoppingListModal from "../../components/Shoppinglistmodal/ShoppingListModal";
 import Parse from "parse";
 import { useNavigate } from "react-router";
+import { useState } from "react";
 
 const CreateEvent = () => {
   const navigate = useNavigate();
+  const [eventId, setEventId] = useState(null);
 
   // handle form submission
   const handleSubmit = async (event) => {
@@ -42,6 +44,7 @@ const CreateEvent = () => {
 
       // Save the new event
       const savedEvent = await newEvent.save();
+      setEventId(savedEvent.id); // Save the event ID to state
 
       // Handle image upload (assuming you have a separate "EventImages" class for images)
       const EventImages = Parse.Object.extend("EventImages");
@@ -145,7 +148,7 @@ const CreateEvent = () => {
         </form>
       </div>
 
-      <ShoppingListModal />
+      {eventId && <ShoppingListModal eventId={eventId} />}
     </>
   );
 };
