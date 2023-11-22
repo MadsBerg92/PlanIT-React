@@ -20,6 +20,7 @@ const CreateEvent = () => {
     const eventTime = document.getElementById("event-time").value;
     const eventLocation = document.getElementById("event-location").value;
     const eventDescription = document.getElementById("event-description").value;
+    const eventId = Math.floor(Math.random() * 1000000);
     const eventImage = document.getElementById("event-image").files[0];
 
     try {
@@ -29,8 +30,8 @@ const CreateEvent = () => {
 
       //setting up the array with the user's own id as the initial value
       const attendeesArray = [];
-      const currentUser = Parse.User.current().get("userID");
-      attendeesArray.push(currentUser);
+      const currentUser = Parse.User.current();
+      attendeesArray.push(currentUser.id);
 
       // Set properties for the new event
       newEvent.set("title", eventName);
@@ -39,11 +40,19 @@ const CreateEvent = () => {
       newEvent.set("eventDescription", eventDescription);
       newEvent.set("createdDate", new Date());
       newEvent.set("attendees", attendeesArray);
-      newEvent.set("createdBy", currentUser);
+      newEvent.set("createdBy", currentUser.id);
       newEvent.set("image", new Parse.File("eventImage.jpg", eventImage));
+      newEvent.set("creatorName", currentUser.get("username"));
+      newEvent.set("shoppingList", []);
+      newEvent.set("eventId", eventId);
 
       // Save the new event
       const savedEvent = await newEvent.save();
+
+      currentUser.addUnique("eventId", eventId);
+
+      await currentUser.save();
+
       setEventId(savedEvent.id); // Save the event ID to state
 
       // Handle image upload (assuming you have a separate "EventImages" class for images)

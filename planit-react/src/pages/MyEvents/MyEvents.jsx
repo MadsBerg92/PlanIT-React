@@ -1,11 +1,10 @@
 import Button from "../../components/Button/Button.jsx";
-
+import MyEventsComponent from "../../components/MyEvents/MyEventsComponent.jsx";
 
 const MyEvents = () => {
   return (
     <div>
-      <p>I AM CREATE EVENT PAGE</p>
-      <Button className={"special"}></Button>
+      <MyEventsComponent />
     </div>
   );
 };

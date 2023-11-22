@@ -44,7 +44,7 @@ function NavBar() {
             </Nav.Link>
             <Nav.Link
               className={styles.navlink}
-              onClick={() => navigate("Home")}
+              onClick={() => navigate("/MyEvents")}
             >
               My Events
             </Nav.Link>

@@ -5,7 +5,7 @@ import { useState, useEffect, useContext } from "react";
 import Button from "../Button/Button";
 import { ShoppingListContext } from "../../Context/ShoppingListContext";
 
-function ShoppingListModal() {
+function ShoppingListModal({ eventId }) {
   const { saveShoppingList } = useContext(ShoppingListContext);
 
   //useState for modal starting as false
@@ -53,8 +53,7 @@ function ShoppingListModal() {
   //Handler for submitting the shopping list storing the inputs in the shoppingList state
   const handleSubmit = (event) => {
     event.preventDefault();
-    setShoppingList(inputs);
-    console.log(inputs);
+    saveShoppingList(inputs, eventId); // Save the shopping list to the database
   };
 
   //useEffect for closing the modal when the shopping list is updated
