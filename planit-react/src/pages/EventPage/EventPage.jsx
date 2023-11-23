@@ -164,6 +164,7 @@ const EventPage = () => {
         show={showFriendList}
         onClose={handleFriendListModalClose}
         friendList={userFriendList}
+        onAddFriends={handleFriendListModalClose}
       />
     </div>
   );

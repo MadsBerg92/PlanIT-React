@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "../Button/Button";
 
-const FriendListModal = ({ show, onHide, friendList, onAddFriends }) => {
+const FriendListModal = ({ show, onPassFriends, friendList, onAddFriends }) => {
   const [selectedFriends, setSelectedFriends] = useState([]);
 
   const toggleFriendSelection = (friend) => {
@@ -34,7 +34,7 @@ const FriendListModal = ({ show, onHide, friendList, onAddFriends }) => {
   };
 
   return (
-    <Modal show={show} onHide={() => onHide(selectedFriends)}>
+    <Modal show={show} onPassFriends={() => onPassFriends(selectedFriends)}>
       <Modal.Header closeButton>
         <Modal.Title>Invite to event</Modal.Title>
       </Modal.Header>
