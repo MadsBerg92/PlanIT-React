@@ -26,13 +26,14 @@ const Feed = () => {
         if (userEventIds && userEventIds.length > 0) {
           const ParseEvents = Parse.Object.extend("Events");
           const query = new Parse.Query(ParseEvents);
-          query.containedIn("eventId", userEventIds);
+          query.containedIn("objectId", userEventIds);
           query.select(
             "eventId",
             "creatorName",
             "title",
             "eventDescription",
             "eventDate",
+            "image",
             "RSVP"
           );
 
@@ -46,6 +47,7 @@ const Feed = () => {
               eventName: result.get("title"),
               eventDescription: result.get("eventDescription"),
               eventDate: renderValue(result.get("eventDate")),
+              image: result.get("image").url(),
               eventRSVP: result.get("RSVP"),
             },
           }));

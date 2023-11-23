@@ -17,8 +17,9 @@ const EventPage = () => {
   // Data for information box
   const [eventData, setEventData] = useState([]);
   const [description, setDescription] = useState("");
+  const [eventImage, setEventImage] = useState("");
+  const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
-  const { shoppingList } = useContext(ShoppingListContext);
   const userId = Parse.User.current();
 
 
@@ -100,7 +101,9 @@ const EventPage = () => {
           "eventLocation",
           "creatorName",
           "eventDate",
-          "eventDescription"
+          "eventDescription",
+          "image",
+          "shoppingList"
         );
         const result = await query.first();
 
@@ -118,9 +121,12 @@ const EventPage = () => {
             value: result.get("eventDate"),
           },
         ];
+        const eventImage = result.get("image").url();
 
+        setEventImage(eventImage);
         setEventData(eventDataFromParse);
         setDescription(result.get("eventDescription"));
+        setShoppingList(result.get("shoppingList"));
       } catch (error) {
         console.error("Error fetching event data:", error);
       }
@@ -139,11 +145,7 @@ const EventPage = () => {
   return (
     <div>
       <div className={styles.centered}>
-        <img
-          className={styles.image}
-          src="/images/Birthday.png"
-          alt="logo"
-        ></img>
+        <img className={styles.image} src={eventImage} alt="logo"></img>
       </div>
       <div className={styles.centered}>
         <Button

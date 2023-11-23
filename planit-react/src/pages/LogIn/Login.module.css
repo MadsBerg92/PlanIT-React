@@ -63,14 +63,14 @@ form button {
   width: 10%;
   border: 1px solid #d3e4cd;
   border-radius: 5px;
-  background-color: #9ab693;
+  background-color: #115700;
   color: white;
   font-weight: bold;
 }
 
 form button:hover {
-  background-color: #d3e4cd;
-  color: #9ab693;
+  background-color: #3f752c;
+  color: #ffffff;
 }
 
 form p {
@@ -101,20 +101,4 @@ form p a:hover {
   width: 60%;
   border: 1px solid #d3e4cd;
   border-radius: 5px;
-}
-.question_button {
-  margin-top: 20px;
-  padding: 10px;
-  width: 20%;
-  border: 1px solid #d3e4cd;
-  border-radius: 5px;
-  background-color: #9ab693;
-  color: white;
-  font-weight: bold;
-}
-.is_signed_up {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
 }

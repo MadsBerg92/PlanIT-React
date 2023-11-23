@@ -67,6 +67,9 @@ const EditProfile = (props) => {
         console.error("Error while updating user", error);
       });
   };
+  const handleBack = () => {
+    setIsEditing(false);
+  };
 
   return (
     <div>
@@ -110,8 +113,9 @@ const EditProfile = (props) => {
               />
 
               <button type="submit" className={styles.updateButton}>
-                Update
+                Save Changes
               </button>
+              <button onClick={handleBack}>Back</button>
             </form>
           </div>
         </div>
