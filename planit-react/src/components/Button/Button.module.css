@@ -72,7 +72,7 @@
   margin-top: 20px;
   border-radius: 50px;
   font-size: 16px;
-  width: 10%;
+  width: fit-content;
 }
 
 .createButton:hover {
@@ -92,7 +92,7 @@
   margin-top: 20px;
   border-radius: 50px;
   font-size: 16px;
-  width: 10%;
+  width: fit-content;
 }
 .shoppingListBtn:hover {
   background-color: white;

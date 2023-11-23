@@ -78,6 +78,8 @@ const CreateEvent = () => {
       // Save the new event
       const savedEvent = await existingEvent.save();
 
+      // Delete the temporary event
+
       // Save the event ID to state
       setEventId(savedEvent.id);
 
@@ -105,19 +107,23 @@ const CreateEvent = () => {
       // Handle success or redirect to the event page
       console.log("Event created successfully!", savedEvent);
 
-      navigate("/Home");
+      handleCancel();
     } catch (error) {
       console.error("Error creating event:", error);
     }
   };
   const handleCancel = async () => {
-    // Fetch the temporary event
+    // Fetch the event with eventId of 0
     const ParseEvents = Parse.Object.extend("Events");
     const query = new Parse.Query(ParseEvents);
-    const tempEvent = await query.get(eventId);
+    query.equalTo("eventId", 0);
+    const eventWithIdZero = await query.first();
 
-    // Delete the temporary event
-    await tempEvent.destroy();
+    // Check if the event exists
+    if (eventWithIdZero) {
+      // Delete the event
+      await eventWithIdZero.destroy();
+    }
 
     // Navigate back to the previous page
     navigate(-1);
