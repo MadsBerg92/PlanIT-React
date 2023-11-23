@@ -9,6 +9,7 @@ const FriendListModal = ({ show, onClose }) => {
   const eventIdAsNumber = parseInt(eventId, 10);
   const [userFriendList, setUserFriendList] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
+  const [attendeeNames, setAttendeeNames] = useState([]);
 
   useEffect(() => {
     if (show) {
@@ -32,13 +33,10 @@ const FriendListModal = ({ show, onClose }) => {
           // Fetch User objects for each friend
           const friendUserQuery = new Parse.Query(Parse.User);
           friendUserQuery.containedIn("objectId", friendListFromParse);
+
           const friends = await friendUserQuery.find();
 
-          // Extract usernames and update state
-          const friendUsernames = friends.map((friend) =>
-            friend.get("username")
-          );
-          setUserFriendList(friendUsernames);
+          setUserFriendList(friends);
         }
       }
     } catch (error) {
@@ -46,8 +44,30 @@ const FriendListModal = ({ show, onClose }) => {
     }
   };
 
+  const updateAttendeeNames = async (attendeeIds) => {
+    try {
+      // Create a query for the User object
+      const User = Parse.Object.extend("User");
+      const query = new Parse.Query(User);
+
+      // Query users whose objectId is in the attendeeIds array
+      query.containedIn("objectId", attendeeIds);
+
+      // Execute the query
+      const results = await query.find();
+
+      // Extract usernames from the results
+      const attendeeNames = results.map((user) => user.get("username"));
+
+      // Update the state with these names
+      setAttendeeNames(attendeeNames);
+    } catch (error) {
+      console.error("Error fetching attendee names:", error);
+    }
+  };
+
   //Handle Add Friends
-  const onAddFriends = async (selectedFriends) => {
+  const onAddFriends = async (selectedFriendIds) => {
     try {
       const ParseEvents = Parse.Object.extend("Events");
       const query = new Parse.Query(ParseEvents);
@@ -56,21 +76,21 @@ const FriendListModal = ({ show, onClose }) => {
       const eventObject = await query.first();
 
       if (eventObject) {
-        // Get the existing attendees and merge with the selectedFriends
         const existingAttendees = eventObject.get("attendees") || [];
-        const updatedAttendees = [...existingAttendees, ...selectedFriends];
+        const uniqueAttendees = new Set([
+          ...existingAttendees,
+          ...selectedFriendIds,
+        ]);
 
-        // Update the attendees column with the merged array
-        eventObject.set("attendees", updatedAttendees);
-
-        // Save the updated object back to the database
+        eventObject.set("attendees", Array.from(uniqueAttendees));
         await eventObject.save();
 
+        // Notify parent component to update display names
+        updateAttendeeNames(Array.from(uniqueAttendees));
+
         console.log("Attendees updated successfully");
-        // Handle success or display a message to the user
       } else {
         console.error("Event not found");
-        // Handle the case where the event is not found
       }
     } catch (error) {
       console.error("Error updating attendees:", error);
@@ -79,13 +99,12 @@ const FriendListModal = ({ show, onClose }) => {
   };
 
   const toggleFriendSelection = (friend) => {
+    const friendId = friend.id;
     setSelectedFriends((prevSelectedFriends) => {
-      if (prevSelectedFriends.includes(friend)) {
-        return prevSelectedFriends.filter(
-          (selectedFriend) => selectedFriend !== friend
-        );
+      if (prevSelectedFriends.includes(friendId)) {
+        return prevSelectedFriends.filter((id) => id !== friendId);
       } else {
-        return [...prevSelectedFriends, friend];
+        return [...prevSelectedFriends, friendId];
       }
     });
   };
@@ -96,14 +115,14 @@ const FriendListModal = ({ show, onClose }) => {
     }
 
     return userFriendList.map((friend, index) => (
-      <div key={index}>
+      <div key={friend.id}>
         <label>
           <input
             type="checkbox"
-            checked={selectedFriends.includes(friend)}
+            checked={selectedFriends.includes(friend.id)}
             onChange={() => toggleFriendSelection(friend)}
           />
-          {friend}
+          {friend.get("username")}
         </label>
       </div>
     ));
