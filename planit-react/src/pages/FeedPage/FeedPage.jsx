@@ -19,7 +19,10 @@ const Feed = () => {
       try {
         // Fetch current user and their event IDs
         const currentUser = Parse.User.current();
-        const userEventIds = currentUser.get("eventId"); // Assuming 'eventIds' is the field
+
+        const userEventIds = currentUser.get("eventId");
+        
+
         if (userEventIds && userEventIds.length > 0) {
           const ParseEvents = Parse.Object.extend("Events");
           const query = new Parse.Query(ParseEvents);
