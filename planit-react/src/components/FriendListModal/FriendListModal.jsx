@@ -89,6 +89,15 @@ const FriendListModal = ({ show, onClose }) => {
         updateAttendeeNames(Array.from(uniqueAttendees));
 
         console.log("Attendees updated successfully");
+
+        // Add the objectId of the event to the eventId column of the invited users
+        const ParseUser = Parse.Object.extend("User");
+        for (const friendId of selectedFriendIds) {
+          await Parse.Cloud.run("addEventToUser", {
+            userId: friendId,
+            eventId: eventObject.id,
+          });
+        }
       } else {
         console.error("Event not found");
       }
