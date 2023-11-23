@@ -3,7 +3,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Parse from "parse";
 
-
 function Button({ props, textActive, textInactive, isActive, onClick, type }) {
   //Setting the status
   const [userId, setUserId] = useState("");
@@ -28,36 +27,34 @@ function Button({ props, textActive, textInactive, isActive, onClick, type }) {
     fetchUserId();
   }, []);
 
-  const toggleStatus = async () => {
-    try {
-      setIsActive(!isActive);
+  // const toggleStatus = async () => {
+  //   try {
+  //     setIsActive(!isActive);
 
-      const ParseEvents = Parse.Object.extend("Events");
-      const query = new Parse.Query(ParseEvents);
+  //     const ParseEvents = Parse.Object.extend("Events");
+  //     const query = new Parse.Query(ParseEvents);
 
-      // Assume you have an objectId for the specific event
-      const eventId = props.eventId; // Make sure to pass the eventId as a prop
+  //     // Assume you have an objectId for the specific event
+  //     const eventId = props.eventId; // Make sure to pass the eventId as a prop
 
-      const event = await query.get(eventId);
+  //     const event = await query.get(eventId);
 
-      if (isActive) {
-        // If isActive is true, add the userId to the attendees array
-        event.addUnique("attendees", userId);
-      } else {
-        // If isActive is false, remove the userId from the attendees array
-        event.remove("attendees", userId);
-      }
+  //     if (isActive) {
+  //       // If isActive is true, add the userId to the attendees array
+  //       event.addUnique("attendees", userId);
+  //     } else {
+  //       // If isActive is false, remove the userId from the attendees array
+  //       event.remove("attendees", userId);
+  //     }
 
-      await event.save();
-    } catch (error) {
-      console.error("Error updating event status:", error);
-    }
-  };
-
+  //     await event.save();
+  //   } catch (error) {
+  //     console.error("Error updating event status:", error);
+  //   }
+  // };
 
   // Changing the styling by defining type.
   let buttonClass = styles.normalButton;
-
 
   if (type === "special") {
     buttonClass = styles.specialButton;

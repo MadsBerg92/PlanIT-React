@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./box.module.css";
 
-function Box({ title, content, type, Button: Button, children }) {
+function Box({ title, content = [], type, Button: Button, children }) {
   const renderContent = (item, index) => {
     if (type === "second") {
       return (
@@ -27,7 +27,7 @@ function Box({ title, content, type, Button: Button, children }) {
     return (
       <div className={styles.box}>
         <h2>{title}</h2>
-        <p>{content}</p>
+        <div>{content}</div>
       </div>
     );
   } else {
@@ -35,7 +35,6 @@ function Box({ title, content, type, Button: Button, children }) {
       <div className={styles.box}>
         <h2>{title}</h2>
         <ul>{content.map((item, index) => renderContent(item, index))}</ul>
-        {children}
       </div>
     );
   }

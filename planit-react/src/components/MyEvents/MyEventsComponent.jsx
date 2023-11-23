@@ -60,14 +60,17 @@ const MyEventsComponent = () => {
   return (
     <div>
       <h1>My Events</h1>
-      {events.map((event, index) => (
-        <EventCard
-          key={index}
-          type={event.type}
-          eventData={event.eventData}
-          onClick={() => handleEventClick(event.eventData.eventId)}
-        />
-      ))}
+
+      {events
+        .filter((event) => event.eventData.eventId !== 0)
+        .map((event, index) => (
+          <EventCard
+            key={index}
+            type={event.type}
+            eventData={event.eventData}
+            onClick={() => handleEventClick(event.eventData.eventId)}
+          />
+        ))}
     </div>
   );
 };
