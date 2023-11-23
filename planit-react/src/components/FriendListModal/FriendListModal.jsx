@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "../Button/Button";
 
-const FriendListModal = ({ show, onHide, friendList }) => {
+const FriendListModal = ({ show, onHide, friendList, onAddFriends }) => {
   const [selectedFriends, setSelectedFriends] = useState([]);
 
   const toggleFriendSelection = (friend) => {
@@ -47,7 +47,7 @@ const FriendListModal = ({ show, onHide, friendList }) => {
           type={"special"}
           onClick={() => {
             // Pass the selected friends to the parent component
-            onHide(selectedFriends);
+            onAddFriends(selectedFriends);
           }}
         ></Button>
       </Modal.Footer>

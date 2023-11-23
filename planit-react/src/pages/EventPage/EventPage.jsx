@@ -14,12 +14,45 @@ const EventPage = () => {
   const { eventId } = useParams();
   //useParams returns a string - so we parse it to a number to match the eventId datatype
   const eventIdAsNumber = parseInt(eventId, 10);
+  console.log(eventIdAsNumber);
   // Data for information box
   const [eventData, setEventData] = useState([]);
   const { shoppingList } = React.useContext(ShoppingListContext);
   const [description, setDescription] = useState("");
   const [showFriendList, setShowFriendList] = useState(false);
   const [userFriendList, setUserFriendList] = useState([]);
+
+  const handleFriendListModalClose = async (selectedFriends) => {
+    try {
+      const ParseEvents = Parse.Object.extend("Events");
+      const query = new Parse.Query(ParseEvents);
+      query.equalTo("eventId", eventIdAsNumber); // Assuming eventIdAsNumber is available
+
+      const eventObject = await query.first();
+
+      if (eventObject) {
+        // Get the existing attendees and merge with the selectedFriends
+        const existingAttendees = eventObject.get("attendees") || [];
+        const updatedAttendees = [...existingAttendees, ...selectedFriends];
+
+        // Update the attendees column with the merged array
+        eventObject.set("attendees", updatedAttendees);
+
+        // Save the updated object back to the database
+        await eventObject.save();
+
+        console.log("Attendees updated successfully");
+        // Handle success or display a message to the user
+      } else {
+        console.error("Event not found");
+        // Handle the case where the event is not found
+      }
+    } catch (error) {
+      console.error("Error updating attendees:", error);
+      // Handle the error or display an error message
+    }
+    setShowFriendList(false);
+  };
 
   const handleButtonClick = async () => {
     try {
@@ -129,7 +162,7 @@ const EventPage = () => {
       </div>
       <FriendListModal
         show={showFriendList}
-        onHide={() => setShowFriendList(false)}
+        onClose={handleFriendListModalClose}
         friendList={userFriendList}
       />
     </div>
