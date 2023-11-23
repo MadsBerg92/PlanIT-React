@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import EventCard from "../../components/EventCard/EventCard.jsx";
 import Parse from "parse";
+import styles from "./MyEventsComponent.module.css";
 
 const MyEventsComponent = () => {
   const navigate = useNavigate();
@@ -58,9 +59,11 @@ const MyEventsComponent = () => {
   };
 
   return (
-    <div>
-      <h1>My Events</h1>
-
+    <>
+      {" "}
+      <div className={styles.headline}>
+        <h1>My Events</h1>
+      </div>
       {events
         .filter((event) => event.eventData.eventId !== 0)
         .map((event, index) => (
@@ -71,7 +74,7 @@ const MyEventsComponent = () => {
             onClick={() => handleEventClick(event.eventData.eventId)}
           />
         ))}
-    </div>
+    </>
   );
 };
 

@@ -1,14 +1,18 @@
 .friendlistpage {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start; /* Align the boxes at the top */
+  justify-content: space-around; /* Distribute the boxes evenly */
   padding: 20px;
+  gap: 20px; /* Add some space between the boxes */
+  flex-wrap: wrap; /* Allow the boxes to wrap to a new line on smaller screens */
 }
 
 .friendlistpage input {
   border: 1px solid #d3e4cd;
   border-radius: 5px;
+  padding: 10px; /* Add some padding to the input */
+  width: 100%; /* Make the input take up the full width of the box */
 }
 
 .title {
@@ -16,4 +20,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  font-size: 2em; /* Make the title larger */
+  color: #333; /* Change the color of the title */
+  margin-bottom: 20px; /* Add some space below the title */
+  width: 100%; /* Make the title take up the full width of the page */
 }

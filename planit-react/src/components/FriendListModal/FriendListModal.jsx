@@ -4,6 +4,13 @@ import Button from "../Button/Button";
 import Parse from "parse";
 import { useParams } from "react-router-dom";
 
+/**
+ * FriendListModal component displays a modal for inviting friends to an event.
+ * @param {Object} props - The component props.
+ * @param {boolean} props.show - Determines whether the modal is visible or not.
+ * @param {function} props.onClose - Callback function to close the modal.
+ * @returns {JSX.Element} The rendered FriendListModal component.
+ */
 const FriendListModal = ({ show, onClose }) => {
   const { eventId } = useParams();
   const eventIdAsNumber = parseInt(eventId, 10);
@@ -17,7 +24,10 @@ const FriendListModal = ({ show, onClose }) => {
     }
   }, [show]);
 
-  //Fetch friend list
+  /**
+   * Fetches the friend list for the current user.
+   * @returns {Promise<void>} A promise that resolves when the friend list is fetched successfully.
+   */
   const fetchFriendList = async () => {
     try {
       const currentUser = Parse.User.current();
@@ -44,6 +54,11 @@ const FriendListModal = ({ show, onClose }) => {
     }
   };
 
+  /**
+   * Updates the attendee names based on the provided attendee IDs.
+   * @param {string[]} attendeeIds - An array of attendee IDs.
+   * @returns {Promise<void>} - A promise that resolves once the attendee names are updated.
+   */
   const updateAttendeeNames = async (attendeeIds) => {
     try {
       // Create a query for the User object
@@ -66,7 +81,11 @@ const FriendListModal = ({ show, onClose }) => {
     }
   };
 
-  //Handle Add Friends
+  /**
+   * Adds friends to an event and updates the attendees list.
+   * @param {string[]} selectedFriendIds - The IDs of the selected friends to add.
+   * @returns {Promise<void>} - A promise that resolves when the attendees are updated successfully.
+   */
   const onAddFriends = async (selectedFriendIds) => {
     try {
       const ParseEvents = Parse.Object.extend("Events");
@@ -91,7 +110,6 @@ const FriendListModal = ({ show, onClose }) => {
         console.log("Attendees updated successfully");
 
         // Add the objectId of the event to the eventId column of the invited users
-        const ParseUser = Parse.Object.extend("User");
         for (const friendId of selectedFriendIds) {
           await Parse.Cloud.run("addEventToUser", {
             userId: friendId,
@@ -107,6 +125,10 @@ const FriendListModal = ({ show, onClose }) => {
     }
   };
 
+  /**
+   * Toggles the selection of a friend.
+   * @param {Object} friend - The friend object.
+   */
   const toggleFriendSelection = (friend) => {
     const friendId = friend.id;
     setSelectedFriends((prevSelectedFriends) => {
@@ -117,6 +139,12 @@ const FriendListModal = ({ show, onClose }) => {
       }
     });
   };
+
+  /**
+   * Renders the list of friends.
+   * If there are no friends available, it displays a message.
+   * @returns {JSX.Element} The rendered list of friends.
+   */
 
   const renderFriends = () => {
     if (!Array.isArray(userFriendList) || userFriendList.length === 0) {

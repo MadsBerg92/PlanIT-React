@@ -80,34 +80,34 @@ const FriendList = () => {
     }
   };
 
-/**
- * Handles the removal of a friend from the friend list.
- * @param {string} objectId - The object ID of the friend to be removed.
- * @returns {Promise<void>} - A promise that resolves when the friend is successfully removed.
- */
-const handleRemoveFriend = (objectId) => async () => {
+  /**
+   * Handles the removal of a friend from the friend list.
+   * @param {string} objectId - The object ID of the friend to be removed.
+   * @returns {Promise<void>} - A promise that resolves when the friend is successfully removed.
+   */
+  const handleRemoveFriend = (objectId) => async () => {
     try {
-        const currentUser = Parse.User.current();
+      const currentUser = Parse.User.current();
 
-        await currentUser.fetch();
+      await currentUser.fetch();
 
-        // Fetch the friendList array
-        let friendList = currentUser.get("friendList") || [];
+      // Fetch the friendList array
+      let friendList = currentUser.get("friendList") || [];
 
-        // Filter out the objectId
-        friendList = friendList.filter((id) => id !== objectId);
+      // Filter out the objectId
+      friendList = friendList.filter((id) => id !== objectId);
 
-        // Update the friendList field
-        currentUser.set("friendList", friendList);
+      // Update the friendList field
+      currentUser.set("friendList", friendList);
 
-        await currentUser.save();
+      await currentUser.save();
 
-        // Update the friends state
-        setFriends(friends.filter((friend) => friend.id !== objectId));
+      // Update the friends state
+      setFriends(friends.filter((friend) => friend.id !== objectId));
     } catch (error) {
-        console.error("Error while removing friend", error);
+      console.error("Error while removing friend", error);
     }
-};
+  };
 
   return (
     <>
@@ -126,6 +126,7 @@ const handleRemoveFriend = (objectId) => async () => {
           }))}
           Button={(item) => (
             <Button
+              type="special"
               textInactive="Remove Friend"
               onClick={handleRemoveFriend(item.friend.id)}
             ></Button>
@@ -148,6 +149,7 @@ const handleRemoveFriend = (objectId) => async () => {
           Button={(user) =>
             user.id && (
               <Button
+                type="create"
                 textInactive="Add Friend"
                 onClick={() => handleAddFriend(user.id)}
               />
@@ -155,6 +157,7 @@ const handleRemoveFriend = (objectId) => async () => {
           }
         >
           <InputBox
+            id="search"
             type="text"
             label="Search"
             name="search"
@@ -163,7 +166,11 @@ const handleRemoveFriend = (objectId) => async () => {
             onChange={(e) => setSearchInput(e.target.value)}
             required
           />
-          <Button onClick={handleSearch} textInactive="Search"></Button>
+          <Button
+            type="create"
+            onClick={handleSearch}
+            textInactive="Search"
+          ></Button>
         </Box>
       </div>
     </>

@@ -1,16 +1,53 @@
 .box {
-  margin-top: 10px;
-  background-color: #f0f0f0;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px; /* Add spacing between the boxes */
+  margin-top: 20px;
+  background-color: #ffffff; /* Change the background color to white */
+  padding: 30px; /* Increase the padding */
+  border: 1px solid #e0e0e0; /* Lighten the border color */
+  border-radius: 10px; /* Increase the border radius */
+  margin-right: 20px; /* Increase the spacing between the boxes */
   flex: 2;
   max-width: 45%;
-  height: 300px; /* Set a fixed height */
+  height: 400px; /* Make the height auto */
   overflow-y: auto; /* Allow vertical scrolling when the content doesn't fit */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.box:hover {
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
 }
 
 .box h2 {
-  font-size: 18px;
+  font-size: 24px; /* Increase the font size */
+  color: #333; /* Darken the text color */
+  margin-bottom: 20px; /* Add some space below the title */
+  text-transform: uppercase; /* Make the title uppercase */
+  letter-spacing: 1px; /* Add some letter spacing */
+}
+
+.box ul {
+  list-style-type: none; /* Remove the bullet points */
+  padding: 0; /* Remove the padding */
+}
+
+.box li {
+  padding: 10px 0; /* Add some vertical padding to each list item */
+  border-bottom: 1px solid #e0e0e0; /* Add a border below each list item */
+  transition: all 0.2s ease; /* Add transition for smooth hover effect */
+
+}
+
+.box li:hover {
+  background-color: #f9f9f9; /* Change background color on hover */
+}
+.box li:last-child {
+  border-bottom: none; /* Remove the border from the last list item */
+}
+.box input {
+  border: 1px solid #d3e4cd;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
 }

@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Button from "../../components/Button/Button.jsx";
 import EventCalendar from "../../components/calendar/Calendar.tsx";
 import Box from "../../components/box/Box.jsx";
 import FriendListModal from "../../components/FriendListModal/FriendListModal.jsx";
-import { ShoppingListContext } from "../../Context/ShoppingListContext.jsx";
 import styles from "./EventPage.module.css";
-import Parse, { User } from "parse";
-import { set } from "lodash";
-
+import Parse from "parse";
 
 const EventPage = () => {
   const { eventId } = useParams();
@@ -20,33 +17,6 @@ const EventPage = () => {
   const [eventImage, setEventImage] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
-  const userId = Parse.User.current();
-
-
-  const fetchEventData = async () => {
-    try {
-      const ParseEvents = Parse.Object.extend("Events");
-      const query = new Parse.Query(ParseEvents);
-      query.equalTo("eventId", eventIdAsNumber);
-      query.select(
-        "eventLocation",
-        "createdBy",
-        "eventDate",
-        "eventDescription",
-        "creatorName"
-      );
-
-      const result = await query.first();
-      setEventData([
-        { label: "Location", value: result.get("eventLocation") },
-        { label: "Created By", value: result.get("creatorName") },
-        { label: "Event Date", value: result.get("eventDate") },
-      ]);
-      setDescription(result.get("eventDescription"));
-    } catch (error) {
-      console.error("Error fetching event data:", error);
-    }
-  };
 
   const handleToggle = async () => {
     console.log("Event ID:", eventId);
@@ -92,6 +62,10 @@ const EventPage = () => {
   };
 
   useEffect(() => {
+    /**
+     * Fetches event data from Parse and updates the state with the fetched data.
+     * @returns {Promise<void>} A promise that resolves when the event data is fetched and the state is updated.
+     */
     const fetchEventData = async () => {
       try {
         const ParseEvents = Parse.Object.extend("Events");
@@ -132,7 +106,7 @@ const EventPage = () => {
       }
     };
     fetchEventData();
-  }, [eventId]);
+  }, [eventId, eventIdAsNumber]);
 
   const handleModalOpen = () => {
     setShowFriendList(true);

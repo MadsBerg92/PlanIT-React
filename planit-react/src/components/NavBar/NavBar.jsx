@@ -6,6 +6,12 @@ import styles from "./NavBar.module.css";
 
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Renders the navigation bar component.
+ *
+ * @returns {JSX.Element} The rendered navigation bar.
+ */
+
 function NavBar() {
   const navigate = useNavigate();
 
