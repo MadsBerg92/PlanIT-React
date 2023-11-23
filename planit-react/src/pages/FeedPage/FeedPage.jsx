@@ -80,8 +80,8 @@ const Feed = () => {
           isActive={activeButton === 1} // Pass isActive as a prop
         />
         <Button
-          textActive="Yeet"
-          textInactive="Yeet"
+          textActive="My events"
+          textInactive="My events"
           onClick={() => handleButtonClick(2)}
           isActive={activeButton === 2} // Pass isActive as a prop
         />
