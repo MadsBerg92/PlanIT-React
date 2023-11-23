@@ -7,6 +7,8 @@
   margin-right: 10px; /* Add spacing between the boxes */
   flex: 2;
   max-width: 45%;
+  height: 300px; /* Set a fixed height */
+  overflow-y: auto; /* Allow vertical scrolling when the content doesn't fit */
 }
 
 .box h2 {

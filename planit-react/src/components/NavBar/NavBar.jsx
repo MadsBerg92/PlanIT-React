@@ -48,6 +48,12 @@ function NavBar() {
             >
               My Events
             </Nav.Link>
+            <Nav.Link
+              className={styles.navlink}
+              onClick={() => navigate("Friendlist")}
+            >
+              My Friends
+            </Nav.Link>
           </Nav>
           <NavDropdown
             className={`${styles.dropdown} ms-auto`}
