@@ -10,6 +10,7 @@ import { useRef } from "react";
 import React from "react";
 
 const CreateEvent = () => {
+
   console.log("Rendering CreateEvent component...");
   const navigate = useNavigate();
   const [eventId, setEventId] = useState(null);
@@ -39,6 +40,7 @@ const CreateEvent = () => {
       hasMountedRef.current = true;
     }
   }, []);
+
 
   // handle form submission
   const handleSubmit = async (event) => {
@@ -216,3 +218,4 @@ const CreateEvent = () => {
 };
 
 export default React.memo(CreateEvent);
+

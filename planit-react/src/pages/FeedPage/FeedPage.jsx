@@ -2,18 +2,27 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import EventCard from "../../components/EventCard/EventCard.jsx";
 import Parse from "parse";
+import Button from "../../components/Button/Button.jsx";
+import styles from "./FeedPage.module.css";
 
 const Feed = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
+  const [activeButton, setActiveButton] = useState(1); // Button 1 is active by default
+
+  const handleButtonClick = (buttonNumber) => {
+    setActiveButton(buttonNumber);
+  };
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         // Fetch current user and their event IDs
         const currentUser = Parse.User.current();
-        const userEventIds = currentUser.get("eventId"); // Assuming 'eventIds' is the field
-        console.log(currentUser.get("eventId"));
+
+        const userEventIds = currentUser.get("eventId");
+        
+
         if (userEventIds && userEventIds.length > 0) {
           const ParseEvents = Parse.Object.extend("Events");
           const query = new Parse.Query(ParseEvents);
@@ -24,7 +33,8 @@ const Feed = () => {
             "title",
             "eventDescription",
             "eventDate",
-            "image"
+            "image",
+            "RSVP"
           );
 
           const results = await query.find();
@@ -38,6 +48,7 @@ const Feed = () => {
               eventDescription: result.get("eventDescription"),
               eventDate: renderValue(result.get("eventDate")),
               image: result.get("image").url(),
+              eventRSVP: result.get("RSVP"),
             },
           }));
 
@@ -66,6 +77,20 @@ const Feed = () => {
 
   return (
     <div>
+      <div className={styles.myEventsButton}>
+        <Button
+          textActive="All events"
+          textInactive="All events"
+          onClick={() => handleButtonClick(1)}
+          isActive={activeButton === 1} // Pass isActive as a prop
+        />
+        <Button
+          textActive="My events"
+          textInactive="My events"
+          onClick={() => handleButtonClick(2)}
+          isActive={activeButton === 2} // Pass isActive as a prop
+        />
+      </div>
       {events.map((event, index) => (
         <EventCard
           key={index}

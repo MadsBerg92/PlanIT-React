@@ -3,12 +3,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Parse from "parse";
 
-function Button(props) {
+
+function Button({ props, textActive, textInactive, isActive, onClick, type }) {
   //Setting the status
-  const [isActive, setIsActive] = useState(false);
   const [userId, setUserId] = useState("");
 
-  const buttonText = isActive ? props.textActive : props.textInactive;
+  const buttonText = isActive ? textActive : textInactive;
 
   useEffect(() => {
     // Fetch the current user's userId when the component mounts
@@ -54,34 +54,31 @@ function Button(props) {
     }
   };
 
+
   // Changing the styling by defining type.
   let buttonClass = styles.normalButton;
 
-  if (props.type === "special") {
+
+  if (type === "special") {
     buttonClass = styles.specialButton;
-  } else if (props.type === "custom") {
+  } else if (type === "custom") {
     buttonClass = styles.customButton;
-  } else if (props.type === "create") {
+  } else if (type === "create") {
     buttonClass = styles.createButton;
-  } else if (props.type === "shoppingList") {
+  } else if (type === "shoppingList") {
     buttonClass = styles.shoppingListBtn;
   }
   //Define a different onclick function when you create an instance of button to change the onclick behavior!
   return (
-    <button
-      className={`${buttonClass} ${isActive ? styles.active : ""}`} // Optional: Pass a class name as a prop for styling
-      onClick={() => {
-        if (props.onClick) {
-          props.onClick();
-        } else {
-          toggleStatus();
-        }
-      }}
-      // disabled={props.disabled}    // Optional: Disable the button based on a prop
-      type={props.type}
-    >
-      {buttonText}
-    </button>
+    <div>
+      <button
+        className={`${buttonClass} ${isActive ? styles.active : ""}`}
+        type="button"
+        onClick={onClick}
+      >
+        {buttonText}
+      </button>
+    </div>
   );
 }
 

@@ -1,0 +1,10 @@
+.myEventsButton {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.myEventsButton Button {
+  margin: 0 10px;
+}
