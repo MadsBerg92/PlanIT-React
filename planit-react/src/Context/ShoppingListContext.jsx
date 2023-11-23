@@ -46,7 +46,7 @@ export const ShoppingListProvider = ({ children }) => {
 
   return (
     <ShoppingListContext.Provider
-      value={{ shoppingList, setShoppingList, isLoading }}
+      value={{ shoppingList, setShoppingList, isLoading, saveShoppingList }}
     >
       {children}
     </ShoppingListContext.Provider>

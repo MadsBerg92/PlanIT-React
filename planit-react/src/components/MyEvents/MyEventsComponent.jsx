@@ -24,7 +24,6 @@ const MyEventsComponent = () => {
         );
 
         const results = await query.find();
-
         const eventsFromParse = results.map((result) => ({
           type: "specific",
           eventData: {

@@ -6,8 +6,7 @@ import Button from "../Button/Button";
 import { ShoppingListContext } from "../../Context/ShoppingListContext";
 
 function ShoppingListModal({ eventId }) {
-  const { saveShoppingList } = useContext(ShoppingListContext);
-
+  const { saveShoppingList, shoppingList } = useContext(ShoppingListContext);
   //useState for modal starting as false
   const [showModal, setShowModal] = useState(false);
 
@@ -15,8 +14,6 @@ function ShoppingListModal({ eventId }) {
   const [inputs, setInputs] = useState([{ id: 1, name: "" }]);
 
   //useContext for shoppingList
-  const { shoppingList, setShoppingList } =
-    React.useContext(ShoppingListContext);
 
   //Opens the shopping list modal
   const handleOpenModal = () => {

@@ -17,7 +17,7 @@ const Feed = () => {
         if (userEventIds && userEventIds.length > 0) {
           const ParseEvents = Parse.Object.extend("Events");
           const query = new Parse.Query(ParseEvents);
-          query.containedIn("eventId", userEventIds);
+          query.containedIn("objectId", userEventIds);
           query.select(
             "eventId",
             "creatorName",

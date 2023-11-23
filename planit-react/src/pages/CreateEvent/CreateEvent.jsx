@@ -4,50 +4,85 @@ import InputBox from "../../components/InputBox/InputBox";
 import ShoppingListModal from "../../components/Shoppinglistmodal/ShoppingListModal";
 import Parse from "parse";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { ShoppingListContext } from "../../Context/ShoppingListContext";
+import { useRef } from "react";
+import React from "react";
 
 const CreateEvent = () => {
+  console.log("Rendering CreateEvent component...");
   const navigate = useNavigate();
   const [eventId, setEventId] = useState(null);
+  const { shoppingList, saveShoppingList } = useContext(ShoppingListContext);
+  const hasMountedRef = useRef(false);
+
+  const createTempEvent = async () => {
+    const ParseEvents = Parse.Object.extend("Events");
+    const newEvent = new ParseEvents();
+
+    // Set minimal properties for the new event
+    newEvent.set("title", "Temporary Title");
+    newEvent.set("createdBy", Parse.User.current().id);
+    newEvent.set("attendees", [Parse.User.current().id]);
+
+    // Save the new event
+    const savedEvent = await newEvent.save();
+
+    // Save the event ID to state
+    setEventId(savedEvent.id);
+  };
+
+  useEffect(() => {
+    if (!hasMountedRef.current) {
+      console.log("Creating temporary event...");
+      createTempEvent();
+      hasMountedRef.current = true;
+    }
+  }, []);
 
   // handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    await createTempEvent();
     // Get form values
     const eventName = document.getElementById("event-name").value;
     const eventDate = document.getElementById("event-date").value;
     const eventTime = document.getElementById("event-time").value;
     const eventLocation = document.getElementById("event-location").value;
     const eventDescription = document.getElementById("event-description").value;
-    const eventId = Math.floor(Math.random() * 1000000);
     const eventImage = document.getElementById("event-image").files[0];
 
     try {
-      // Create a new Parse object for the "Events" class
+      // Fetch the previously created event
       const ParseEvents = Parse.Object.extend("Events");
-      const newEvent = new ParseEvents();
-
-      //setting up the array with the user's own id as the initial value
-      const attendeesArray = [];
+      const query = new Parse.Query(ParseEvents);
+      console.log("Fetching event with ID:", eventId);
+      const existingEvent = await query.get(eventId);
+      const shoppingList = existingEvent.get("shoppingList");
       const currentUser = Parse.User.current();
-      attendeesArray.push(currentUser.id);
+      const randomEventId = Math.floor(Math.random() * 1000000);
 
       // Set properties for the new event
-      newEvent.set("title", eventName);
-      newEvent.set("eventDate", new Date(`${eventDate} ${eventTime}`)); // Combine date and time
-      newEvent.set("eventLocation", eventLocation);
-      newEvent.set("eventDescription", eventDescription);
-      newEvent.set("createdDate", new Date());
-      newEvent.set("attendees", attendeesArray);
-      newEvent.set("createdBy", currentUser.id);
-      newEvent.set("image", new Parse.File("eventImage.jpg", eventImage));
-      newEvent.set("creatorName", currentUser.get("username"));
-      newEvent.set("shoppingList", []);
-      newEvent.set("eventId", eventId);
+      existingEvent.set("title", eventName);
+      existingEvent.set("eventDate", new Date(`${eventDate} ${eventTime}`)); // Combine date and time
+      existingEvent.set("eventLocation", eventLocation);
+      existingEvent.set("eventDescription", eventDescription);
+      existingEvent.set("createdDate", new Date());
+      existingEvent.set("createdBy", currentUser.id);
+      existingEvent.set("image", new Parse.File("eventImage.jpg", eventImage));
+      existingEvent.set("creatorName", currentUser.get("username"));
+      existingEvent.set("shoppingList", shoppingList);
+      existingEvent.set("eventId", randomEventId);
 
       // Save the new event
-      const savedEvent = await newEvent.save();
+      const savedEvent = await existingEvent.save();
+
+      // Save the event ID to state
+      setEventId(savedEvent.id);
+
+      // Save the shopping list to the event
+      saveShoppingList(shoppingList, savedEvent.id);
 
       currentUser.addUnique("eventId", eventId);
 
@@ -74,6 +109,18 @@ const CreateEvent = () => {
     } catch (error) {
       console.error("Error creating event:", error);
     }
+  };
+  const handleCancel = async () => {
+    // Fetch the temporary event
+    const ParseEvents = Parse.Object.extend("Events");
+    const query = new Parse.Query(ParseEvents);
+    const tempEvent = await query.get(eventId);
+
+    // Delete the temporary event
+    await tempEvent.destroy();
+
+    // Navigate back to the previous page
+    navigate(-1);
   };
 
   // preview image when changing image for an event
@@ -157,9 +204,9 @@ const CreateEvent = () => {
         </form>
       </div>
 
-      {eventId && <ShoppingListModal eventId={eventId} />}
+      {<ShoppingListModal eventId={eventId} />}
     </>
   );
 };
 
-export default CreateEvent;
+export default React.memo(CreateEvent);

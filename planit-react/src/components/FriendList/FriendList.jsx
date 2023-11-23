@@ -80,29 +80,34 @@ const FriendList = () => {
     }
   };
 
-  const handleRemoveFriend = (objectId) => async () => {
+/**
+ * Handles the removal of a friend from the friend list.
+ * @param {string} objectId - The object ID of the friend to be removed.
+ * @returns {Promise<void>} - A promise that resolves when the friend is successfully removed.
+ */
+const handleRemoveFriend = (objectId) => async () => {
     try {
-      const currentUser = Parse.User.current();
+        const currentUser = Parse.User.current();
 
-      await currentUser.fetch();
+        await currentUser.fetch();
 
-      // Fetch the friendList array
-      let friendList = currentUser.get("friendList") || [];
+        // Fetch the friendList array
+        let friendList = currentUser.get("friendList") || [];
 
-      // Filter out the objectId
-      friendList = friendList.filter((id) => id !== objectId);
+        // Filter out the objectId
+        friendList = friendList.filter((id) => id !== objectId);
 
-      // Update the friendList field
-      currentUser.set("friendList", friendList);
+        // Update the friendList field
+        currentUser.set("friendList", friendList);
 
-      await currentUser.save();
+        await currentUser.save();
 
-      // Update the friends state
-      setFriends(friends.filter((friend) => friend.id !== objectId));
+        // Update the friends state
+        setFriends(friends.filter((friend) => friend.id !== objectId));
     } catch (error) {
-      console.error("Error while removing friend", error);
+        console.error("Error while removing friend", error);
     }
-  };
+};
 
   return (
     <>

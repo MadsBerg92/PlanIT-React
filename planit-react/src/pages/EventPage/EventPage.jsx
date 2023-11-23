@@ -15,9 +15,9 @@ const EventPage = () => {
   const eventIdAsNumber = parseInt(eventId, 10);
   // Data for information box
   const [eventData, setEventData] = useState([]);
-  const { shoppingList } = React.useContext(ShoppingListContext);
   const [description, setDescription] = useState("");
   const [eventImage, setEventImage] = useState("");
+  const [shoppingList, setShoppingList] = useState([]);
 
   const handleButtonClick = () => {
     alert("Button clicked!");
@@ -35,7 +35,8 @@ const EventPage = () => {
           "createdBy",
           "eventDate",
           "eventDescription",
-          "image"
+          "image",
+          "shoppingList"
         );
 
         console.log(query);
@@ -61,6 +62,7 @@ const EventPage = () => {
         setEventImage(eventImage);
         setEventData(eventDataFromParse);
         setDescription(result.get("eventDescription"));
+        setShoppingList(result.get("shoppingList"));
       } catch (error) {
         console.error("Error fetching event data:", error);
       }

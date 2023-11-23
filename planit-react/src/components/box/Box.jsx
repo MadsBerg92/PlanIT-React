@@ -11,15 +11,18 @@ function Box({ title, content, type, Button: Button, children }) {
         </li>
       );
     } else if (type === "shopping") {
-      return (
-        <li key={index}>
-          {index + 1}: {item.name}
-          {Button && Button(item)}
-        </li>
-      );
+      if (item) {
+        return (
+          <li key={index}>
+            {index + 1}: {item.name}
+            {Button && Button(item)}
+          </li>
+        );
+      } else {
+        return null;
+      }
     }
   };
-
   if (type === "first") {
     return (
       <div className={styles.box}>
@@ -31,9 +34,7 @@ function Box({ title, content, type, Button: Button, children }) {
     return (
       <div className={styles.box}>
         <h2>{title}</h2>
-
         <ul>{content.map((item, index) => renderContent(item, index))}</ul>
-
         {children}
       </div>
     );
