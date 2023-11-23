@@ -201,6 +201,12 @@ const CreateEvent = () => {
             textActive="Create Event"
             type="create"
           />
+          <Button
+            textInactive="Cancel"
+            textActive="Cancel"
+            type="create"
+            onClick={handleCancel}
+          />
         </form>
       </div>
 
