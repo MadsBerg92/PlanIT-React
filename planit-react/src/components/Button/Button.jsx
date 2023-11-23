@@ -54,23 +54,29 @@ function Button({ props, textActive, textInactive, isActive, onClick, type }) {
   // };
 
   // Changing the styling by defining type.
-  let buttonClass = styles.normalButton;
+  let buttonClass;
 
-  if (type === "special") {
-    buttonClass = styles.specialButton;
-  } else if (type === "custom") {
-    buttonClass = styles.customButton;
-  } else if (type === "create") {
-    buttonClass = styles.createButton;
-  } else if (type === "shoppingList") {
-    buttonClass = styles.shoppingListBtn;
+  switch (type) {
+    case "special":
+      buttonClass = styles.specialButton;
+      break;
+    case "custom":
+      buttonClass = styles.customButton;
+      break;
+    case "create":
+      buttonClass = styles.createButton;
+      break;
+    case "shoppingList":
+      buttonClass = styles.shoppingListBtn;
+      break;
+    case "normal":
+      buttonClass = styles.normalButton;
   }
   //Define a different onclick function when you create an instance of button to change the onclick behavior!
   return (
     <div>
       <button
         className={`${buttonClass} ${isActive ? styles.active : ""}`}
-        type="button"
         onClick={onClick}
       >
         {buttonText}
