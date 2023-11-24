@@ -1,50 +1,46 @@
-import styles from "./Button.module.css"
-import React from 'react';
-import {useState} from 'react';
+import styles from "./Button.module.css";
+import React from "react";
+// import { useState } from "react";
 
 function Button(props) {
-  //Setting the status
-  const [isActive, setIsActive] = useState(false);
+  const isActive = props.isActive;
 
-  const buttonText = isActive ? props.textActive : props.textInactive
-  
-  const toggleStatus = () => {
-    setIsActive(!isActive);
-  }
-  
+  const buttonText = isActive ? props.textActive : props.textInactive;
 
   // Changing the styling by defining type.
-  let buttonClass = styles.normalButton;
 
-  if (props.type === 'special') {
-    buttonClass = styles.specialButton;
-  } else if (props.type === 'custom') {
-    buttonClass = styles.customButton;
-  } 
-    else if (props.type === "create") {
-  buttonClass = styles.createButton;
-  } else if (props.type === "shoppingList") {
-  buttonClass = styles.shoppingListBtn;
-}
+  let buttonClass = styles.normalButton;
+  switch (props.type) {
+    case "special":
+      buttonClass = styles.specialButton;
+      break;
+    case "custom":
+      buttonClass = styles.customButton;
+      break;
+    case "create":
+      buttonClass = styles.createButton;
+      break;
+    case "shoppingList":
+      buttonClass = styles.shoppingListBtn;
+      break;
+    default:
+      buttonClass = styles.normalButton;
+  }
+
   //Define a different onclick function when you create an instance of button to change the onclick behavior!
   return (
     <button
-      className={`${buttonClass} ${isActive ? styles.active : ""}`}  // Optional: Pass a class name as a prop for styling
-      onClick={ () => {
-        
-        if (props.onClick) {
-          props.onClick();
-        } else {
-          toggleStatus();
-        }
-      }}    
+      className={`${buttonClass} ${isActive ? styles.active : ""}`} // Optional: Pass a class name as a prop for styling
+      onClick={() => {
+        props.onClick();
+      }}
       // disabled={props.disabled}    // Optional: Disable the button based on a prop
       type={props.type}
     >
-      {buttonText}              {/* Button label passed as a prop */}
+      {/* Button label passed as a prop */}
+      {buttonText}
     </button>
   );
 }
 
 export default Button;
-

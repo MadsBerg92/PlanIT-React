@@ -83,6 +83,9 @@ const CreateEvent = () => {
             textInactive="Create Event"
             textActive="Create Event"
             type="create"
+            onClick={() => {
+              console.log("Create Event button clicked");
+            }}
           />
         </form>
       </div>

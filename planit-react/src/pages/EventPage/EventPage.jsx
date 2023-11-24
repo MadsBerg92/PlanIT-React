@@ -8,9 +8,17 @@ import ShoppingList from "../../components/ShoppingList/ShoppingList.jsx";
 
 import Box from "../../components/box/Box.jsx";
 
+import { useState } from "react";
+
 const EventPage = () => {
   const handleButtonClick = () => {
     alert("Button clicked!");
+  };
+
+  const [isActive, setIsActive] = useState(false);
+
+  const toggleStatus = () => {
+    setIsActive(!isActive);
   };
 
   //data for information box
@@ -43,9 +51,10 @@ const EventPage = () => {
       </div>
       <div className={styles.centered}>
         <Button
-          textActive={"Attending"}
-          textInactive={"Not Attending"}
+          textInactive={isActive ? "Attending" : "Not Attending"}
+          
           type={"normal"}
+          onClick={toggleStatus}
         ></Button>
         <Button
           textInactive={"Invite Friends"}
