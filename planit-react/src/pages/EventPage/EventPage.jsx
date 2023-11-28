@@ -4,24 +4,18 @@ import Button from "../../components/Button/Button.jsx";
 import EventCalendar from "../../components/calendar/Calendar.tsx";
 import Box from "../../components/box/Box.jsx";
 import FriendListModal from "../../components/FriendListModal/FriendListModal.jsx";
-import { ShoppingListContext } from "../../Context/ShoppingListContext.jsx";
 import styles from "./EventPage.module.css";
 import Parse, { User } from "parse";
-import { set } from "lodash";
-
 
 const EventPage = () => {
   const { eventId } = useParams();
   const eventIdAsNumber = parseInt(eventId, 10);
-  const [isActive, setIsActive] = useState(false);
-  // Data for information box
+  const [isActive, setIsActive] = useState();
   const [eventData, setEventData] = useState([]);
   const [description, setDescription] = useState("");
   const [eventImage, setEventImage] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
-  const userId = Parse.User.current();
-
 
   const fetchEventData = async () => {
     try {
@@ -33,38 +27,44 @@ const EventPage = () => {
         "createdBy",
         "eventDate",
         "eventDescription",
-        "creatorName"
+        "creatorName",
+        "image",
+        "shoppingList"
       );
 
       const result = await query.first();
+
+      // Check if the current user is in the list of attendees
+      const attendees = result.get("attendees") || [];
+      const currentUser = Parse.User.current();
+      const isAttending = attendees.includes(currentUser.id);
+
+      // Set the initial state based on user's attendance
+      setIsActive(isAttending);
+
       setEventData([
         { label: "Location", value: result.get("eventLocation") },
         { label: "Created By", value: result.get("creatorName") },
         { label: "Event Date", value: result.get("eventDate") },
       ]);
+      const eventImage = result.get("image").url();
+      setEventImage(eventImage);
       setDescription(result.get("eventDescription"));
+      setShoppingList(result.get("shoppingList"));
     } catch (error) {
       console.error("Error fetching event data:", error);
     }
   };
 
   const handleToggle = async () => {
-    console.log("Event ID:", eventId);
-
     try {
       const ParseEvents = Parse.Object.extend("Events");
       const query = new Parse.Query(ParseEvents);
-
-      // Log the eventId before the query
-      console.log("Querying event with ID:", eventIdAsNumber);
 
       // Fetch the specific event using the eventId
       query.equalTo("eventId", eventIdAsNumber);
 
       const event = await query.first(); // Use the dynamic eventId here
-
-      // Log the event
-      console.log("Fetched event:", event);
 
       // Get the userId
       const userId = Parse.User.current().id;
@@ -92,45 +92,6 @@ const EventPage = () => {
   };
 
   useEffect(() => {
-    const fetchEventData = async () => {
-      try {
-        const ParseEvents = Parse.Object.extend("Events");
-        const query = new Parse.Query(ParseEvents);
-        query.equalTo("eventId", eventIdAsNumber);
-        query.select(
-          "eventLocation",
-          "creatorName",
-          "eventDate",
-          "eventDescription",
-          "image",
-          "shoppingList"
-        );
-        const result = await query.first();
-
-        const eventDataFromParse = [
-          {
-            label: "Location",
-            value: result.get("eventLocation"),
-          },
-          {
-            label: "Created By",
-            value: result.get("creatorName"),
-          },
-          {
-            label: "Event Date",
-            value: result.get("eventDate"),
-          },
-        ];
-        const eventImage = result.get("image").url();
-
-        setEventImage(eventImage);
-        setEventData(eventDataFromParse);
-        setDescription(result.get("eventDescription"));
-        setShoppingList(result.get("shoppingList"));
-      } catch (error) {
-        console.error("Error fetching event data:", error);
-      }
-    };
     fetchEventData();
   }, [eventId]);
 

@@ -14,7 +14,8 @@
 }
 
 .normalButton:hover {
-  background-color: #a0c686; /* Darker Green */
+  border: solid thin;
+  padding: 9px 20px;
 }
 
 .active {
@@ -23,7 +24,8 @@
 }
 
 .active:hover {
-  background-color: #d3e4cd;
+  border: none;
+  padding: 10px 20px;
 }
 
 /* Add different styling here */
@@ -42,7 +44,8 @@
 }
 
 .specialButton:hover {
-  background-color: #a0c686; /* Darker Green */
+  border: solid thin;
+  padding: 9px 20px;
 }
 
 .customButton {
@@ -86,7 +89,6 @@
   color: rgb(0, 0, 0);
   padding: 6px 10px;
   border-bottom: solid thin rgb(1, 1, 65);
-
   border-radius: 4px;
   cursor: pointer;
   margin-top: 20px;
@@ -98,4 +100,5 @@
   background-color: white;
   color: black;
   border: solid thin rgb(1, 1, 65);
+  margin-top: 19px;
 }
