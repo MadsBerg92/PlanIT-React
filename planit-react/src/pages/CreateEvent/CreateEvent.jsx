@@ -20,8 +20,7 @@ const CreateEvent = () => {
     const ParseEvents = Parse.Object.extend("Events");
     const newEvent = new ParseEvents();
 
-    // Set minimal properties for the new event (eventId is set to 0 to identify it as a temporary event)
-    // This is done in order to create a shopping list for the event before its created
+    // Set minimal properties for the new event
     newEvent.set("title", "Temporary Title");
     newEvent.set("createdBy", Parse.User.current().id);
     newEvent.set("attendees", [Parse.User.current().id]);
@@ -41,12 +40,7 @@ const CreateEvent = () => {
     }
   }, []);
 
-  /**
-   * Handles the form submission for creating an event.
-   *
-   * @param {Event} event - The form submission event.
-   * @returns {Promise<void>} - A promise that resolves when the event is created successfully.
-   */
+  // handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -84,8 +78,6 @@ const CreateEvent = () => {
       // Save the new event
       const savedEvent = await existingEvent.save();
 
-      // Delete the temporary event
-
       // Save the event ID to state
       setEventId(savedEvent.id);
 
@@ -112,38 +104,25 @@ const CreateEvent = () => {
 
       // Handle success or redirect to the event page
       console.log("Event created successfully!", savedEvent);
-
-      handleCancel();
+      navigate("/Home");
     } catch (error) {
       console.error("Error creating event:", error);
     }
   };
-  /**
-   * Handles the cancellation of the event creation.
-   * Fetches the event with eventId of 0, deletes it if it exists, and navigates back to the previous page.
-   * @returns {Promise<void>}
-   */
   const handleCancel = async () => {
-    // Fetch the event with eventId of 0
+    // Fetch the temporary event
     const ParseEvents = Parse.Object.extend("Events");
     const query = new Parse.Query(ParseEvents);
-    query.equalTo("eventId", 0);
-    const eventWithIdZero = await query.first();
+    const tempEvent = await query.get(eventId);
 
-    // Check if the event exists
-    if (eventWithIdZero) {
-      // Delete the event
-      await eventWithIdZero.destroy();
-    }
+    // Delete the temporary event
+    await tempEvent.destroy();
 
     // Navigate back to the previous page
     navigate(-1);
   };
 
-  /**
-   * Preview the selected image and display it in the event image preview element.
-   * @param {Event} event - The event object triggered by the file input change.
-   */
+  // preview image when changing image for an event
   const previewImage = (event) => {
     const preview = document.querySelector("#event-image-preview");
     const file = event.target.files[0];
