@@ -1,4 +1,4 @@
-import styles from "./Footer.module.css"
+import styles from "./Footer.module.css";
 import {
   faTwitter,
   faInstagram,
@@ -12,16 +12,20 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div className={styles.topMargin}>
-        <footer className={`text-center text-lg-start text-muted ${styles.borderTop} ${styles.footer}`} id="footer">
+      <footer
+        className={`text-center text-lg-start text-muted ${styles.borderTop} ${styles.footer}`}
+        id="footer"
+      >
         <section className="">
           <div className="container text-center text-md-start mt-5">
             <div className="row mt-3">
               <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                 <h6 className="text-uppercase fw-bold mb-4">
-                  <i className="fas fa-gem me-3"></i>PostIT
+                  <i className="fas fa-gem me-3"></i>PlanIT
                 </h6>
                 <p>
-                  A Space to keep up with all your friends through social gatherings and interactive... bla bla
+                  A space to keep up with all your friends through social
+                  gatherings and interactive... bla bla
                 </p>
               </div>
 
@@ -68,11 +72,13 @@ const Footer = () => {
                 <p>Rued Langgaards Vej 7</p>
                 <p>Copenhagen, Denmark</p>
                 <a href="" className="text-reset">
-                  info@PlanIT.DK
+                  info@planit.dk
                 </a>
               </div>
 
-              <div className={`follow col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 ${styles.follow}`}>
+              <div
+                className={`follow col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 ${styles.follow}`}
+              >
                 <h4>Follow us on</h4>
                 <div className={styles.icon}>
                   <a href="https://www.facebook.com/" target="_blank">
@@ -97,8 +103,8 @@ const Footer = () => {
         </section>
 
         <div className="text-center p-4">
-          Technical interaction design project - Group PlanIT (Including external photo and video
-          content)
+          Technical interaction design project - Group PlanIT (Including
+          external photo and video content)
         </div>
       </footer>
     </div>

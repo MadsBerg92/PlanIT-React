@@ -8,6 +8,13 @@
   box-shadow: 5px 5px #e4e2e2cc;
   border-style: inset;
   border-color: #e4e2e22d;
+  overflow: hidden;
+}
+
+.nameText {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .contentDiv {
