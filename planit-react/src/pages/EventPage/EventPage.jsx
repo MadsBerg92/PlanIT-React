@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Button from "../../components/Button/Button.jsx";
 import EventCalendar from "../../components/calendar/Calendar.tsx";
 import Box from "../../components/box/Box.jsx";
 import FriendListModal from "../../components/FriendListModal/FriendListModal.jsx";
 import styles from "./EventPage.module.css";
-import Parse, { User } from "parse";
+import Parse from "parse";
+
 
 const EventPage = () => {
   const { eventId } = useParams();
@@ -16,6 +17,7 @@ const EventPage = () => {
   const [eventImage, setEventImage] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
+
 
   const fetchEventData = async () => {
     try {
@@ -56,6 +58,7 @@ const EventPage = () => {
     }
   };
 
+
   const handleToggle = async () => {
     try {
       const ParseEvents = Parse.Object.extend("Events");
@@ -93,7 +96,7 @@ const EventPage = () => {
 
   useEffect(() => {
     fetchEventData();
-  }, [eventId]);
+  }, [eventId, eventIdAsNumber]);
 
   const handleModalOpen = () => {
     setShowFriendList(true);

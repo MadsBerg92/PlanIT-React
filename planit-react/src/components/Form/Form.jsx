@@ -5,6 +5,12 @@ import style from "./Form.module.css";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Form component for user sign up and login.
+ *
+ * @component
+ * @returns {JSX.Element} Form component
+ */
 const Form = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [username, setUsername] = useState("");
@@ -13,10 +19,18 @@ const Form = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
+  /**
+   * Toggles the form between sign up and login.
+   */
   const switchForm = () => {
     setIsSignUp(!isSignUp);
     setErrorMessage(null);
   };
+
+  /**
+   * Handles the form submission.
+   * @param {Event} e - The form submission event.
+   */
 
   const handleSubmit = (e) => {
     e.preventDefault();

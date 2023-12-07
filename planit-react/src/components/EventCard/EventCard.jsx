@@ -3,9 +3,21 @@ import Nav from "react-bootstrap/Nav";
 import styles from "./EventCard.module.css";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Renders an event card component.
+ * @param {Object} props - The component props.
+ * @param {string} props.type - The type of event.
+ * @param {Object} props.eventData - The event data.
+ * @returns {JSX.Element} The rendered event card.
+ */
+
 function EventCard({ type, eventData }) {
   const navigate = useNavigate();
 
+  /**
+   * Renders the content based on the type of event.
+   * @returns {JSX.Element|null} The rendered content.
+   */
   const renderContent = () => {
     switch (type) {
       case "specific":
@@ -28,6 +40,9 @@ function EventCard({ type, eventData }) {
     }
   };
 
+  /**
+   * Handles the click event for the event card.
+   */
   const handleEventClick = () => {
     navigate(`/EventPage/${eventData.eventId}`);
   };

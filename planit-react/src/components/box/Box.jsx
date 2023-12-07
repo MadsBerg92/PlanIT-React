@@ -1,7 +1,18 @@
 import React from "react";
 import styles from "./box.module.css";
 
-function Box({ title, content = [], type, Button: Button, children }) {
+/**
+ * Renders a box component with customizable content based on the provided props.
+ *
+ * @param {Object} props - The props for the Box component.
+ * @param {string} props.title - The title of the box.
+ * @param {Array} [props.content=[]] - The content to be rendered inside the box.
+ * @param {string} props.type - The type of the box.
+ * @param {React.Component} props.Button - The button component to be rendered.
+ * @param {React.ReactNode} props.children - The children components to be rendered inside the box.
+ * @returns {React.ReactNode} The rendered Box component.
+ */
+function Box({ title, content = [], type, Button, children }) {
   const renderContent = (item, index) => {
     if (type === "second") {
       return (
@@ -28,6 +39,7 @@ function Box({ title, content = [], type, Button: Button, children }) {
       <div className={styles.box}>
         <h2>{title}</h2>
         <div>{content}</div>
+        {children}
       </div>
     );
   } else {
@@ -35,6 +47,7 @@ function Box({ title, content = [], type, Button: Button, children }) {
       <div className={styles.box}>
         <h2>{title}</h2>
         <ul>{content.map((item, index) => renderContent(item, index))}</ul>
+        {children}
       </div>
     );
   }

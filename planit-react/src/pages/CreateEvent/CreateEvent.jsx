@@ -20,7 +20,8 @@ const CreateEvent = () => {
     const ParseEvents = Parse.Object.extend("Events");
     const newEvent = new ParseEvents();
 
-    // Set minimal properties for the new event
+    // Set minimal properties for the new event (eventId is set to 0 to identify it as a temporary event)
+    // This is done in order to create a shopping list for the event before its created
     newEvent.set("title", "Temporary Title");
     newEvent.set("createdBy", Parse.User.current().id);
     newEvent.set("attendees", [Parse.User.current().id]);
@@ -40,7 +41,12 @@ const CreateEvent = () => {
     }
   }, []);
 
-  // handle form submission
+  /**
+   * Handles the form submission for creating an event.
+   *
+   * @param {Event} event - The form submission event.
+   * @returns {Promise<void>} - A promise that resolves when the event is created successfully.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -112,6 +118,11 @@ const CreateEvent = () => {
       console.error("Error creating event:", error);
     }
   };
+  /**
+   * Handles the cancellation of the event creation.
+   * Fetches the event with eventId of 0, deletes it if it exists, and navigates back to the previous page.
+   * @returns {Promise<void>}
+   */
   const handleCancel = async () => {
     // Fetch the event with eventId of 0
     const ParseEvents = Parse.Object.extend("Events");
@@ -129,7 +140,10 @@ const CreateEvent = () => {
     navigate(-1);
   };
 
-  // preview image when changing image for an event
+  /**
+   * Preview the selected image and display it in the event image preview element.
+   * @param {Event} event - The event object triggered by the file input change.
+   */
   const previewImage = (event) => {
     const preview = document.querySelector("#event-image-preview");
     const file = event.target.files[0];

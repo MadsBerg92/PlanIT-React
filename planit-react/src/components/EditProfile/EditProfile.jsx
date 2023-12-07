@@ -6,6 +6,14 @@ import { useState, useEffect } from "react";
 import Parse from "parse";
 import InputBox from "../../components/InputBox/InputBox.jsx";
 
+/**
+ * EditProfile component for editing user profile information.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @returns {JSX.Element} The EditProfile component.
+ */
+
 const EditProfile = (props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState(null);
@@ -23,7 +31,10 @@ const EditProfile = (props) => {
     return <div>Loading...</div>;
   }
 
-  //Preview image when changing profile picture
+  /**
+   * Preview the selected image file and display it in the profile picture preview element.
+   * @param {Event} event - The event object triggered by selecting an image file.
+   */
   const previewImage = (event) => {
     const preview = document.querySelector("#profile-picture-preview");
     const file = event.target.files[0];
@@ -41,6 +52,11 @@ const EditProfile = (props) => {
   };
 
   //Submit button when updating profile information
+  /**
+   * Handles the form submission for editing the user profile.
+   *
+   * @param {Event} event - The form submission event.
+   */
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -83,6 +99,7 @@ const EditProfile = (props) => {
             id="profile-picture-preview"
             className={style.profile_picture}
             src={profile.get("profilePicture").url()}
+            alt=""
           ></img>
 
           <div className={styles.editSection}>

@@ -3,6 +3,16 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Parse from "parse";
 
+/**
+ * Button component.
+ * @param {Object} props - The component props.
+ * @param {string} props.textActive - The text to display when the button is active.
+ * @param {string} props.textInactive - The text to display when the button is inactive.
+ * @param {boolean} props.isActive - Indicates whether the button is active or not.
+ * @param {function} props.onClick - The function to be called when the button is clicked.
+ * @param {string} props.type - The type of button.
+ * @returns {JSX.Element} The rendered Button component.
+ */
 function Button({ props, textActive, textInactive, isActive, onClick, type }) {
   //Setting the status
   const [userId, setUserId] = useState("");
@@ -11,6 +21,10 @@ function Button({ props, textActive, textInactive, isActive, onClick, type }) {
 
   useEffect(() => {
     // Fetch the current user's userId when the component mounts
+    /**
+     * Fetches the user ID asynchronously.
+     * @returns {Promise<void>} A promise that resolves when the user ID is fetched.
+     */
     const fetchUserId = async () => {
       try {
         const currentUser = Parse.User.current();
@@ -44,6 +58,9 @@ function Button({ props, textActive, textInactive, isActive, onClick, type }) {
       buttonClass = styles.shoppingListBtn;
       break;
     case "normal":
+      buttonClass = styles.normalButton;
+      break;
+    default:
       buttonClass = styles.normalButton;
   }
   //Define a different onclick function when you create an instance of button to change the onclick behavior!
