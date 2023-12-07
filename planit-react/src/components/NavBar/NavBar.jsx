@@ -44,12 +44,6 @@ function NavBar() {
             </Nav.Link>
             <Nav.Link
               className={styles.navlink}
-              onClick={() => navigate("/MyEvents")}
-            >
-              My Events
-            </Nav.Link>
-            <Nav.Link
-              className={styles.navlink}
               onClick={() => navigate("Friendlist")}
             >
               My Friends

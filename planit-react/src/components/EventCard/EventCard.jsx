@@ -36,10 +36,12 @@ function EventCard({ type, eventData }) {
     <Container>
       <div className={styles.mainDiv}>
         <Nav.Link onClick={handleEventClick}>
+          <div>
+            <h5 className={styles.nameText}>{eventData.eventName}</h5>
+          </div>
           <div className={styles.contentDiv}>
             <div className={styles.info}>
               <h5>{eventData.eventCreator}'s event</h5>
-              <h5>{eventData.eventName}</h5>
               <img src={eventData.image} alt="event" />
             </div>
             <div className={styles.descriptionDateContainer}>
