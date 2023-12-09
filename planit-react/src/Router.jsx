@@ -9,6 +9,7 @@ import NavBar from "./components/NavBar/NavBar.jsx";
 import FeedPage from "./pages/FeedPage/FeedPage.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import FriendListPage from "./pages/FriendList/FriendList.jsx";
+import EditEvent from "./components/EditEvent/EditEvent.jsx";
 
 const Layout = () => {
   const location = useLocation();
@@ -26,6 +27,10 @@ const Layout = () => {
         {/* <Route path="/MyEvents" element={<MyEvents />} /> */}
         <Route path="/Friendlist" element={<FriendListPage />}></Route>
         <Route path="/event-creation" element={<CreateEvent />} />
+        <Route
+          path="/edit-event/:eventId"
+          element={<EditEvent></EditEvent>}
+        ></Route>
       </Routes>
       {showFooter && <Footer />}
     </>
