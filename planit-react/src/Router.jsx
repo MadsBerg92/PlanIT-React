@@ -9,7 +9,7 @@ import NavBar from "./components/NavBar/NavBar.jsx";
 import FeedPage from "./pages/FeedPage/FeedPage.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import FriendListPage from "./pages/FriendList/FriendList.jsx";
-import EditEvent from "./components/EditEvent/EditEvent.jsx";
+import EditEventPage from "./pages/EditEventPage/EditEventPage.jsx";
 
 const Layout = () => {
   const location = useLocation();
@@ -29,7 +29,7 @@ const Layout = () => {
         <Route path="/event-creation" element={<CreateEvent />} />
         <Route
           path="/edit-event/:eventId"
-          element={<EditEvent></EditEvent>}
+          element={<EditEventPage></EditEventPage>}
         ></Route>
       </Routes>
       {showFooter && <Footer />}
