@@ -7,7 +7,6 @@ import FriendListModal from "../../components/FriendListModal/FriendListModal.js
 import styles from "./EventPage.module.css";
 import Parse from "parse";
 
-
 const EventPage = () => {
   const { eventId } = useParams();
   const eventIdAsNumber = parseInt(eventId, 10);
@@ -17,7 +16,6 @@ const EventPage = () => {
   const [eventImage, setEventImage] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
-
 
   const fetchEventData = async () => {
     try {
@@ -57,7 +55,6 @@ const EventPage = () => {
       console.error("Error fetching event data:", error);
     }
   };
-
 
   const handleToggle = async () => {
     try {

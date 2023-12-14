@@ -23,8 +23,7 @@ const Layout = () => {
         <Route path="/Home" element={<FeedPage />} />
         <Route path="/Eventpage/:eventId" element={<EventPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        {/* <Route path="/MyEvents" element={<MyEvents />} /> */}
-        <Route path="/Friendlist" element={<FriendListPage />}></Route>
+        <Route path="/Friendlist" element={<FriendListPage />} />
         <Route path="/event-creation" element={<CreateEvent />} />
       </Routes>
       {showFooter && <Footer />}
