@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import styles from "./NavBar.module.css";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 /**
  * Renders the navigation bar component.
@@ -14,9 +14,10 @@ import { useNavigate } from "react-router-dom";
 
 function NavBar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
-    <Navbar className={styles.bar} data-bs-theme="dark">
+    <Navbar bg="light" className={`sticky-top ${styles.bar}`}>
       <Container>
         <Nav.Link>
           <Navbar.Brand
