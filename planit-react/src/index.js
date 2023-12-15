@@ -12,6 +12,7 @@ const PARSE_JAVASCRIPT_KEY = "vNDpn9RfEHerJ7prekfEV6V1ilw5XBFbP9PpTUpr";
 const PARSE_HOST_URL = "https://parseapi.back4app.com/";
 Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
 Parse.serverURL = PARSE_HOST_URL;
+Parse.liveQueryServerURL = "wss://planit.back4app.io";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

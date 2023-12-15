@@ -12,62 +12,131 @@ const Feed = () => {
   const [sortOrder, setSortOrder] = useState("latest"); // Options: 'latest', 'oldest'
   const [filterType, setFilterType] = useState("all"); // Options: 'attending', 'notAttending', 'all'
   const [dateFilter, setDateFilter] = useState("all"); // Options: 'past', 'upcoming', 'all'
+  const [subscription, setSubscription] = useState(null);
   const currentUser = Parse.User.current();
 
-  const fetchEvents = async (activeBtn, sortOrd, filterTyp, dateFilt) => {
-    try {
-      const currentUser = Parse.User.current();
-      const userEventIds = currentUser.get("eventId");
+  const fetchAndSubscribeEvents = async (
+    activeBtn,
+    sortOrd,
+    filterTyp,
+    dateFilt
+  ) => {
+    const ParseEvents = Parse.Object.extend("Events");
+    const query = new Parse.Query(ParseEvents);
+    const currentUser = Parse.User.current();
+    const userEventIds = currentUser.get("eventId");
 
-      if (userEventIds && userEventIds.length > 0) {
-        const ParseEvents = Parse.Object.extend("Events");
-        const query = new Parse.Query(ParseEvents);
-        query.notEqualTo("title", "Temporary Title");
+    if (userEventIds && userEventIds.length > 0) {
+      query.notEqualTo("title", "Temporary Title");
 
-        if (activeBtn === "all") {
-          query.containedIn("objectId", userEventIds);
-        } else if (activeBtn === "my") {
-          query.equalTo("createdBy", currentUser.id);
-        }
-
-        query.select(
-          "eventId",
-          "creatorName",
-          "title",
-          "eventDescription",
-          "eventDate",
-          "image",
-          "RSVP",
-          "attendees"
-        );
-        const results = await query.find();
-
-        const eventsFromParse = results.map((result) => ({
-          type: "specific",
-          eventData: {
-            eventId: result.get("eventId"),
-            eventCreator: result.get("creatorName"),
-            eventName: result.get("title"),
-            eventDescription: result.get("eventDescription"),
-            eventDate: renderValue(result.get("eventDate")),
-            eventCompareDate: result.get("eventDate"),
-            image: result.get("image").url(),
-            eventRSVP: result.get("RSVP"),
-            attendees: result.get("attendees"),
-          },
-        }));
-
-        const sortedAndFilteredEvents = applySortingAndFiltering(
-          eventsFromParse,
-          sortOrd,
-          filterTyp,
-          dateFilt
-        );
-        setEvents(sortedAndFilteredEvents);
+      if (activeBtn === "all") {
+        query.containedIn("objectId", userEventIds);
+      } else if (activeBtn === "my") {
+        query.equalTo("createdBy", currentUser.id);
       }
-    } catch (error) {
-      console.error("Error fetching events:", error);
+
+      query.select(
+        "eventId",
+        "creatorName",
+        "title",
+        "eventDescription",
+        "eventDate",
+        "image",
+        "RSVP",
+        "attendees"
+      );
+
+      try {
+        // Subscribe to the query for live updates
+        const liveQuerySubscription = await query.subscribe();
+        setSubscription(liveQuerySubscription);
+
+        // Handle new event creation
+        liveQuerySubscription.on("create", (newEvent) => {
+          const newFormattedEvent = formatEventFromParse(newEvent);
+          setEvents((currentEvents) => {
+            if (
+              !currentEvents.some(
+                (event) =>
+                  event.eventData.eventId ===
+                  newFormattedEvent.eventData.eventId
+              )
+            ) {
+              // Apply sorting and filtering logic if needed, then update state
+              const updatedEvents = [...currentEvents, newFormattedEvent];
+              return applySortingAndFiltering(
+                updatedEvents,
+                sortOrd,
+                filterTyp,
+                dateFilt
+              );
+            }
+            return currentEvents; // If event already exists, return current state
+          });
+        });
+
+        // Fetch initial set of events
+        const initialResults = await query.find();
+        const initialFormattedEvents = initialResults.map(formatEventFromParse);
+        setEvents(
+          applySortingAndFiltering(
+            initialFormattedEvents,
+            sortOrd,
+            filterTyp,
+            dateFilt
+          )
+        );
+      } catch (error) {
+        console.error("Error setting up live query:", error);
+      }
     }
+  };
+  //       const results = await query.find();
+
+  //       const eventsFromParse = results.map((result) =>
+  //         formatEventFromParse(result)
+  //       );
+  //       const sortedAndFilteredEvents = applySortingAndFiltering(
+  //         eventsFromParse,
+  //         sortOrd,
+  //         filterTyp,
+  //         dateFilt
+  //       );
+  //       setEvents(sortedAndFilteredEvents);
+
+  //       // Subscribe to the query for live updates
+  //       const subscription = await query.subscribe();
+  //       setSubscription(subscription);
+
+  //       // Handle new event creation
+  //       subscription.on("create", (newEvent) => {
+  //         setEvents((currentEvents) => [
+  //           ...currentEvents,
+  //           formatEventFromParse(newEvent),
+  //         ]);
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching events:", error);
+  //   }
+  // };
+
+  // Function to convert a Parse Event object to your state event format
+  const formatEventFromParse = (parseEvent) => {
+    return {
+      type: "specific",
+      eventData: {
+        eventId: parseEvent.get("eventId"),
+        eventCreator: parseEvent.get("creatorName"),
+        eventName: parseEvent.get("title"),
+        eventDescription: parseEvent.get("eventDescription"),
+        eventDate: renderValue(parseEvent.get("eventDate")),
+        eventCompareDate: parseEvent.get("eventDate"),
+        image: parseEvent.get("image").url(),
+        eventRSVP: parseEvent.get("RSVP"),
+        attendees: parseEvent.get("attendees"),
+      },
+    };
   };
 
   const applySortingAndFiltering = (events, sortOrd, filterTyp, dateFilt) => {
@@ -112,7 +181,13 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    fetchEvents(activeButton, sortOrder, filterType, dateFilter);
+    fetchAndSubscribeEvents(activeButton, sortOrder, filterType, dateFilter);
+    return () => {
+      // Cleanup: Unsubscribe from Live Query on component unmount or dependency change
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    };
   }, [activeButton, sortOrder, filterType, dateFilter]);
 
   const handleButtonClick = (toggleButton) => {
