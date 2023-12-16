@@ -60,6 +60,9 @@ function Button({ props, textActive, textInactive, isActive, onClick, type }) {
     case "normal":
       buttonClass = styles.normalButton;
       break;
+    case "filter":
+      buttonClass = styles.filterButton;
+      break;
     default:
       buttonClass = styles.normalButton;
   }

@@ -10,8 +10,10 @@ const Feed = () => {
   const [events, setEvents] = useState([]);
   const [activeButton, setActiveButton] = useState("all"); // Button "all" is active by default
   const [sortOrder, setSortOrder] = useState("latest"); // Options: 'latest', 'oldest'
-  const [filterType, setFilterType] = useState("all"); // Options: 'attending', 'notAttending', 'all'
+  const [attendingFilter, setAttendingFilter] = useState("all"); // Options: 'attending', 'notAttending', 'all'
   const [dateFilter, setDateFilter] = useState("all"); // Options: 'past', 'upcoming', 'all'
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const currentUser = Parse.User.current();
 
   const fetchEvents = async (activeBtn, sortOrd, filterTyp, dateFilt) => {
@@ -73,9 +75,9 @@ const Feed = () => {
   const applySortingAndFiltering = (events, sortOrd, filterTyp, dateFilt) => {
     let filteredEvents = events.filter((event) => {
       const attendees = event.eventData.attendees || [];
-      if (filterType === "attending") {
+      if (attendingFilter === "attending") {
         return attendees.includes(currentUser.id);
-      } else if (filterType === "notAttending") {
+      } else if (attendingFilter === "notAttending") {
         return !attendees.includes(currentUser.id);
       }
       //"True" is equal to all events
@@ -112,8 +114,8 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    fetchEvents(activeButton, sortOrder, filterType, dateFilter);
-  }, [activeButton, sortOrder, filterType, dateFilter]);
+    fetchEvents(activeButton, sortOrder, attendingFilter, dateFilter);
+  }, [activeButton, sortOrder, attendingFilter, dateFilter]);
 
   const handleButtonClick = (toggleButton) => {
     setActiveButton(toggleButton);
@@ -127,37 +129,102 @@ const Feed = () => {
     navigate(`/Eventpage/${eventId}`);
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div>
-      <select onChange={(e) => setSortOrder(e.target.value)}>
-        <option value="latest">Latest</option>
-        <option value="oldest">Oldest</option>
-      </select>
-      <select onChange={(e) => setFilterType(e.target.value)}>
-        <option value="all">All Events</option>
-        <option value="attending">Attending</option>
-        <option value="notAttending">Not Attending</option>
-      </select>
-      <select onChange={(e) => setDateFilter(e.target.value)}>
-        <option value="all">All Dates</option>
-        <option value="upcoming">Upcoming Events</option>
-        <option value="past">Past Events</option>
-      </select>
-      <div className={styles.myEventsButton}>
-        <Button
-          type="normal"
-          textActive="All events"
-          textInactive="All events"
-          isActive={activeButton === "all"} // Pass isActive as a prop
-          onClick={() => handleButtonClick("all")}
-        />
-        <Button
-          type="normal"
-          textActive="My events"
-          textInactive="My events"
-          isActive={activeButton === "my"} // Pass isActive as a prop
-          onClick={() => handleButtonClick("my")}
-        />
+      <button onClick={toggleSidebar} className={styles.sidebarToggle}>
+        <span className="material-icons">
+          {isSidebarOpen ? "" : "settings"}
+        </span>
+      </button>
+
+      <div className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ""}`}>
+        <button onClick={toggleSidebar} className={styles.closeSidebarButton}>
+          <span className="material-icons">
+            {!isSidebarOpen ? "" : "close"}
+          </span>
+        </button>
+        <div className={`${styles.myEventsButton} ${styles.twoButtonsRow}`}>
+          <Button
+            type="filter"
+            textActive="All events"
+            textInactive="All events"
+            isActive={activeButton === "all"}
+            onClick={() => handleButtonClick("all")}
+          />
+          <Button
+            type="filter"
+            textActive="My events"
+            textInactive="My events"
+            isActive={activeButton === "my"}
+            onClick={() => handleButtonClick("my")}
+          />
+        </div>
+        <div className={`${styles.myEventsButton} ${styles.twoButtonsRow}`}>
+          <Button
+            type="filter"
+            textActive="Newest"
+            textInactive="Newest"
+            isActive={sortOrder === "latest"}
+            onClick={() => setSortOrder("latest")}
+          />
+          <Button
+            type="filter"
+            textActive="Oldest"
+            textInactive="Oldest"
+            isActive={sortOrder === "oldest"}
+            onClick={() => setSortOrder("oldest")}
+          />
+        </div>
+        <div className={styles.myEventsButton}>
+          <Button
+            type="filter"
+            textActive="All"
+            textInactive="All"
+            isActive={attendingFilter === "all"}
+            onClick={() => setAttendingFilter("all")}
+          />
+          <Button
+            type="filter"
+            textActive="Attending"
+            textInactive="Attending"
+            isActive={attendingFilter === "attending"}
+            onClick={() => setAttendingFilter("attending")}
+          />
+          <Button
+            type="filter"
+            textActive="Not Attending"
+            textInactive="Not Attending"
+            isActive={attendingFilter === "notAttending"}
+            onClick={() => setAttendingFilter("notAttending")}
+          />
+        </div>
+        <div className={styles.myEventsButton}>
+          <Button
+            type="filter"
+            textActive="All"
+            textInactive="All"
+            isActive={dateFilter === "all"}
+            onClick={() => setDateFilter("all")}
+          />
+          <Button
+            type="filter"
+            textActive="Upcoming"
+            textInactive="Upcoming"
+            isActive={dateFilter === "upcoming"}
+            onClick={() => setDateFilter("upcoming")}
+          />
+          <Button
+            type="filter"
+            textActive="Past"
+            textInactive="Past"
+            isActive={dateFilter === "past"}
+            onClick={() => setDateFilter("past")}
+          />
+        </div>
       </div>
       {events.map((event, index) => (
         <EventCard

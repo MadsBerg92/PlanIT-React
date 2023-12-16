@@ -102,3 +102,35 @@
   border: solid thin rgb(1, 1, 65);
   margin-top: 19px;
 }
+
+.filterButton {
+  border: none;
+  border-radius: 50px; /* Use a high value to create a circular shape */
+  background-color: #d3e4cd;
+  color: #000000;
+  font-weight: bold;
+  cursor: pointer;
+  /* Adjust width for three buttons */
+  width: calc(
+    (350px - 50px) / 3
+  ); /* Reduce the total margin to create more space */
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis if text is too long */
+  padding: 10px 15px; /* Reduced horizontal padding */
+  font-size: 10px; /* Smaller font size */
+}
+
+.filterButton:hover {
+  border: solid thin;
+  padding: 9px 20px;
+}
+
+.active {
+  background-color: #a0c686; /* Change the background color to green when active */
+}
+
+.active:hover {
+  border: none;
+  padding: 10px 20px;
+}
