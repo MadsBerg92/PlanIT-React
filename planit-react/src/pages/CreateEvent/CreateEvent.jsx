@@ -167,7 +167,7 @@ const CreateEvent = () => {
           <img
             id="event-image-preview"
             className={styles.eventImagePreview}
-            src="/images/event-photography.jpg"
+            src="/Images/event-photography.jpg"
             alt="Preview"
           />
           <InputBox

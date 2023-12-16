@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { React } from "react";
 import styles from "../../components/InputBox/InputBox.module.css";
 import { useParams, useNavigate } from "react-router";
+import { Modal } from "react-bootstrap";
 
 const EditEventPage = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const EditEventPage = () => {
   const [eventLocation, setEventLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventImage, setEventImage] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     const fetchEventData = async () => {
@@ -111,6 +113,26 @@ const EditEventPage = () => {
       preview.src = "";
     }
   };
+  const handleDelete = async () => {
+    try {
+      const ParseEvents = Parse.Object.extend("Events");
+      const query = new Parse.Query(ParseEvents);
+      query.equalTo("eventId", parseInt(eventId));
+      const result = await query.first();
+
+      if (result) {
+        await result.destroy();
+        console.log("Event deleted successfully");
+        navigate("/Home");
+      } else {
+        console.error(`No event found with eventId: ${eventId}`);
+      }
+    } catch (error) {
+      console.error("Error deleting event:", error);
+    }
+  };
+  const openDeleteModal = () => setShowDeleteModal(true);
+  const closeDeleteModal = () => setShowDeleteModal(false);
 
   return (
     <>
@@ -179,7 +201,7 @@ const EditEventPage = () => {
           />
           <Button
             textInactive="Update Event"
-            textActive="Create Event"
+            textActive="Update Event"
             type="create"
             onClick={handleSubmit}
           />
@@ -189,6 +211,35 @@ const EditEventPage = () => {
             type="create"
             onClick={handleCancel}
           />
+          <Button
+            textInactive="Delete Event"
+            textActive="Delete Event"
+            type="delete"
+            onClick={openDeleteModal}
+          >
+            Delete Event
+          </Button>
+
+          <Modal show={showDeleteModal} onHide={closeDeleteModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm Delete</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to delete your event?</Modal.Body>
+            <Modal.Footer>
+              <Button
+                textInactive="Cancel"
+                textActive="Cancel"
+                type="create"
+                onClick={closeDeleteModal}
+              ></Button>
+              <Button
+                textInactive="Delete Event"
+                textActive="Delete Event"
+                type="delete"
+                onClick={handleDelete}
+              ></Button>
+            </Modal.Footer>
+          </Modal>
         </form>
       </div>
 
