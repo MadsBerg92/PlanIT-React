@@ -21,9 +21,16 @@
   display: flex;
 }
 
+.info {
+  width: 250px;
+}
+
 .info img {
-  width: 200px;
-  margin-right: 40px;
+  max-width: 90%;
+  min-width: 70%;
+  object-fit: cover;
+  justify-content: center;
+  align-content: center;
 }
 
 .descriptionDateContainer {
@@ -43,4 +50,11 @@
 .date {
   margin-left: 20px;
   width: 200px;
+}
+
+.photos img {
+  width: 15%;
+  aspect-ratio: 3/2;
+  object-fit: containt;
+  mix-blend-mode: color-burn;
 }
