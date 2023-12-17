@@ -56,8 +56,14 @@ export const ShoppingListProvider = ({ children }) => {
   const saveShoppingList = async (list, eventId) => {
     const Events = Parse.Object.extend("Events");
     const query = new Parse.Query(Events);
+    query.equalTo("eventId", parseInt(eventId)); // Use query.equalTo instead of query.get
     try {
-      const event = await query.get(eventId);
+      const results = await query.find(); // Use query.find to get the results
+      if (results.length === 0) {
+        console.error(`No event found with id ${eventId}`);
+        return;
+      }
+      const event = results[0]; // Get the first result
       event.set("shoppingList", list);
       await event.save();
       fetchShoppingList(); // Refresh the list

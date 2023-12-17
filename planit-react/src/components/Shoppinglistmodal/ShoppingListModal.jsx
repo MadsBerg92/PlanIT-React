@@ -63,7 +63,9 @@ function ShoppingListModal({ eventId, isEditEvent }) {
   };
 
   //Opens the shopping list modal
-  const handleOpenModal = () => {
+  const handleOpenModal = (event) => {
+    event.preventDefault();
+    console.log("Opening modal");
     setShowModal(true);
   };
 
@@ -115,15 +117,11 @@ function ShoppingListModal({ eventId, isEditEvent }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     saveShoppingList(inputs, eventId); // Save the shopping list to the database
+    setShowModal(false); // Close the modal
   };
 
   //useEffect for closing the modal when the shopping list is updated
 
-  useEffect(() => {
-    if (showModal) {
-      setShowModal(false);
-    }
-  }, [shoppingList]);
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -132,7 +130,6 @@ function ShoppingListModal({ eventId, isEditEvent }) {
           textInactive="Shopping List"
           onClick={handleOpenModal}
         ></Button>
-
         {showModal && (
           <div
             className={`modal fade show ${styles.modal}`}

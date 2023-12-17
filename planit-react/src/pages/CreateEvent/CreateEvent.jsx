@@ -222,16 +222,15 @@ const CreateEvent = () => {
             type="create"
             onClick={handleSubmit}
           />
+          {<ShoppingListModal eventId={eventId} />}
           <Button
             textInactive="Cancel"
             textActive="Cancel"
-            type="create"
+            type="cancel"
             onClick={handleCancel}
           />
         </form>
       </div>
-
-      {<ShoppingListModal eventId={eventId} />}
     </>
   );
 };

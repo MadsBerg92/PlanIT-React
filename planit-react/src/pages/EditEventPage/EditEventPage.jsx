@@ -205,12 +205,7 @@ const EditEventPage = () => {
             type="create"
             onClick={handleSubmit}
           />
-          <Button
-            textInactive="Cancel"
-            textActive="Cancel"
-            type="create"
-            onClick={handleCancel}
-          />
+
           <Button
             textInactive="Delete Event"
             textActive="Delete Event"
@@ -219,7 +214,12 @@ const EditEventPage = () => {
           >
             Delete Event
           </Button>
-
+          <Button
+            textInactive="Cancel"
+            textActive="Cancel"
+            type="cancel"
+            onClick={handleCancel}
+          />
           <Modal show={showDeleteModal} onHide={closeDeleteModal}>
             <Modal.Header closeButton>
               <Modal.Title>Confirm Delete</Modal.Title>
@@ -229,7 +229,7 @@ const EditEventPage = () => {
               <Button
                 textInactive="Cancel"
                 textActive="Cancel"
-                type="create"
+                type="cancel"
                 onClick={closeDeleteModal}
               ></Button>
               <Button
@@ -242,7 +242,6 @@ const EditEventPage = () => {
           </Modal>
         </form>
       </div>
-
       {<ShoppingListModal eventId={eventId} isEditEvent={true} />}
     </>
   );

@@ -13,7 +13,7 @@ import Parse from "parse";
  * @param {string} props.type - The type of button.
  * @returns {JSX.Element} The rendered Button component.
  */
-function Button({ props, textActive, textInactive, isActive, onClick, type }) {
+function Button({ textActive, textInactive, isActive, onClick, type }) {
   //Setting the status
   const [userId, setUserId] = useState("");
 
@@ -62,6 +62,9 @@ function Button({ props, textActive, textInactive, isActive, onClick, type }) {
       break;
     case "delete":
       buttonClass = styles.deleteButton;
+      break;
+    case "cancel":
+      buttonClass = styles.cancelButton;
       break;
     default:
       buttonClass = styles.normalButton;
