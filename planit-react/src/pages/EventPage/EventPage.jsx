@@ -7,7 +7,6 @@ import FriendListModal from "../../components/FriendListModal/FriendListModal.js
 import styles from "./EventPage.module.css";
 import Parse from "parse";
 
-
 const EventPage = () => {
   const { eventId } = useParams();
   const eventIdAsNumber = parseInt(eventId, 10);
@@ -17,7 +16,7 @@ const EventPage = () => {
   const [eventImage, setEventImage] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
-
+  const [attendeeCount, setAttendeeCount] = useState(0);
 
   const fetchEventData = async () => {
     try {
@@ -53,11 +52,11 @@ const EventPage = () => {
       setEventImage(eventImage);
       setDescription(result.get("eventDescription"));
       setShoppingList(result.get("shoppingList"));
+      setAttendeeCount(attendees.length);
     } catch (error) {
       console.error("Error fetching event data:", error);
     }
   };
-
 
   const handleToggle = async () => {
     try {
@@ -75,20 +74,26 @@ const EventPage = () => {
       // Fetch the attendees array
       const attendees = event.get("attendees") || [];
 
+      let newAttendeeCount = attendeeCount;
+
       if (!isActive && !attendees.includes(userId)) {
         attendees.push(userId); // Add the userId to the attendees array
         setIsActive(true);
+        newAttendeeCount += 1;
       } else {
         const index = attendees.indexOf(userId);
         if (index > -1) {
           attendees.splice(index, 1); // Remove the userId from the attendees array
+          setIsActive(false);
+          newAttendeeCount -= 1;
         }
-        setIsActive(false);
       }
 
       event.set("attendees", attendees); // Update the attendees array
 
       await event.save(); // Save the updated event
+
+      setAttendeeCount(newAttendeeCount); // Update the attendee count
     } catch (error) {
       console.error("Error updating event status:", error);
     }
@@ -106,24 +111,41 @@ const EventPage = () => {
     setShowFriendList(false);
   };
 
+  const handleIconClick = () => {
+    // Placeholder for future functionality
+    console.log("Icon clicked!");
+  };
+
   return (
     <div>
       <div className={styles.centered}>
         <img className={styles.image} src={eventImage} alt="logo"></img>
       </div>
       <div className={styles.centered}>
-        <Button
-          textActive={"Attending"}
-          textInactive={"Not Attending"}
-          isActive={isActive}
-          onClick={handleToggle}
-          type={"normal"}
-        />
-        <Button
-          textInactive={"Invite Friends"}
-          type={"special"}
-          onClick={handleModalOpen}
-        ></Button>
+        <div className={styles.actionItems}>
+          <Button
+            textActive={"Attending"}
+            textInactive={"Not Attending"}
+            isActive={isActive}
+            onClick={handleToggle}
+            type={"normal"}
+          />
+          <Button
+            textInactive={"Invite Friends"}
+            type={"special"}
+            onClick={handleModalOpen}
+          />
+          <div className={styles.attendeeInfo} onClick={handleIconClick}>
+            <span className="material-icons" style={{ cursor: "pointer" }}>
+              group
+            </span>
+            <span style={{ cursor: "pointer", marginLeft: "5px" }}>
+              {attendeeCount === 1
+                ? "1 person is attending"
+                : `${attendeeCount} people are attending`}
+            </span>
+          </div>
+        </div>
       </div>
       <div className={styles.boxContainer}>
         <Box title="Event Details" content={eventData} type="second"></Box>
