@@ -21,6 +21,7 @@ const EditEventPage = () => {
   const [eventDescription, setEventDescription] = useState("");
   const [eventImage, setEventImage] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [allowFriendsToInvite, setAllowFriendsToInvite] = useState(false);
 
   useEffect(() => {
     const fetchEventData = async () => {
@@ -46,6 +47,7 @@ const EditEventPage = () => {
         setEventDescription(result.get("eventDescription"));
         const imageUrl = result.get("image") ? result.get("image").url() : "";
         setEventImage(imageUrl);
+        setAllowFriendsToInvite(result.get("allowFriendsToInvite") || false);
       } else {
         console.error(`No event found with eventId: ${eventId}`);
       }
@@ -76,6 +78,7 @@ const EditEventPage = () => {
       existingEvent.set("eventDate", new Date(`${eventDate}T${eventTime}:00`)); // Combine date and time
       existingEvent.set("eventLocation", eventLocation);
       existingEvent.set("eventDescription", eventDescription);
+      existingEvent.set("allowFriendsToInvite", allowFriendsToInvite);
       if (eventImage) {
         existingEvent.set(
           "image",
@@ -143,6 +146,14 @@ const EditEventPage = () => {
             className={styles.eventImagePreview}
             src={eventImage}
             alt="Preview"
+          />
+          <InputBox
+            label="Allow friends to invite others"
+            type="checkbox"
+            id="allow-friends-invite"
+            name="allow-friends-invite"
+            checked={allowFriendsToInvite}
+            onChange={(e) => setAllowFriendsToInvite(e.target.checked)}
           />
           <InputBox
             label="Event Name"
