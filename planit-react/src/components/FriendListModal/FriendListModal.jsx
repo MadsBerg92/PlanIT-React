@@ -3,6 +3,10 @@ import Modal from "react-bootstrap/Modal";
 import Button from "../Button/Button";
 import Parse from "parse";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 /**
  * FriendListModal component displays a modal for inviting friends to an event.
@@ -17,6 +21,7 @@ const FriendListModal = ({ show, onClose }) => {
   const [userFriendList, setUserFriendList] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [attendeeNames, setAttendeeNames] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (show) {
@@ -52,6 +57,19 @@ const FriendListModal = ({ show, onClose }) => {
     } catch (error) {
       console.error("Error fetching friend list:", error);
     }
+  };
+
+  const handleFindMoreFriendsClick = () => {
+    navigate("/Friendlist");
+  };
+
+  const handleCopyLinkClick = () => {
+    const eventLink = `${window.location.origin}/event/${eventId}`;
+    navigator.clipboard.writeText(eventLink);
+    toast.success("Link copied!", {
+      position: toast.POSITION.BOTTOM_CENTER,
+      autoClose: false,
+    });
   };
 
   /**
@@ -148,7 +166,13 @@ const FriendListModal = ({ show, onClose }) => {
 
   const renderFriends = () => {
     if (!Array.isArray(userFriendList) || userFriendList.length === 0) {
-      return <p>No friends available to invite.</p>;
+      return (
+        <p>
+          It seems you haven't added any friends yet. Start by adding friends to
+          your list, so you can invite them to your events. Click 'Find More
+          Friends' to begin.
+        </p>
+      );
     }
 
     return userFriendList.map((friend, index) => (
@@ -177,11 +201,22 @@ const FriendListModal = ({ show, onClose }) => {
       </Modal.Header>
       <Modal.Body>
         <div>{renderFriends()}</div>
+        <ToastContainer />
       </Modal.Body>
       <Modal.Footer>
         <Button
-          textInactive={"Add Friends"}
-          type={"special"}
+          textInactive={"Invite with Link"}
+          type={"shoppingList"}
+          onClick={handleCopyLinkClick}
+        ></Button>
+        <Button
+          textInactive={"Find More Friends"}
+          type={"shoppingList"}
+          onClick={handleFindMoreFriendsClick}
+        ></Button>
+        <Button
+          textInactive={"Invite Friends"}
+          type={"shoppingList"}
           onClick={handleAddClick}
         ></Button>
       </Modal.Footer>
