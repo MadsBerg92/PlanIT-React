@@ -167,7 +167,7 @@ const CreateEvent = () => {
           <img
             id="event-image-preview"
             className={styles.eventImagePreview}
-            src="/images/event-photography.jpg"
+            src="/Images/event-photography.jpg"
             alt="Preview"
           />
           <InputBox
@@ -222,16 +222,15 @@ const CreateEvent = () => {
             type="create"
             onClick={handleSubmit}
           />
+          {<ShoppingListModal eventId={eventId} />}
           <Button
             textInactive="Cancel"
             textActive="Cancel"
-            type="create"
+            type="cancel"
             onClick={handleCancel}
           />
         </form>
       </div>
-
-      {<ShoppingListModal eventId={eventId} />}
     </>
   );
 };
