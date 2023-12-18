@@ -11,13 +11,14 @@
 .sidebar {
   position: fixed;
   left: -200px;
-  top: 61px;
+  top: 76px;
   width: 200px;
   height: 100%;
-  background-color: #f1f1f1;
+  background-color: #f8f9fa;
   transition: left 0.3s;
   padding: 20px;
   z-index: 100;
+  /* border-style: ridge; */
 }
 
 .sidebar.open {
@@ -30,7 +31,7 @@
   right: 10px;
   z-index: 101;
   padding: 5px 10px;
-  background-color: #f1f1f1;
+  background-color: #f8f9fa;
   color: rgb(97, 97, 97);
   border: none;
   cursor: pointer;
@@ -39,8 +40,8 @@
 
 .sidebarToggle {
   position: absolute;
-  left: 10px;
-  top: 70px;
+  left: 30px;
+  top: 90px;
   background-color: #ffffff;
   color: rgb(97, 97, 97);
   border: none;
