@@ -81,7 +81,5 @@
 }
 
 .active {
-  /* Add styles for the active state if needed */
   font-weight: bold;
-  /* Additional styles as needed */
 }
