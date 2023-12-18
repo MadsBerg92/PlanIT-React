@@ -42,6 +42,9 @@ function EventCalendar() {
         await eventObject.save();
 
         console.log("Suggested dates updated successfully");
+
+        //Sets the value back to new Date
+        onChange(new Date());
       } else {
         console.error("Event not found");
         // Handle the case where the event is not found
@@ -58,7 +61,7 @@ function EventCalendar() {
 
       <div>
         <Button
-          textActive={"submit dates"}
+          textActive={"Submit Date"}
           textInactive={""}
           isActive={true}
           onClick={HandleCalendarSubmit}
