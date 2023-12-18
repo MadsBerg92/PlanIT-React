@@ -11,9 +11,6 @@ import { ToastContainer } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
 
-/**
- * FriendList component displays the list of friends and allows searching and adding new friends.
- */
 const FriendList = () => {
   const [friends, setFriends] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -28,7 +25,7 @@ const FriendList = () => {
 
     currentUser.fetch().then((user) => {
       const friendList = user.get("friendList");
-      console.log("FriendList:", friendList); // Log the friendList to the console
+      console.log("FriendList:", friendList);
 
       const query = new Parse.Query(User);
       query.containedIn("objectId", friendList);
@@ -36,7 +33,7 @@ const FriendList = () => {
       query
         .find()
         .then((results) => {
-          console.log("Query results:", results); // Log the results of the query to the console
+          console.log("Query results:", results);
           setFriends(results);
         })
         .catch((error) => {
@@ -53,9 +50,7 @@ const FriendList = () => {
 
   const openSearchModal = () => setShowSearchModal(true);
   const closeSearchModal = () => setShowSearchModal(false);
-  /**
-   * Handles the search for friends based on the search input.
-   */
+
   const handleSearch = () => {
     const User = Parse.Object.extend("User");
     const query = new Parse.Query(User);
@@ -111,18 +106,14 @@ const FriendList = () => {
 
       await currentUser.fetch();
 
-      // Fetch the friendList array
       let friendList = currentUser.get("friendList") || [];
 
-      // Filter out the objectId
       friendList = friendList.filter((id) => id !== objectId);
 
-      // Update the friendList field
       currentUser.set("friendList", friendList);
 
       await currentUser.save();
 
-      // Update the friends state
       setFriends(friends.filter((friend) => friend.id !== objectId));
 
       closeDeleteFriendModal();
@@ -139,7 +130,6 @@ const FriendList = () => {
     <>
       <div className={styles.friendlistpage}>
         <Box
-          className={styles.Box}
           title="Friend List"
           type="second"
           content={friends.map((friend) => ({
@@ -165,7 +155,7 @@ const FriendList = () => {
             />
           )}
         />
-        <ToastContainer></ToastContainer>
+        <ToastContainer />
 
         <Modal show={showSearchModal} onHide={closeSearchModal}>
           <Modal.Header closeButton>
@@ -219,7 +209,6 @@ const FriendList = () => {
               type="cancel"
               onClick={closeDeleteFriendModal}
             ></Button>
-
             <Button
               textInactive="Delete Friend"
               textActive="Delete Friend"

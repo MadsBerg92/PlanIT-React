@@ -1,14 +1,11 @@
 .friendlistpage {
   display: flex;
-
-  justify-content: center; /* Distribute the boxes evenly */
+  justify-content: center;
   padding: 20px;
-  gap: 20px; /* Add some space between the boxes */
-  flex-wrap: wrap; /* Allow the boxes to wrap to a new line on smaller screens */
+  gap: 20px;
+  flex-wrap: wrap;
 }
-.Box {
-  background-color: black;
-}
+
 .flexContainer {
   display: flex;
   justify-content: space-between;
@@ -16,6 +13,7 @@
   font-weight: bold;
   margin-top: 4%;
 }
+
 .friendItem {
   display: flex;
   justify-content: space-between;
@@ -25,7 +23,15 @@
   width: 100%;
   margin-bottom: 10px;
 }
+
 .boldText {
   padding-top: 4px;
   font-weight: bold;
+}
+
+.noFriendsMessage {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
 }
