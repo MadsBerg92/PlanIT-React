@@ -4,10 +4,10 @@ import Button from "../../components/Button/Button.jsx";
 import EventCalendar from "../../components/calendar/Calendar.tsx";
 import Box from "../../components/box/Box.jsx";
 import FriendListModal from "../../components/FriendListModal/FriendListModal.jsx";
+import AttendeeListModal from "../../components/AttendeeListModal/AttendeeListModal.jsx";
 import styles from "./EventPage.module.css";
 import Parse from "parse";
 import { useLocation } from "react-router-dom";
-
 
 const EventPage = () => {
   const { eventId } = useParams();
@@ -18,6 +18,8 @@ const EventPage = () => {
   const [eventImage, setEventImage] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
+  const [attendeeCount, setAttendeeCount] = useState(0);
+  const [showAttendeesList, setShowAteendeesList] = useState(false);
   const [allowFriendsToInvite, setAllowFriendsToInvite] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [eventCreatorId, setEventCreatorId] = useState(null);
@@ -66,6 +68,7 @@ const EventPage = () => {
       setEventImage(eventImage);
       setDescription(result.get("eventDescription"));
       setShoppingList(result.get("shoppingList"));
+      setAttendeeCount(attendees.length);
     } catch (error) {
       console.error("Error fetching event data:", error);
     }
@@ -87,6 +90,8 @@ const EventPage = () => {
       // Fetch the attendees array
       const attendees = event.get("attendees") || [];
 
+      let newAttendeeCount = attendeeCount;
+
       if (!isActive && !attendees.includes(userId)) {
         attendees.push(userId); // Add the userId to the attendees array
         setIsActive(true);
@@ -94,13 +99,15 @@ const EventPage = () => {
         const index = attendees.indexOf(userId);
         if (index > -1) {
           attendees.splice(index, 1); // Remove the userId from the attendees array
+          setIsActive(false);
         }
-        setIsActive(false);
       }
 
       event.set("attendees", attendees); // Update the attendees array
 
       await event.save(); // Save the updated event
+
+      setAttendeeCount(attendees.length); // Update the attendee count
     } catch (error) {
       console.error("Error updating event status:", error);
     }
@@ -119,12 +126,20 @@ const EventPage = () => {
     }
   }, [eventId, eventIdAsNumber, location.state]);
 
-  const handleModalOpen = () => {
+  const handleModalOpenInvite = () => {
     setShowFriendList(true);
   };
 
-  const handleModalClose = () => {
+  const handleModalCloseInvite = () => {
     setShowFriendList(false);
+  };
+
+  const handleModalOpenAttendees = () => {
+    setShowAteendeesList(true);
+  };
+
+  const handleModalCloseAttendees = () => {
+    setShowAteendeesList(false);
   };
 
   return (
@@ -133,13 +148,37 @@ const EventPage = () => {
         <img className={styles.image} src={eventImage} alt="logo"></img>
       </div>
       <div className={styles.centered}>
-        <Button
-          textActive={"Attending"}
-          textInactive={"Not Attending"}
-          isActive={isActive}
-          onClick={handleToggle}
-          type={"normal"}
-        />
+        <div className={styles.actionItems}>
+          <Button
+            textActive={"Attending"}
+            textInactive={"Not Attending"}
+            isActive={isActive}
+            onClick={handleToggle}
+            type={"normal"}
+          />
+          <Button
+            textInactive={"Invite Friends"}
+            type={"special"}
+            onClick={handleModalOpenInvite}
+          />
+          <div
+            className={styles.attendeeInfo}
+            onClick={handleModalOpenAttendees}
+          >
+            <span className="material-icons" style={{ cursor: "pointer" }}>
+              group
+            </span>
+            <span style={{ cursor: "pointer", marginLeft: "5px" }}>
+              {attendeeCount === 1
+                ? "1 person is attending"
+                : `${attendeeCount} people are attending`}
+            </span>
+          </div>
+          <AttendeeListModal
+            show={showAttendeesList}
+            onClose={handleModalCloseAttendees}
+          />
+        </div>
         {(currentUserId === eventCreatorId || allowFriendsToInvite) && (
           <Button
             textInactive={"Invite Friends"}
@@ -156,7 +195,7 @@ const EventPage = () => {
         <Box type="first" content={<EventCalendar />}></Box>
         <Box title="Shopping List" content={shoppingList} type="shopping"></Box>
       </div>
-      <FriendListModal show={showFriendList} onClose={handleModalClose} />
+      <FriendListModal show={showFriendList} onClose={handleModalCloseInvite} />
     </div>
   );
 };
