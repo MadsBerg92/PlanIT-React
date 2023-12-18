@@ -4,6 +4,12 @@ import Button from "../Button/Button";
 import Box from "../box/Box";
 import InputBox from "../InputBox/InputBox";
 import styles from "./FriendList.module.css";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { Modal } from "react-bootstrap";
+import { ToastContainer } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * FriendList component displays the list of friends and allows searching and adding new friends.
@@ -12,6 +18,9 @@ const FriendList = () => {
   const [friends, setFriends] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [showDeleteFriendModal, setShowDeleteFriendModal] = useState(false);
+  const [selectedFriendId, setSelectedFriendId] = useState(null);
+  const [showSearchModal, setShowSearchModal] = useState(false);
 
   useEffect(() => {
     const User = Parse.Object.extend("User");
@@ -36,6 +45,14 @@ const FriendList = () => {
     });
   }, []);
 
+  const openDeleteFriendModal = (id) => {
+    setSelectedFriendId(id);
+    setShowDeleteFriendModal(true);
+  };
+  const closeDeleteFriendModal = () => setShowDeleteFriendModal(false);
+
+  const openSearchModal = () => setShowSearchModal(true);
+  const closeSearchModal = () => setShowSearchModal(false);
   /**
    * Handles the search for friends based on the search input.
    */
@@ -104,6 +121,12 @@ const FriendList = () => {
 
       // Update the friends state
       setFriends(friends.filter((friend) => friend.id !== objectId));
+
+      closeDeleteFriendModal();
+      toast.success("Friend Deleted!", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: false,
+      });
     } catch (error) {
       console.error("Error while removing friend", error);
     }
@@ -111,67 +134,92 @@ const FriendList = () => {
 
   return (
     <>
-      <div className={styles.title}>
-        <h1>Friend List </h1>
-      </div>
       <div className={styles.friendlistpage}>
         <Box
           className={styles.Box}
           title="Friend List"
           type="second"
-          content={friends.map((friend, index) => ({
-            label: "Friend " + (index + 1),
-            value: friend.get("username"),
+          content={friends.map((friend) => ({
+            value: (
+              <div className={styles.friendItem}>
+                <span className={styles.boldText}>
+                  {friend.get("username")}
+                </span>
+                <Button
+                  type="deleteFriend"
+                  textInactive={<FontAwesomeIcon icon={faTrash} size="sm" />}
+                  onClick={() => openDeleteFriendModal(friend.id)}
+                />
+              </div>
+            ),
             friend: friend,
           }))}
-          Button={(item) => (
+          ExtraButton={() => (
             <Button
-              type="special"
-              textInactive="Remove Friend"
-              onClick={handleRemoveFriend(item.friend.id)}
-            ></Button>
+              type="create"
+              textInactive="Find More Friends"
+              onClick={openSearchModal}
+            />
           )}
         />
+        <ToastContainer></ToastContainer>
 
-        <Box
-          className={styles.Box}
-          title="Search For New Friends"
-          type="second"
-          content={
-            searchResults.length > 0
-              ? searchResults.map((user, index) => ({
-                  label: "User " + (index + 1),
-                  value: user.get("username"),
-                  id: user.id,
-                }))
-              : [{ label: "", value: "No users with that username" }]
-          }
-          Button={(user) =>
-            user.id && (
-              <Button
-                type="create"
-                textInactive="Add Friend"
-                onClick={() => handleAddFriend(user.id)}
-              />
-            )
-          }
-        >
-          <InputBox
-            id="search"
-            type="text"
-            label="Search"
-            name="search"
-            placeholder="Enter username"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            required
-          />
-          <Button
-            type="create"
-            onClick={handleSearch}
-            textInactive="Search"
-          ></Button>
-        </Box>
+        <Modal show={showSearchModal} onHide={closeSearchModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Search For New Friends</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <InputBox
+              id="search"
+              type="text"
+              label="Search"
+              name="search"
+              placeholder="Enter username"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              required
+            />
+            <Button
+              type="create"
+              onClick={handleSearch}
+              textInactive="Search"
+            ></Button>
+            {searchResults.length > 0
+              ? searchResults.map((user) => (
+                  <div key={user.id} className={styles.flexContainer}>
+                    <span>{user.get("username")}</span>
+                    <Button
+                      type="create"
+                      textInactive="Add Friend"
+                      onClick={() => handleAddFriend(user.id)}
+                    />
+                  </div>
+                ))
+              : "No users with that username"}
+          </Modal.Body>
+        </Modal>
+
+        <Modal show={showDeleteFriendModal} onHide={closeDeleteFriendModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Delete</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Are you sure you want to delete your friend?</Modal.Body>
+          <Modal.Footer>
+            <Button
+              textInactive="Cancel"
+              textActive="Cancel"
+              type="cancel"
+              onClick={closeDeleteFriendModal}
+            ></Button>
+
+            <Button
+              textInactive="Delete Friend"
+              textActive="Delete Friend"
+              type="delete"
+              onClick={handleRemoveFriend(selectedFriendId)}
+            ></Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </>
   );

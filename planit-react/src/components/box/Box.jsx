@@ -12,10 +12,10 @@ import styles from "./box.module.css";
  * @param {React.ReactNode} props.children - The children components to be rendered inside the box.
  * @returns {React.ReactNode} The rendered Box component.
  */
-function Box({ title, content = [], type, Button, children }) {
+function Box({ title, content = [], type, Button, ExtraButton, children }) {
   const renderContent = (item, index) => {
     if (type === "second") {
-      const showColon = item.label.length > 0; // Show colon, if label has text
+      const showColon = item.label && item.label.length > 0; // Show colon, if label has text
       return (
         <li key={index}>
           <strong>
@@ -51,6 +51,9 @@ function Box({ title, content = [], type, Button, children }) {
     return (
       <div className={styles.box}>
         <h2>{title}</h2>
+        {ExtraButton && (
+          <div className={styles.extraButton}>{ExtraButton()}</div>
+        )}
         <ul>{content.map((item, index) => renderContent(item, index))}</ul>
         {children}
       </div>
