@@ -50,6 +50,22 @@ function InputBox(props) {
       </>
     );
   }
+  if (props.type === "checkbox") {
+    return (
+      <>
+        <label htmlFor={props.id}>{props.label}</label>
+        <input
+          type={props.type}
+          id={props.id}
+          name={props.name}
+          checked={props.checked}
+          onChange={props.onChange}
+          disabled={props.disabled}
+        />
+        <br />
+      </>
+    );
+  }
   return (
     <>
       <label htmlFor={props.id}>{props.label}</label>

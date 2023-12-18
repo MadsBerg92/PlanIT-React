@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from "react";
 import Button from "../Button/Button";
 import { ShoppingListContext } from "../../Context/ShoppingListContext";
 import Parse from "parse";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Renders a modal component for managing a shopping list.
@@ -25,6 +26,7 @@ function ShoppingListModal({ eventId, isEditEvent }) {
   //useState for inputs starting as empty array with one object
   const [inputs, setInputs] = useState([{ id: 1, name: "" }]);
 
+  const navigate = useNavigate();
   useEffect(() => {
     if (isEditEvent) {
       fetchShoppingList();
@@ -116,11 +118,10 @@ function ShoppingListModal({ eventId, isEditEvent }) {
    */
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log("event id:", eventId);
     saveShoppingList(inputs, eventId); // Save the shopping list to the database
     setShowModal(false); // Close the modal
   };
-
-  //useEffect for closing the modal when the shopping list is updated
 
   return (
     <>
