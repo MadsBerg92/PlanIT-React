@@ -22,10 +22,10 @@ function Box({ title, content = [], type, Button, children }) {
             {item.label}
             {showColon ? ":" : ""}
           </div>{" "}
-          <strong>
+          
           {renderValue(item.value)}
           {Button && Button(item)}
-          </strong>
+          
         </li>
       );
     } else if (type === "shopping") {

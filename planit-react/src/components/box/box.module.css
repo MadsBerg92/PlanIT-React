@@ -6,10 +6,12 @@
   border-radius: 10px; /* Increase the border radius */
   margin-right: 20px; /* Increase the spacing between the boxes */
   flex: 2;
-  max-width: 40%;
+  max-width: 38%;
   height: 400px; /* Make the height auto */
   overflow-y: auto; /* Allow vertical scrolling when the content doesn't fit */
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Use a font similar to Facebook's */
 }
 
 .box:hover {

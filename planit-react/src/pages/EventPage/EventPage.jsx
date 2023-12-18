@@ -7,8 +7,14 @@ import FriendListModal from "../../components/FriendListModal/FriendListModal.js
 import styles from "./EventPage.module.css";
 import Parse from "parse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapMarker } from "@fortawesome/free-solid-svg-icons"; 
+import { faLocationDot, faUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons"; 
 
+//Transfrom fetched date to a more readable format
+const formatDate = (dateString) => {
+  const options = { weekday: 'long', day: 'numeric', month: 'long' };
+  const formattedDate = new Date(dateString).toLocaleDateString('en-US', options);
+  return formattedDate;
+};
 
 const EventPage = () => {
   const { eventId } = useParams();
@@ -19,6 +25,10 @@ const EventPage = () => {
   const [eventImage, setEventImage] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
+  const [eventTitle, setEventTitle] = useState("");
+
+
+  
 
 
   const fetchEventData = async () => {
@@ -33,7 +43,8 @@ const EventPage = () => {
         "eventDescription",
         "creatorName",
         "image",
-        "shoppingList"
+        "shoppingList",
+        "title"
       );
 
       const result = await query.first();
@@ -46,16 +57,26 @@ const EventPage = () => {
       // Set the initial state based on user's attendance
       setIsActive(isAttending);
 
+      setEventTitle(result.get("title"));
+
       setEventData([
         { label: (
           <>
-            <FontAwesomeIcon icon={faMapMarker} />
+            <FontAwesomeIcon icon={faLocationDot} /> Location
           </>
         ),
         value: result.get("eventLocation"),
       },
-        { label: "Created By", value: result.get("creatorName") },
-        { label: "Event Date", value: result.get("eventDate") },
+      { label: (
+        <>
+          <FontAwesomeIcon icon={faUser} /> Hosted by
+        </>
+      ), value: result.get("creatorName") },
+      { label: (
+        <>
+          <FontAwesomeIcon icon={faCalendarDays} /> Date
+        </>
+      ), value: formatDate(result.get("eventDate")) },
       ]);
       const eventImage = result.get("image").url();
       setEventImage(eventImage);
@@ -134,7 +155,7 @@ const EventPage = () => {
         ></Button>
       </div>
       <div className={styles.boxContainer}>
-        <Box title="Details" content={eventData} type="second"></Box>
+        <Box title={eventTitle} content={eventData} type="second"></Box>
         <Box title="Description" content={description} type="first"></Box>
       </div>
       <div className={styles.calendarBox}>
