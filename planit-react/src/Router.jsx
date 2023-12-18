@@ -24,7 +24,7 @@ const Layout = () => {
         <Route path="/Home" element={<FeedPage />} />
         <Route path="/Eventpage/:eventId" element={<EventPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/Friendlist" element={<FriendListPage />}> />
+        <Route path="/Friendlist" element={<FriendListPage />} />
         <Route path="/event-creation" element={<CreateEvent />} />
         <Route path="/edit-event/:eventId" element={<EditEventPage />} />
       </Routes>
