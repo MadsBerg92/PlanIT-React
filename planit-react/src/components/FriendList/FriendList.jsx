@@ -94,7 +94,6 @@ const FriendList = () => {
       setFriends(results);
       toast.success("Friend Added!", {
         position: toast.POSITION.BOTTOM_CENTER,
-        autoClose: false,
       });
     } catch (error) {
       console.error("Error while adding friend", error);

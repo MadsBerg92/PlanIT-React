@@ -26,12 +26,11 @@ function NavBar() {
           >
             <img
               src="/images/logo.png"
-              width="50"
-              height="40"
+              width="110"
+              height="80"
               className="d-inline-block align-top image"
               alt="React Bootstrap logo"
             />
-            PlanIT
           </Navbar.Brand>
         </Nav.Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
