@@ -8,6 +8,7 @@ import { useState, useContext, useEffect } from "react";
 import { ShoppingListContext } from "../../Context/ShoppingListContext";
 import { useRef } from "react";
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 const CreateEvent = () => {
   console.log("Rendering CreateEvent component...");
@@ -15,16 +16,19 @@ const CreateEvent = () => {
   const [eventId, setEventId] = useState(null);
   const { shoppingList, saveShoppingList } = useContext(ShoppingListContext);
   const hasMountedRef = useRef(false);
+  const [allowFriendsToInvite, setAllowFriendsToInvite] = useState(false);
 
   const createTempEvent = async () => {
     const ParseEvents = Parse.Object.extend("Events");
     const newEvent = new ParseEvents();
+    const randomEventId = Math.floor(Math.random() * 1000000);
 
     // Set minimal properties for the new event (eventId is set to 0 to identify it as a temporary event)
     // This is done in order to create a shopping list for the event before its created
     newEvent.set("title", "Temporary Title");
     newEvent.set("createdBy", Parse.User.current().id);
     newEvent.set("attendees", [Parse.User.current().id]);
+    newEvent.set("eventId", randomEventId);
 
     // Save the new event
     const savedEvent = await newEvent.save();
@@ -67,7 +71,6 @@ const CreateEvent = () => {
       const existingEvent = await query.get(eventId);
       const shoppingList = existingEvent.get("shoppingList");
       const currentUser = Parse.User.current();
-      const randomEventId = Math.floor(Math.random() * 1000000);
 
       // Set properties for the new event
       existingEvent.set("title", eventName);
@@ -79,7 +82,7 @@ const CreateEvent = () => {
       existingEvent.set("image", new Parse.File("eventImage.jpg", eventImage));
       existingEvent.set("creatorName", currentUser.get("username"));
       existingEvent.set("shoppingList", shoppingList);
-      existingEvent.set("eventId", randomEventId);
+      existingEvent.set("allowFriendsToInvite", allowFriendsToInvite);
 
       // Save the new event
       const savedEvent = await existingEvent.save();
@@ -113,7 +116,9 @@ const CreateEvent = () => {
       // Handle success or redirect to the event page
       console.log("Event created successfully!", savedEvent);
 
-      handleCancel();
+      navigate(`/EventPage/${savedEvent.get("eventId")}`, {
+        state: { isNewEvent: true },
+      });
     } catch (error) {
       console.error("Error creating event:", error);
     }
@@ -167,8 +172,16 @@ const CreateEvent = () => {
           <img
             id="event-image-preview"
             className={styles.eventImagePreview}
-            src="/images/event-photography.jpg"
+            src="/Images/event-photography.jpg"
             alt="Preview"
+          />
+          <InputBox
+            label="Allow friends to invite others"
+            type="checkbox"
+            id="allow-friends-invite"
+            name="allow-friends-invite"
+            checked={allowFriendsToInvite}
+            onChange={(e) => setAllowFriendsToInvite(e.target.checked)}
           />
           <InputBox
             label="Event Name"
@@ -216,6 +229,7 @@ const CreateEvent = () => {
             onChange={previewImage}
             required
           />
+
           <Button
             textInactive="Create Event"
             textActive="Create Event"
@@ -225,13 +239,12 @@ const CreateEvent = () => {
           <Button
             textInactive="Cancel"
             textActive="Cancel"
-            type="create"
+            type="cancel"
             onClick={handleCancel}
           />
         </form>
+        {<ShoppingListModal eventId={eventId} isEditEvent={false} />}
       </div>
-
-      {<ShoppingListModal eventId={eventId} />}
     </>
   );
 };

@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import styles from "./NavBar.module.css";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 /**
  * Renders the navigation bar component.
@@ -14,9 +14,10 @@ import { useNavigate } from "react-router-dom";
 
 function NavBar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
-    <Navbar className={styles.bar} data-bs-theme="dark">
+    <Navbar bg="light" className={`sticky-top ${styles.bar}`}>
       <Container>
         <Nav.Link>
           <Navbar.Brand
@@ -25,38 +26,45 @@ function NavBar() {
           >
             <img
               src="/images/logo.png"
-              width="50"
-              height="40"
+              width="110"
+              height="80"
               className="d-inline-block align-top image"
               alt="React Bootstrap logo"
             />
-            PlanIT
           </Navbar.Brand>
         </Nav.Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto justify-content-between">
             <Nav.Link
-              className={styles.navlink}
+              className={`${styles.navlink} ${
+                location.pathname === "/Home" ? styles.active : ""
+              }`}
               onClick={() => navigate("Home")}
             >
               Home
             </Nav.Link>
             <Nav.Link
-              className={styles.navlink}
+              className={`${styles.navlink} ${
+                location.pathname === "/event-creation" ? styles.active : ""
+              }`}
               onClick={() => navigate("/event-creation")}
             >
               Create Event
             </Nav.Link>
             <Nav.Link
-              className={styles.navlink}
+              className={`${styles.navlink} ${
+                location.pathname === "/Friendlist" ? styles.active : ""
+              }`}
               onClick={() => navigate("Friendlist")}
             >
               My Friends
             </Nav.Link>
           </Nav>
           <NavDropdown
-            className={`${styles.dropdown} ms-auto`}
+            className={`${styles.dropdown}  ${
+              location.pathname === "/profile" ? styles.active : ""
+            } ms-auto `}
             title="Profile"
             id="basic-nav-dropdown"
           >

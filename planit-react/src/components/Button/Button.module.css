@@ -84,9 +84,9 @@
 }
 
 .shoppingListBtn {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(26, 105, 209);
   border: none;
-  color: rgb(0, 0, 0);
+  color: rgb(252, 252, 252);
   padding: 6px 10px;
   border-bottom: solid thin rgb(1, 1, 65);
   border-radius: 4px;
@@ -97,40 +97,43 @@
   width: fit-content;
 }
 .shoppingListBtn:hover {
-  background-color: white;
-  color: black;
-  border: solid thin rgb(1, 1, 65);
-  margin-top: 19px;
+  background-color: rgb(31, 31, 184);
+  color: rgb(252, 252, 252);
 }
 
-.filterButton {
+.deleteButton {
+  background-color: #d30a0a;
+  color: #ffffff;
+  padding: 6px 10px;
   border: none;
-  border-radius: 50px; /* Use a high value to create a circular shape */
-  background-color: #d3e4cd;
-  color: #000000;
-  font-weight: bold;
+  border-radius: 4px;
   cursor: pointer;
-  /* Adjust width for three buttons */
-  width: calc(
-    (350px - 50px) / 3
-  ); /* Reduce the total margin to create more space */
-  white-space: nowrap; /* Prevents text from wrapping */
-  overflow: hidden; /* Hide overflow */
-  text-overflow: ellipsis; /* Add ellipsis if text is too long */
-  padding: 10px 15px; /* Reduced horizontal padding */
-  font-size: 10px; /* Smaller font size */
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  width: fit-content;
+}
+.deleteButton:hover {
+  background-color: #ff0000;
+  color: #ffffff;
 }
 
-.filterButton:hover {
-  border: solid thin;
-  padding: 9px 20px;
-}
-
-.active {
-  background-color: #a0c686; /* Change the background color to green when active */
-}
-
-.active:hover {
+.cancelButton {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 6px 10px;
   border: none;
-  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  width: fit-content;
+  border: solid thin rgb(0, 0, 0);
+  width: 120px;
+}
+
+.cancelButton:hover {
+  background-color: #f2f2f2;
+  color: #000000;
 }

@@ -45,7 +45,8 @@ const Feed = () => {
           "eventDate",
           "image",
           "RSVP",
-          "attendees"
+          "attendees",
+          "createdBy"
         );
         const results = await query.find();
 
@@ -61,6 +62,7 @@ const Feed = () => {
             image: result.get("image").url(),
             eventRSVP: result.get("RSVP"),
             attendees: result.get("attendees"),
+            createdBy: result.get("createdBy"),
           },
         }));
 
