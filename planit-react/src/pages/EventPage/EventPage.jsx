@@ -27,6 +27,29 @@ const EventPage = () => {
   const [showFriendList, setShowFriendList] = useState(false);
   const [eventTitle, setEventTitle] = useState("");
 
+  const [attendeesData, setAttendeesData] = useState([]);
+
+  const fetchAttendeesData = async (attendeeIds) => {
+    try {
+      const ParseUser = Parse.Object.extend("User");
+      const userQuery = new Parse.Query(ParseUser);
+      userQuery.containedIn("objectId", attendeeIds);
+      userQuery.select("username"); // Add other user fields you want to display
+
+      const users = await userQuery.find();
+
+      const attendeesData = users.map((user) => {
+        return {
+          label: "Attendee",
+          value: user.get("username"),
+        };
+      });
+
+      setAttendeesData(attendeesData);
+    } catch (error) {
+      console.error("Error fetching attendees data:", error);
+    }
+  };
 
   
 
@@ -44,7 +67,8 @@ const EventPage = () => {
         "creatorName",
         "image",
         "shoppingList",
-        "title"
+        "title",
+        "attendees" 
       );
 
       const result = await query.first();
@@ -58,6 +82,12 @@ const EventPage = () => {
       setIsActive(isAttending);
 
       setEventTitle(result.get("title"));
+
+      // Fetch usernames of attendees
+      await fetchAttendeesData(attendees);
+
+      
+    console.log("Attendees Data:", attendeesData);
 
       setEventData([
         { label: (
@@ -77,6 +107,7 @@ const EventPage = () => {
           <FontAwesomeIcon icon={faCalendarDays} /> Date
         </>
       ), value: formatDate(result.get("eventDate")) },
+      { label: ( <> <FontAwesomeIcon icon={faUser} /> Attendees </> ), value: attendeesData.map((attendee) => attendee.value).join(", ") },
       ]);
       const eventImage = result.get("image").url();
       setEventImage(eventImage);
@@ -124,6 +155,7 @@ const EventPage = () => {
   };
 
   useEffect(() => {
+    
     fetchEventData();
   }, [eventId, eventIdAsNumber]);
 
