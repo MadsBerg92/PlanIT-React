@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { Modal } from "react-bootstrap";
 import { ToastContainer } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * FriendList component displays the list of friends and allows searching and adding new friends.
@@ -190,7 +190,12 @@ const FriendList = () => {
                     <span>{user.get("username")}</span>
                     <Button
                       type="create"
-                      textInactive="Add Friend"
+                      textInactive={
+                        <>
+                          <FontAwesomeIcon icon={faUser} size="sm" />
+                          <FontAwesomeIcon icon={faPlus} size="sm" />
+                        </>
+                      }
                       onClick={() => handleAddFriend(user.id)}
                     />
                   </div>
