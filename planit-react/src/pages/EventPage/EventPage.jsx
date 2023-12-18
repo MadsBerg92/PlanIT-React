@@ -4,6 +4,7 @@ import Button from "../../components/Button/Button.jsx";
 import EventCalendar from "../../components/calendar/Calendar.tsx";
 import Box from "../../components/box/Box.jsx";
 import FriendListModal from "../../components/FriendListModal/FriendListModal.jsx";
+import AttendeeListModal from "../../components/AttendeeListModal/AttendeeListModal.jsx";
 import styles from "./EventPage.module.css";
 import Parse from "parse";
 
@@ -17,6 +18,7 @@ const EventPage = () => {
   const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
   const [attendeeCount, setAttendeeCount] = useState(0);
+  const [showAttendeesList, setShowAteendeesList] = useState(false);
 
   const fetchEventData = async () => {
     try {
@@ -79,13 +81,11 @@ const EventPage = () => {
       if (!isActive && !attendees.includes(userId)) {
         attendees.push(userId); // Add the userId to the attendees array
         setIsActive(true);
-        newAttendeeCount += 1;
       } else {
         const index = attendees.indexOf(userId);
         if (index > -1) {
           attendees.splice(index, 1); // Remove the userId from the attendees array
           setIsActive(false);
-          newAttendeeCount -= 1;
         }
       }
 
@@ -93,7 +93,7 @@ const EventPage = () => {
 
       await event.save(); // Save the updated event
 
-      setAttendeeCount(newAttendeeCount); // Update the attendee count
+      setAttendeeCount(attendees.length); // Update the attendee count
     } catch (error) {
       console.error("Error updating event status:", error);
     }
@@ -103,17 +103,20 @@ const EventPage = () => {
     fetchEventData();
   }, [eventId, eventIdAsNumber]);
 
-  const handleModalOpen = () => {
+  const handleModalOpenInvite = () => {
     setShowFriendList(true);
   };
 
-  const handleModalClose = () => {
+  const handleModalCloseInvite = () => {
     setShowFriendList(false);
   };
 
-  const handleIconClick = () => {
-    // Placeholder for future functionality
-    console.log("Icon clicked!");
+  const handleModalOpenAttendees = () => {
+    setShowAteendeesList(true);
+  };
+
+  const handleModalCloseAttendees = () => {
+    setShowAteendeesList(false);
   };
 
   return (
@@ -133,9 +136,12 @@ const EventPage = () => {
           <Button
             textInactive={"Invite Friends"}
             type={"special"}
-            onClick={handleModalOpen}
+            onClick={handleModalOpenInvite}
           />
-          <div className={styles.attendeeInfo} onClick={handleIconClick}>
+          <div
+            className={styles.attendeeInfo}
+            onClick={handleModalOpenAttendees}
+          >
             <span className="material-icons" style={{ cursor: "pointer" }}>
               group
             </span>
@@ -145,6 +151,10 @@ const EventPage = () => {
                 : `${attendeeCount} people are attending`}
             </span>
           </div>
+          <AttendeeListModal
+            show={showAttendeesList}
+            onClose={handleModalCloseAttendees}
+          />
         </div>
       </div>
       <div className={styles.boxContainer}>
@@ -155,7 +165,7 @@ const EventPage = () => {
         <Box type="first" content={<EventCalendar />}></Box>
         <Box title="Shopping List" content={shoppingList} type="shopping"></Box>
       </div>
-      <FriendListModal show={showFriendList} onClose={handleModalClose} />
+      <FriendListModal show={showFriendList} onClose={handleModalCloseInvite} />
     </div>
   );
 };
