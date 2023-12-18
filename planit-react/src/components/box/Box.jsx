@@ -12,12 +12,17 @@ import styles from "./box.module.css";
  * @param {React.ReactNode} props.children - The children components to be rendered inside the box.
  * @returns {React.ReactNode} The rendered Box component.
  */
-function Box({ title, content = [], type, Button, children }) {
+function Box({ title, content = [], type, Button, ExtraButton, children }) {
   const renderContent = (item, index) => {
     if (type === "second") {
+      const showColon = item.label && item.label.length > 0;
       return (
         <li key={index}>
-          <strong>{item.label}:</strong> {renderValue(item.value)}
+          <strong>
+            {item.label}
+            {showColon ? ":" : ""}
+          </strong>{" "}
+          {renderValue(item.value)}
           {Button && Button(item)}
         </li>
       );
@@ -34,6 +39,22 @@ function Box({ title, content = [], type, Button, children }) {
       }
     }
   };
+
+  const renderBoxContent = () => {
+    if (content.length === 0) {
+      return (
+        <p className={styles.noFriendsMessage}>
+          You don't seem to have any friends yet, search for them and add them
+          here!
+        </p>
+      );
+    } else {
+      return (
+        <ul>{content.map((item, index) => renderContent(item, index))}</ul>
+      );
+    }
+  };
+
   if (type === "first") {
     return (
       <div className={styles.box}>
@@ -46,7 +67,10 @@ function Box({ title, content = [], type, Button, children }) {
     return (
       <div className={styles.box}>
         <h2>{title}</h2>
-        <ul>{content.map((item, index) => renderContent(item, index))}</ul>
+        {ExtraButton && (
+          <div className={styles.extraButton}>{ExtraButton()}</div>
+        )}
+        {renderBoxContent()}
         {children}
       </div>
     );
@@ -54,9 +78,8 @@ function Box({ title, content = [], type, Button, children }) {
 }
 
 function renderValue(value) {
-  // Handle special rendering for certain types, e.g., Date
   if (value instanceof Date) {
-    return value.toLocaleString(); // Adjust this based on your date formatting preference
+    return value.toLocaleString();
   }
 
   return value;

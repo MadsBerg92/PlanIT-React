@@ -2,19 +2,26 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import EventCard from "../../components/EventCard/EventCard.jsx";
 import Parse from "parse";
-import Button from "../../components/Button/Button.jsx";
 import styles from "./FeedPage.module.css";
 
 const Feed = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
-  const [activeButton, setActiveButton] = useState("all"); // Button "all" is active by default
-  const [sortOrder, setSortOrder] = useState("latest"); // Options: 'latest', 'oldest'
-  const [filterType, setFilterType] = useState("all"); // Options: 'attending', 'notAttending', 'all'
+  const [sortOrder, setSortOrder] = useState("newest"); // Options: 'newest', 'oldest'
+  const [attendingFilter, setAttendingFilter] = useState("all"); // Options: 'attending', 'notAttending', 'all'
   const [dateFilter, setDateFilter] = useState("all"); // Options: 'past', 'upcoming', 'all'
+  const [eventFilter, setEventFilter] = useState("all"); // Default value 'all'
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const currentUser = Parse.User.current();
 
-  const fetchEvents = async (activeBtn, sortOrd, filterTyp, dateFilt) => {
+  const fetchEvents = async (
+    eventFilter,
+    attendingFilter,
+    sortOrd,
+    filterTyp,
+    dateFilt
+  ) => {
     try {
       const currentUser = Parse.User.current();
       const userEventIds = currentUser.get("eventId");
@@ -24,9 +31,9 @@ const Feed = () => {
         const query = new Parse.Query(ParseEvents);
         query.notEqualTo("title", "Temporary Title");
 
-        if (activeBtn === "all") {
+        if (eventFilter === "all") {
           query.containedIn("objectId", userEventIds);
-        } else if (activeBtn === "my") {
+        } else if (eventFilter === "my") {
           query.equalTo("createdBy", currentUser.id);
         }
 
@@ -38,7 +45,8 @@ const Feed = () => {
           "eventDate",
           "image",
           "RSVP",
-          "attendees"
+          "attendees",
+          "createdBy"
         );
         const results = await query.find();
 
@@ -54,6 +62,7 @@ const Feed = () => {
             image: result.get("image").url(),
             eventRSVP: result.get("RSVP"),
             attendees: result.get("attendees"),
+            createdBy: result.get("createdBy"),
           },
         }));
 
@@ -70,12 +79,18 @@ const Feed = () => {
     }
   };
 
-  const applySortingAndFiltering = (events, sortOrd, filterTyp, dateFilt) => {
+  const applySortingAndFiltering = (
+    events,
+    attendingFilter,
+    sortOrd,
+    filterTyp,
+    dateFilt
+  ) => {
     let filteredEvents = events.filter((event) => {
       const attendees = event.eventData.attendees || [];
-      if (filterType === "attending") {
+      if (attendingFilter === "attending") {
         return attendees.includes(currentUser.id);
-      } else if (filterType === "notAttending") {
+      } else if (attendingFilter === "notAttending") {
         return !attendees.includes(currentUser.id);
       }
       //"True" is equal to all events
@@ -94,7 +109,7 @@ const Feed = () => {
       );
     }
 
-    if (sortOrder === "latest") {
+    if (sortOrder === "newest") {
       filteredEvents.sort(
         (a, b) =>
           new Date(b.eventData.eventCompareDate) -
@@ -112,12 +127,8 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    fetchEvents(activeButton, sortOrder, filterType, dateFilter);
-  }, [activeButton, sortOrder, filterType, dateFilter]);
-
-  const handleButtonClick = (toggleButton) => {
-    setActiveButton(toggleButton);
-  };
+    fetchEvents(eventFilter, sortOrder, attendingFilter, dateFilter);
+  }, [eventFilter, sortOrder, attendingFilter, dateFilter]);
 
   function renderValue(dateString) {
     return new Date(dateString).toLocaleDateString();
@@ -127,37 +138,70 @@ const Feed = () => {
     navigate(`/Eventpage/${eventId}`);
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div>
-      <select onChange={(e) => setSortOrder(e.target.value)}>
-        <option value="latest">Latest</option>
-        <option value="oldest">Oldest</option>
-      </select>
-      <select onChange={(e) => setFilterType(e.target.value)}>
-        <option value="all">All Events</option>
-        <option value="attending">Attending</option>
-        <option value="notAttending">Not Attending</option>
-      </select>
-      <select onChange={(e) => setDateFilter(e.target.value)}>
-        <option value="all">All Dates</option>
-        <option value="upcoming">Upcoming Events</option>
-        <option value="past">Past Events</option>
-      </select>
-      <div className={styles.myEventsButton}>
-        <Button
-          type="normal"
-          textActive="All events"
-          textInactive="All events"
-          isActive={activeButton === "all"} // Pass isActive as a prop
-          onClick={() => handleButtonClick("all")}
-        />
-        <Button
-          type="normal"
-          textActive="My events"
-          textInactive="My events"
-          isActive={activeButton === "my"} // Pass isActive as a prop
-          onClick={() => handleButtonClick("my")}
-        />
+      <button onClick={toggleSidebar} className={styles.sidebarToggle}>
+        <span className="material-icons">
+          {isSidebarOpen ? "" : "settings"}
+        </span>
+      </button>
+      <div className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ""}`}>
+        <button onClick={toggleSidebar} className={styles.closeSidebarButton}>
+          <span className="material-icons">
+            {" "}
+            {!isSidebarOpen ? "" : "close"}
+          </span>
+        </button>
+        <div
+          className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ""}`}
+        >
+          <div className={styles.filterSection}>
+            <div className={styles.filterTitle}>Sort By</div>
+            <select
+              onChange={(e) => setSortOrder(e.target.value)}
+              value={sortOrder}
+            >
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+          <div className={styles.filterSection}>
+            <div className={styles.filterTitle}>Events</div>
+            <select
+              onChange={(e) => setEventFilter(e.target.value)}
+              value={eventFilter}
+            >
+              <option value="all">All Events</option>
+              <option value="my">My Events</option>
+            </select>
+          </div>
+          <div className={styles.filterSection}>
+            <div className={styles.filterTitle}>Attending</div>
+            <select
+              onChange={(e) => setAttendingFilter(e.target.value)}
+              value={attendingFilter}
+            >
+              <option value="all">None</option>
+              <option value="attending">Attending</option>
+              <option value="notAttending">Not Attending</option>
+            </select>
+          </div>
+          <div className={styles.filterSection}>
+            <div className={styles.filterTitle}>Date</div>
+            <select
+              onChange={(e) => setDateFilter(e.target.value)}
+              value={dateFilter}
+            >
+              <option value="all">None</option>
+              <option value="upcoming">Upcoming</option>
+              <option value="past">Past</option>
+            </select>
+          </div>
+        </div>
       </div>
       {events.map((event, index) => (
         <EventCard

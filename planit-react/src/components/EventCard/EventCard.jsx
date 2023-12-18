@@ -1,7 +1,9 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import styles from "./EventCard.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { FaEdit } from "react-icons/fa"; // Import edit icon from react-icons
+import Parse from "parse";
 
 /**
  * Renders an event card component.
@@ -46,7 +48,13 @@ function EventCard({ type, eventData }) {
   const handleEventClick = () => {
     navigate(`/EventPage/${eventData.eventId}`);
   };
-
+  // Get current user's objectId
+  const currentUserId = Parse.User.current().id;
+  const handleEditClick = (e) => {
+    e.stopPropagation(); // Prevent triggering handleEventClick
+    // Navigate to the edit page
+    navigate(`/EditEventPage/${eventData.eventId}`);
+  };
   return (
     <Container>
       <div className={styles.mainDiv}>
@@ -63,12 +71,21 @@ function EventCard({ type, eventData }) {
               <div className={styles.description}>
                 <span>{eventData.eventDescription}</span>
               </div>
+
               <div className={styles.date}>
                 <ul>{renderContent()}</ul>
               </div>
             </div>
           </div>
+          {/* Only show edit icon if the event is created by the current user  */}
         </Nav.Link>
+        {eventData.createdBy === currentUserId && (
+          <div>
+            <Link to={`/edit-event/${eventData.eventId}`}>
+              <FaEdit />
+            </Link>
+          </div>
+        )}
       </div>
     </Container>
   );

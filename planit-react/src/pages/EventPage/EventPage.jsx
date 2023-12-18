@@ -7,6 +7,7 @@ import FriendListModal from "../../components/FriendListModal/FriendListModal.js
 import AttendeeListModal from "../../components/AttendeeListModal/AttendeeListModal.jsx";
 import styles from "./EventPage.module.css";
 import Parse from "parse";
+import { useLocation } from "react-router-dom";
 
 const EventPage = () => {
   const { eventId } = useParams();
@@ -19,6 +20,10 @@ const EventPage = () => {
   const [showFriendList, setShowFriendList] = useState(false);
   const [attendeeCount, setAttendeeCount] = useState(0);
   const [showAttendeesList, setShowAteendeesList] = useState(false);
+  const [allowFriendsToInvite, setAllowFriendsToInvite] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState(null);
+  const [eventCreatorId, setEventCreatorId] = useState(null);
+  const location = useLocation();
 
   const fetchEventData = async () => {
     try {
@@ -36,11 +41,20 @@ const EventPage = () => {
       );
 
       const result = await query.first();
+      // Fetch the allowFriendsToInvite value
+      const allowFriendsToInvite = result.get("allowFriendsToInvite");
+
+      // Set the state variable
+      setAllowFriendsToInvite(allowFriendsToInvite);
 
       // Check if the current user is in the list of attendees
       const attendees = result.get("attendees") || [];
       const currentUser = Parse.User.current();
+      const eventCreator = result.get("createdBy");
       const isAttending = attendees.includes(currentUser.id);
+
+      setCurrentUserId(currentUser.id);
+      setEventCreatorId(eventCreator);
 
       // Set the initial state based on user's attendance
       setIsActive(isAttending);
@@ -98,10 +112,19 @@ const EventPage = () => {
       console.error("Error updating event status:", error);
     }
   };
+  useEffect(() => {
+    console.log("Current user ID:", currentUserId);
+    console.log("Event creator ID:", eventCreatorId);
+  }, [currentUserId, eventCreatorId]);
 
   useEffect(() => {
     fetchEventData();
-  }, [eventId, eventIdAsNumber]);
+
+    // Open the "Invite Friends" modal only if the event has just been created
+    if (location.state?.isNewEvent) {
+      setShowFriendList(true);
+    }
+  }, [eventId, eventIdAsNumber, location.state]);
 
   const handleModalOpenInvite = () => {
     setShowFriendList(true);
@@ -156,6 +179,13 @@ const EventPage = () => {
             onClose={handleModalCloseAttendees}
           />
         </div>
+        {(currentUserId === eventCreatorId || allowFriendsToInvite) && (
+          <Button
+            textInactive={"Invite Friends"}
+            type={"special"}
+            onClick={handleModalOpen}
+          />
+        )}
       </div>
       <div className={styles.boxContainer}>
         <Box title="Event Details" content={eventData} type="second"></Box>
