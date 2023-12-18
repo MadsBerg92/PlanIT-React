@@ -23,10 +23,7 @@
   background-color: #a0c686; /* Change the background color to green when active */
 }
 
-.active:hover {
-  border: none;
-  padding: 10px 20px;
-}
+
 
 /* Add different styling here */
 .specialButton {

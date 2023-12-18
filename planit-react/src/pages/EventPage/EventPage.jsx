@@ -137,12 +137,12 @@ const EventPage = () => {
           textInactive={"Not Attending"}
           isActive={isActive}
           onClick={handleToggle}
-          type={"normal"}
+          type="submit"
         />
         {(currentUserId === eventCreatorId || allowFriendsToInvite) && (
           <Button
             textInactive={"Invite Friends"}
-            type={"special"}
+            type="submit"
             onClick={handleModalOpen}
           />
         )}
