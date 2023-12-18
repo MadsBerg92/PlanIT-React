@@ -189,7 +189,7 @@ const FriendList = () => {
                   <div key={user.id} className={styles.flexContainer}>
                     <span>{user.get("username")}</span>
                     <Button
-                      type="create"
+                      type="addFriend"
                       textInactive={
                         <>
                           <FontAwesomeIcon icon={faUser} size="sm" />
