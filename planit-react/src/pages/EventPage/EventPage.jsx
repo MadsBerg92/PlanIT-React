@@ -8,6 +8,7 @@ import styles from "./EventPage.module.css";
 import Parse from "parse";
 import { useLocation } from "react-router-dom";
 
+
 const EventPage = () => {
   const { eventId } = useParams();
   const eventIdAsNumber = parseInt(eventId, 10);
@@ -20,7 +21,6 @@ const EventPage = () => {
   const [allowFriendsToInvite, setAllowFriendsToInvite] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [eventCreatorId, setEventCreatorId] = useState(null);
-
   const location = useLocation();
 
   const fetchEventData = async () => {

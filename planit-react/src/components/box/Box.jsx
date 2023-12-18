@@ -15,9 +15,14 @@ import styles from "./box.module.css";
 function Box({ title, content = [], type, Button, children }) {
   const renderContent = (item, index) => {
     if (type === "second") {
+      const showColon = item.label.length > 0; // Show colon, if label has text
       return (
         <li key={index}>
-          <strong>{item.label}:</strong> {renderValue(item.value)}
+          <strong>
+            {item.label}
+            {showColon ? ":" : ""}
+          </strong>{" "}
+          {renderValue(item.value)}
           {Button && Button(item)}
         </li>
       );
