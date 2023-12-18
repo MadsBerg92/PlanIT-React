@@ -4,6 +4,8 @@ import InputBox from "../InputBox/InputBox";
 import { useState, useEffect, useContext } from "react";
 import Button from "../Button/Button";
 import { ShoppingListContext } from "../../Context/ShoppingListContext";
+import Parse from "parse";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Renders a modal component for managing a shopping list.
@@ -14,7 +16,9 @@ import { ShoppingListContext } from "../../Context/ShoppingListContext";
  * @returns {JSX.Element} The rendered ShoppingListModal component.
  */
 
-function ShoppingListModal({ eventId }) {
+function ShoppingListModal({ eventId, isEditEvent }) {
+  const [shoppingListItems, setShoppingListItems] = useState([]);
+
   const { saveShoppingList, shoppingList } = useContext(ShoppingListContext);
   //useState for modal starting as false
   const [showModal, setShowModal] = useState(false);
@@ -22,8 +26,48 @@ function ShoppingListModal({ eventId }) {
   //useState for inputs starting as empty array with one object
   const [inputs, setInputs] = useState([{ id: 1, name: "" }]);
 
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isEditEvent) {
+      fetchShoppingList();
+    }
+  }, [eventId, isEditEvent]);
+
+  const fetchShoppingList = async () => {
+    console.log(`Fetching shopping list for event with id ${eventId}`);
+
+    const Event = Parse.Object.extend("Events");
+    const query = new Parse.Query(Event);
+    query.equalTo("eventId", parseInt(eventId));
+    const event = await query.first();
+
+    if (event) {
+      const fetchedShoppingList = event.get("shoppingList");
+      console.log("Event fetched:", event);
+      console.log("fetchedShoppingList:", fetchedShoppingList);
+
+      if (fetchedShoppingList) {
+        setShoppingListItems(fetchedShoppingList);
+
+        // Map the fetched shopping list items to the format expected by the inputs state
+        const newInputs = fetchedShoppingList.map((item) => ({
+          id: item.id,
+          name: item.name,
+        }));
+        console.log("newInputs:", newInputs);
+        setInputs(newInputs);
+      } else {
+        console.log(`No shopping list found for event with id ${eventId}`);
+      }
+    } else {
+      console.log(`No event found with id ${eventId}`);
+    }
+  };
+
   //Opens the shopping list modal
-  const handleOpenModal = () => {
+  const handleOpenModal = (event) => {
+    event.preventDefault();
+    console.log("Opening modal");
     setShowModal(true);
   };
 
@@ -74,16 +118,11 @@ function ShoppingListModal({ eventId }) {
    */
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log("event id:", eventId);
     saveShoppingList(inputs, eventId); // Save the shopping list to the database
+    setShowModal(false); // Close the modal
   };
 
-  //useEffect for closing the modal when the shopping list is updated
-
-  useEffect(() => {
-    if (showModal) {
-      setShowModal(false);
-    }
-  }, [shoppingList]);
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -92,7 +131,6 @@ function ShoppingListModal({ eventId }) {
           textInactive="Shopping List"
           onClick={handleOpenModal}
         ></Button>
-
         {showModal && (
           <div
             className={`modal fade show ${styles.modal}`}
@@ -153,8 +191,8 @@ function ShoppingListModal({ eventId }) {
                       </li>
                     ))}
                   </div>
-                  <br />
                 </div>
+                <br />
                 <div className="modal-footer">
                   <button
                     type="button"
