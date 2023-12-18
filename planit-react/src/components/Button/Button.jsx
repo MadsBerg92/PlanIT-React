@@ -75,7 +75,9 @@ function Button({ textActive, textInactive, isActive, onClick, type }) {
     case "submit":
       buttonClass = styles.submitBtn;
       break;
-
+    case "login":
+      buttonClass = styles.loginBtn;
+      break;
     default:
       buttonClass = styles.normalButton;
   }

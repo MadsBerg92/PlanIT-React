@@ -1,0 +1,17 @@
+.main-content {
+    flex-grow: 1;
+  background-image: url("https://images.unsplash.com/photo-1612690118163-5424fd0661fc?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+background-size: cover;
+  background-repeat: no-repeat;
+    background-position: center;
+    
+  }
+  .layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url("https://images.unsplash.com/photo-1612690118163-5424fd0661fc?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+background-size: cover;
+  background-repeat: no-repeat;
+    background-position: center;
+  }

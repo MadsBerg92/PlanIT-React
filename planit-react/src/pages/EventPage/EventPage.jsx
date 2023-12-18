@@ -8,7 +8,6 @@ import styles from "./EventPage.module.css";
 import Parse from "parse";
 import { useLocation } from "react-router-dom";
 
-
 const EventPage = () => {
   const { eventId } = useParams();
   const eventIdAsNumber = parseInt(eventId, 10);
