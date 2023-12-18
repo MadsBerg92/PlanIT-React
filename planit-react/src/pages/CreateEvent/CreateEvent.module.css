@@ -1,0 +1,12 @@
+.formGroup {
+  text-align: center;
+  font-family: "Gabarito", sans-serif;
+  color: white;
+}
+.eventImagePreview {
+  display: block;
+  margin: 0 auto;
+  max-width: 50%;
+  height: auto;
+  margin-top: 10px;
+}

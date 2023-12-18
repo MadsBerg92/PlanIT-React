@@ -143,7 +143,7 @@ const Feed = () => {
   };
 
   return (
-    <div>
+    <div className={styles.body}>
       <button onClick={toggleSidebar} className={styles.sidebarToggle}>
         <span className="material-icons">
           {isSidebarOpen ? "" : "settings"}

@@ -3,6 +3,7 @@ import Parse from "parse";
 import styles from "./Login.module.css";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/Button/Button";
 
 /**
  * Form component for user sign up and login.
@@ -78,7 +79,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className={styles.body}>
       <div className={styles.header}>
         <img src=".\Images\logo_tab.png" alt="logo" className={styles.logo} />
       </div>
@@ -134,6 +135,7 @@ const Login = () => {
               {errorMessage && (
                 <p className={styles.error_message}>{errorMessage}</p>
               )}
+              <Button type="submit" textInactive="Login" />
               <button type="submit">Login</button>
               <br />
               <br />

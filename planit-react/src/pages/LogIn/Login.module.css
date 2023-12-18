@@ -104,3 +104,7 @@ form p a:hover {
   align-items: center;
   justify-content: center;
 }
+
+.body {
+  background-color: #f9f3db;
+}
