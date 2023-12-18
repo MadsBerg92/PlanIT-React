@@ -72,10 +72,14 @@ function Button({ textActive, textInactive, isActive, onClick, type }) {
     case "addFriend":
       buttonClass = styles.addFriend;
       break;
+    case "submit":
+      buttonClass = styles.submitBtn;
+      break;
 
     default:
       buttonClass = styles.normalButton;
   }
+
   //Define a different onclick function when you create an instance of button to change the onclick behavior!
   return (
     <div>

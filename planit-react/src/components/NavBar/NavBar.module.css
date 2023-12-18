@@ -21,7 +21,7 @@
 
 .navlink:hover,
 .navlink.active {
-  color: green;
+  color: #3f771a;
 }
 
 .navlink::before {
