@@ -10,6 +10,7 @@
   height: 400px; /* Make the height auto */
   overflow-y: auto; /* Allow vertical scrolling when the content doesn't fit */
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  position: relative;
 }
 
 .box:hover {
@@ -33,7 +34,6 @@
   padding: 10px 0; /* Add some vertical padding to each list item */
   border-bottom: 1px solid #e0e0e0; /* Add a border below each list item */
   transition: all 0.2s ease; /* Add transition for smooth hover effect */
-
 }
 
 .box li:hover {
@@ -50,4 +50,10 @@
   font-size: 16px;
   color: #333;
   margin-bottom: 10px;
+}
+.extraButton {
+  position: absolute;
+  padding: 15px;
+  top: 0;
+  right: 0;
 }
