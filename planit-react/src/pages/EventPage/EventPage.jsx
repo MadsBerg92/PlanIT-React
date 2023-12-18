@@ -6,7 +6,8 @@ import Box from "../../components/box/Box.jsx";
 import FriendListModal from "../../components/FriendListModal/FriendListModal.jsx";
 import styles from "./EventPage.module.css";
 import Parse from "parse";
-import { useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMapMarker } from "@fortawesome/free-solid-svg-icons"; 
 
 
 const EventPage = () => {
@@ -18,10 +19,7 @@ const EventPage = () => {
   const [eventImage, setEventImage] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
-  const [allowFriendsToInvite, setAllowFriendsToInvite] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState(null);
-  const [eventCreatorId, setEventCreatorId] = useState(null);
-  const location = useLocation();
+
 
   const fetchEventData = async () => {
     try {
@@ -39,26 +37,23 @@ const EventPage = () => {
       );
 
       const result = await query.first();
-      // Fetch the allowFriendsToInvite value
-      const allowFriendsToInvite = result.get("allowFriendsToInvite");
-
-      // Set the state variable
-      setAllowFriendsToInvite(allowFriendsToInvite);
 
       // Check if the current user is in the list of attendees
       const attendees = result.get("attendees") || [];
       const currentUser = Parse.User.current();
-      const eventCreator = result.get("createdBy");
       const isAttending = attendees.includes(currentUser.id);
-
-      setCurrentUserId(currentUser.id);
-      setEventCreatorId(eventCreator);
 
       // Set the initial state based on user's attendance
       setIsActive(isAttending);
 
       setEventData([
-        { label: "Location", value: result.get("eventLocation") },
+        { label: (
+          <>
+            <FontAwesomeIcon icon={faMapMarker} />
+          </>
+        ),
+        value: result.get("eventLocation"),
+      },
         { label: "Created By", value: result.get("creatorName") },
         { label: "Event Date", value: result.get("eventDate") },
       ]);
@@ -70,6 +65,7 @@ const EventPage = () => {
       console.error("Error fetching event data:", error);
     }
   };
+
 
   const handleToggle = async () => {
     try {
@@ -105,19 +101,10 @@ const EventPage = () => {
       console.error("Error updating event status:", error);
     }
   };
-  useEffect(() => {
-    console.log("Current user ID:", currentUserId);
-    console.log("Event creator ID:", eventCreatorId);
-  }, [currentUserId, eventCreatorId]);
 
   useEffect(() => {
     fetchEventData();
-
-    // Open the "Invite Friends" modal only if the event has just been created
-    if (location.state?.isNewEvent) {
-      setShowFriendList(true);
-    }
-  }, [eventId, eventIdAsNumber, location.state]);
+  }, [eventId, eventIdAsNumber]);
 
   const handleModalOpen = () => {
     setShowFriendList(true);
@@ -140,17 +127,15 @@ const EventPage = () => {
           onClick={handleToggle}
           type={"normal"}
         />
-        {(currentUserId === eventCreatorId || allowFriendsToInvite) && (
-          <Button
-            textInactive={"Invite Friends"}
-            type={"special"}
-            onClick={handleModalOpen}
-          />
-        )}
+        <Button
+          textInactive={"Invite Friends"}
+          type={"special"}
+          onClick={handleModalOpen}
+        ></Button>
       </div>
       <div className={styles.boxContainer}>
-        <Box title="Event Details" content={eventData} type="second"></Box>
-        <Box title="Event Description" content={description} type="first"></Box>
+        <Box title="Details" content={eventData} type="second"></Box>
+        <Box title="Description" content={description} type="first"></Box>
       </div>
       <div className={styles.calendarBox}>
         <Box type="first" content={<EventCalendar />}></Box>

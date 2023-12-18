@@ -18,12 +18,14 @@ function Box({ title, content = [], type, Button, children }) {
       const showColon = item.label.length > 0; // Show colon, if label has text
       return (
         <li key={index}>
-          <strong>
+          <div>
             {item.label}
             {showColon ? ":" : ""}
-          </strong>{" "}
+          </div>{" "}
+          <strong>
           {renderValue(item.value)}
           {Button && Button(item)}
+          </strong>
         </li>
       );
     } else if (type === "shopping") {
