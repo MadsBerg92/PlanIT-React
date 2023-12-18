@@ -3,7 +3,6 @@ import React from "react";
 import EventPage from "./pages/EventPage/EventPage.jsx";
 import Login from "./pages/LogIn/Login.jsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
-// import MyEvents from "./pages/MyEvents/MyEvents.jsx";
 import CreateEvent from "./pages/CreateEvent/CreateEvent.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import FeedPage from "./pages/FeedPage/FeedPage.jsx";
