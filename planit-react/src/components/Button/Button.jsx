@@ -72,6 +72,7 @@ function Button({ textActive, textInactive, isActive, onClick, type }) {
     case "addFriend":
       buttonClass = styles.addFriend;
       break;
+
     default:
       buttonClass = styles.normalButton;
   }
