@@ -38,8 +38,7 @@
   left: 50%;
 }
 
-.navlink:hover::before,
-.navlink.active::before {
+.navlink:hover::before {
   width: 100%;
   left: 0;
 }
