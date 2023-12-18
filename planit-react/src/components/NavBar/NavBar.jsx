@@ -63,7 +63,9 @@ function NavBar() {
             </Nav.Link>
           </Nav>
           <NavDropdown
-            className={`${styles.dropdown} ms-auto`}
+            className={`${styles.dropdown}  ${
+              location.pathname === "/profile" ? styles.active : ""
+            } ms-auto `}
             title="Profile"
             id="basic-nav-dropdown"
           >
