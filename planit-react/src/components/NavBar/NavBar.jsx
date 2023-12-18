@@ -38,19 +38,25 @@ function NavBar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto justify-content-between">
             <Nav.Link
-              className={styles.navlink}
+              className={`${styles.navlink} ${
+                location.pathname === "/Home" ? styles.active : ""
+              }`}
               onClick={() => navigate("Home")}
             >
               Home
             </Nav.Link>
             <Nav.Link
-              className={styles.navlink}
+              className={`${styles.navlink} ${
+                location.pathname === "/event-creation" ? styles.active : ""
+              }`}
               onClick={() => navigate("/event-creation")}
             >
               Create Event
             </Nav.Link>
             <Nav.Link
-              className={styles.navlink}
+              className={`${styles.navlink} ${
+                location.pathname === "/Friendlist" ? styles.active : ""
+              }`}
               onClick={() => navigate("Friendlist")}
             >
               My Friends
