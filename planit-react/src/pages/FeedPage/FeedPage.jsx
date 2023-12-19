@@ -139,12 +139,6 @@ const Feed = () => {
       setEvents((prevEvents) => [...prevEvents, newEvent]);
     });
 
-    subscription.on("update", (object) => {
-      console.log("Object updated: ", object);
-      // Fetch events again when an object is updated
-      fetchEvents(eventFilter, sortOrder, attendingFilter, dateFilter);
-    });
-
     // Unsubscribe from the query in the cleanup function
     return () => {
       liveQueryClient.unsubscribe(query, subscription);

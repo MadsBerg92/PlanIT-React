@@ -72,13 +72,13 @@ input[type="submit"]:hover {
 }
 
 /* List */
-ul {
+.ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-li {
+.li {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -86,7 +86,7 @@ li {
   border-bottom: 1px solid #ccc;
 }
 
-li:last-child {
+.li:last-child {
   border-bottom: none;
 }
 

@@ -24,6 +24,7 @@ const EventPage = () => {
   const [allowFriendsToInvite, setAllowFriendsToInvite] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [eventCreatorId, setEventCreatorId] = useState(null);
+  const [checkedItems, setCheckedItems] = useState([]);
   const location = useLocation();
 
   const fetchEventData = async () => {
@@ -75,6 +76,28 @@ const EventPage = () => {
     } catch (error) {
       console.error("Error fetching event data:", error);
     }
+  };
+  const handleCheckboxChange = async (item) => {
+    // Update the checked property of the item
+    const currentUser = Parse.User.current();
+    const userName = currentUser.get("username");
+    const updatedShoppingList = shoppingList.map((i) =>
+      i.id === item.id ? { ...i, checked: !i.checked, checkedBy: userName } : i
+    );
+
+    setShoppingList(updatedShoppingList);
+    const ParseEvents = Parse.Object.extend("Events");
+    const query = new Parse.Query(ParseEvents);
+    query.equalTo("eventId", parseInt(eventId)); // replace eventId with your event id
+    const event = await query.first();
+
+    // Update the shoppingList array in the event
+    event.set("shoppingList", updatedShoppingList);
+    await event.save();
+    // Update the shoppingListItem array in the database
+
+    currentUser.set("shoppingListItem", updatedShoppingList);
+    await currentUser.save();
   };
 
   const handleToggle = async () => {
@@ -188,7 +211,12 @@ const EventPage = () => {
       </div>
       <div className={styles.calendarBox}>
         <Box type="first" content={<EventCalendar />}></Box>
-        <Box title="Shopping List" content={shoppingList} type="shopping"></Box>
+        <Box
+          title="Shopping List"
+          type="shopping"
+          content={shoppingList}
+          onChange={handleCheckboxChange}
+        />
       </div>
       <FriendListModal show={showFriendList} onClose={handleModalCloseInvite} />
     </div>
