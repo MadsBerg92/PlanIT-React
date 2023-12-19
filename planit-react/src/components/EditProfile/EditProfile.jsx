@@ -91,17 +91,13 @@ const EditProfile = (props) => {
     <div>
       {isEditing ? (
         <div>
-          <div className={styles.header}>
-            <h1>Edit Your Profile</h1>
-          </div>
-
+          <div className={styles.header}></div>
           <img
             id="profile-picture-preview"
             className={style.profile_picture}
             src={profile.get("profilePicture").url()}
             alt=""
           ></img>
-
           <div className={styles.editSection}>
             <form action="/updateProfile" method="post" onSubmit={handleSubmit}>
               <InputBox
@@ -119,7 +115,6 @@ const EditProfile = (props) => {
                 placeholder={profile.get("username")}
                 required
               />
-
               <InputBox
                 id="email"
                 label="Email"
@@ -128,7 +123,6 @@ const EditProfile = (props) => {
                 placeholder={profile.get("email")}
                 required
               />
-
               <button type="submit" className={styles.updateButton}>
                 Save Changes
               </button>
@@ -138,9 +132,7 @@ const EditProfile = (props) => {
         </div>
       ) : (
         <div>
-          <div className={style.header}>
-            <h2>My Profile</h2>
-          </div>
+          <div className={style.header}></div>
           <img
             id="profile-picture-preview"
             className={style.profile_picture}

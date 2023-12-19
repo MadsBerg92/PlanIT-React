@@ -93,7 +93,6 @@ const Feed = () => {
       } else if (attendingFilter === "notAttending") {
         return !attendees.includes(currentUser.id);
       }
-      //"True" is equal to all events
       return true;
     });
 

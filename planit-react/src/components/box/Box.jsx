@@ -18,11 +18,8 @@ function Box({ title, content = [], type, Button, ExtraButton, children }) {
       const showColon = item.label && item.label.length > 0;
       return (
         <li key={index}>
-          <strong>
-            {item.label}
-            {showColon ? ":" : ""}
-          </strong>{" "}
-          {renderValue(item.value)}
+          {item.label}
+          {showColon ? ":" : ""} <strong>{renderValue(item.value)}</strong>
           {Button && Button(item)}
         </li>
       );
@@ -41,7 +38,7 @@ function Box({ title, content = [], type, Button, ExtraButton, children }) {
   };
 
   const renderBoxContent = () => {
-    if (content.length === 0) {
+    if (content.length === 0 && type !== "shopping") {
       return (
         <p className={styles.noFriendsMessage}>
           You don't seem to have any friends yet, search for them and add them
