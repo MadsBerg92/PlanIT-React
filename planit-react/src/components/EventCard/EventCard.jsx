@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import Font
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 
 import Parse from "parse";
+import { useState, useEffect } from "react";
 
 /**
  * Renders an event card component.
@@ -18,17 +19,23 @@ import Parse from "parse";
 function EventCard({ eventData }) {
   const navigate = useNavigate();
 
+  const [formattedDate, setFormattedDate] = useState("");
+
   /**
    * Renders the content based on the type of event.
    * @returns {JSX.Element|null} The rendered content.
    */
-  const renderContent = () => {
-    return (
-      <div>
-        <li>Date: {eventData.eventDate}</li>
-      </div>
-    );
-  };
+  useEffect(() => {
+    const eventDate = new Date(eventData.eventDate);
+    const options = {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      hour: "numeric",
+      year: "numeric",
+    };
+    setFormattedDate(eventDate.toLocaleDateString("en-US", options));
+  }, [eventData.eventDate]);
 
   const handleEventClick = () => {
     navigate(`/EventPage/${eventData.eventId}`);
@@ -56,7 +63,7 @@ function EventCard({ eventData }) {
               </div>
 
               <div className={styles.date}>
-                <ul>{renderContent()}</ul>
+                <ul> {formattedDate}</ul>
               </div>
             </div>
           </div>

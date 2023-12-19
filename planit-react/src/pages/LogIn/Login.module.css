@@ -17,56 +17,9 @@
   text-align: center;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-form input {
-  margin-bottom: 20px;
-  padding: 10px;
-  width: 100%;
-  max-width: 500px;
-  border: 1px solid #d3e4cd;
-  border-radius: 55px;
-}
-
-form input:focus {
-  outline: none;
-  border: 1px solid #9ab693;
-}
-
-form button {
-  margin-top: 20px;
-  padding: 10px;
-  width: 10%;
-  border: 1px solid #d3e4cd;
-  border-radius: 5px;
-  background-color: #115700;
-  color: white;
-  font-weight: bold;
-}
-
 form button:hover {
   background-color: #3f752c;
   color: #ffffff;
-}
-
-form p {
-  margin-top: 20px;
-  font-size: 12px;
-  color: #9ab693;
-}
-
-form p a {
-  color: #9ab693;
-  text-decoration: none;
-}
-
-form p a:hover {
-  color: #d3e4cd;
-  text-decoration: underline;
 }
 
 .logo {

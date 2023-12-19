@@ -56,20 +56,23 @@ h5 {
 }
 
 .date {
-  width: 200px;
+  font-weight: 500;
+  margin-top: 5px;
+  margin-left: none !important;
 }
 
 .editLink {
   position: absolute;
   top: 0;
   right: 0;
-  margin: 20px; /* Adjust margin as needed */
+  margin: 20px;
   z-index: 1;
 }
 
 .icon {
   color: black !important;
 }
+
 @media screen and (max-width: 768px) {
   .mainDiv {
     margin-left: 20px;
