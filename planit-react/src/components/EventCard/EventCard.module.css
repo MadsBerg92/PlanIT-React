@@ -1,5 +1,8 @@
 .mainDiv {
-  border-radius: 15px;
+
+  position: relative;
+  border-radius: 30px;
+
   margin-top: 30px;
   margin-bottom: 80px;
   margin-left: 160px;
@@ -31,7 +34,13 @@
   height: 150px;
   object-fit: cover;
   margin-right: 40px;
+
+}
+
+h5 {
+  font-size: medium;
   border-radius: 10%;
+
 }
 
 .descriptionDateContainer {
@@ -45,13 +54,26 @@
   word-wrap: break-word;
   max-height: 150px;
   overflow: hidden;
-  width: 450px;
+  width: auto;
+  padding-right: 30px;
 }
 
 .date {
-  margin-left: 20px;
   width: 200px;
 }
+
+
+.editLink {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 20px; /* Adjust margin as needed */
+  z-index: 1;
+}
+
+.icon {
+  color: black !important;
+
 @media screen and (max-width: 768px) {
   .mainDiv {
     margin-left: 20px;
@@ -64,4 +86,5 @@
     width: 100px;
     height: 100px;
   }
+
 }
