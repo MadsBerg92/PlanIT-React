@@ -14,6 +14,7 @@ const EventPage = () => {
   const eventIdAsNumber = parseInt(eventId, 10);
   const [isActive, setIsActive] = useState();
   const [eventData, setEventData] = useState([]);
+  const [eventTitle, setEventTitle] = useState("");
   const [description, setDescription] = useState("");
   const [eventImage, setEventImage] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
@@ -31,6 +32,7 @@ const EventPage = () => {
       const query = new Parse.Query(ParseEvents);
       query.equalTo("eventId", eventIdAsNumber);
       query.select(
+        "title",
         "eventLocation",
         "createdBy",
         "eventDate",
@@ -65,6 +67,7 @@ const EventPage = () => {
         { label: "Event Date", value: result.get("eventDate") },
       ]);
       const eventImage = result.get("image").url();
+      setEventTitle(result.get("title"));
       setEventImage(eventImage);
       setDescription(result.get("eventDescription"));
       setShoppingList(result.get("shoppingList"));
@@ -89,8 +92,6 @@ const EventPage = () => {
 
       // Fetch the attendees array
       const attendees = event.get("attendees") || [];
-
-      let newAttendeeCount = attendeeCount;
 
       if (!isActive && !attendees.includes(userId)) {
         attendees.push(userId); // Add the userId to the attendees array
@@ -120,7 +121,6 @@ const EventPage = () => {
   useEffect(() => {
     fetchEventData();
 
-    // Open the "Invite Friends" modal only if the event has just been created
     if (location.state?.isNewEvent) {
       setShowFriendList(true);
     }
@@ -156,11 +156,13 @@ const EventPage = () => {
             onClick={handleToggle}
             type={"normal"}
           />
-          <Button
-            textInactive={"Invite Friends"}
-            type={"special"}
-            onClick={handleModalOpenInvite}
-          />
+          {(currentUserId === eventCreatorId || allowFriendsToInvite) && (
+            <Button
+              textInactive={"Invite Friends"}
+              type={"special"}
+              onClick={handleModalOpenInvite}
+            />
+          )}
           <div
             className={styles.attendeeInfo}
             onClick={handleModalOpenAttendees}
@@ -179,17 +181,10 @@ const EventPage = () => {
             onClose={handleModalCloseAttendees}
           />
         </div>
-        {(currentUserId === eventCreatorId || allowFriendsToInvite) && (
-          <Button
-            textInactive={"Invite Friends"}
-            type={"special"}
-            onClick={handleModalOpen}
-          />
-        )}
       </div>
       <div className={styles.boxContainer}>
-        <Box title="Event Details" content={eventData} type="second"></Box>
-        <Box title="Event Description" content={description} type="first"></Box>
+        <Box title={eventTitle} content={eventData} type="second"></Box>
+        <Box content={description} type="first"></Box>
       </div>
       <div className={styles.calendarBox}>
         <Box type="first" content={<EventCalendar />}></Box>

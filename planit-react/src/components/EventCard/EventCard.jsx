@@ -13,7 +13,7 @@ import Parse from "parse";
  * @returns {JSX.Element} The rendered event card.
  */
 
-function EventCard({ type, eventData }) {
+function EventCard({ eventData }) {
   const navigate = useNavigate();
 
   /**
@@ -21,38 +21,19 @@ function EventCard({ type, eventData }) {
    * @returns {JSX.Element|null} The rendered content.
    */
   const renderContent = () => {
-    switch (type) {
-      case "specific":
-        return (
-          <div>
-            <li>Date: {eventData.eventDate}</li>
-            <li>RSVP: {eventData.eventRSVP}</li>
-          </div>
-        );
-      case "openPoll":
-      case "specificPoll":
-        return (
-          <div>
-            <li>Date: To be decided</li>
-            <li>RSVP: {eventData.eventRSVP}</li>
-          </div>
-        );
-      default:
-        return null;
-    }
+    return (
+      <div>
+        <li>Date: {eventData.eventDate}</li>
+      </div>
+    );
   };
 
-  /**
-   * Handles the click event for the event card.
-   */
   const handleEventClick = () => {
     navigate(`/EventPage/${eventData.eventId}`);
   };
-  // Get current user's objectId
   const currentUserId = Parse.User.current().id;
   const handleEditClick = (e) => {
-    e.stopPropagation(); // Prevent triggering handleEventClick
-    // Navigate to the edit page
+    e.stopPropagation();
     navigate(`/EditEventPage/${eventData.eventId}`);
   };
   return (

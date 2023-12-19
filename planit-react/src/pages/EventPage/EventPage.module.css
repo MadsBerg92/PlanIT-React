@@ -15,10 +15,13 @@
 .boxContainer {
   display: flex;
   justify-content: center;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .calendarBox {
-  /* width: 600px; */
   display: flex;
   justify-content: center;
 }
