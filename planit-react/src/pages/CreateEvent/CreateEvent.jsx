@@ -8,6 +8,8 @@ import { ShoppingListContext } from "../../Context/ShoppingListContext";
 import { useRef } from "react";
 import React from "react";
 import styles from "./CreateEvent.module.css";
+import { useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const CreateEvent = () => {
   console.log("Rendering CreateEvent component...");
@@ -20,6 +22,7 @@ const CreateEvent = () => {
   const [isUnmounting, setIsUnmounting] = useState(false);
   const eventIdRef = useRef(null);
   const [isEventCreated, setIsEventCreated] = useState(false);
+  const location = useLocation();
 
   const createTempEvent = async () => {
     const ParseEvents = Parse.Object.extend("Events");
@@ -41,8 +44,12 @@ const CreateEvent = () => {
     setIsEventCreated(false);
     setEventId(savedEvent.id);
   };
+
   useEffect(() => {
+    // This function runs when the component mounts
+
     return () => {
+      // This function runs when the component unmounts
       setIsUnmounting(true);
     };
   }, []);
@@ -60,7 +67,7 @@ const CreateEvent = () => {
         !isCreatingEvent &&
         eventIdRef.current &&
         isUnmounting &&
-        isEventCreated
+        !isEventCreated
       ) {
         console.log("Destroying temporary event...");
         const ParseEvents = Parse.Object.extend("Events");
@@ -78,7 +85,7 @@ const CreateEvent = () => {
         }
       }
     };
-  }, [isCreatingEvent, isUnmounting, isEventCreated]);
+  }, [isCreatingEvent, isUnmounting, isEventCreated, location]);
 
   /**
    * Handles the form submission for creating an event.
@@ -88,7 +95,6 @@ const CreateEvent = () => {
    */
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsCreatingEvent(true);
 
     // Get form values
     const eventName = document.getElementById("event-name").value;
@@ -122,8 +128,6 @@ const CreateEvent = () => {
       // Save the new event
       const savedEvent = await existingEvent.save();
 
-      // Delete the temporary event
-
       // Save the event ID to state
       setEventId(savedEvent.id);
 
@@ -133,7 +137,6 @@ const CreateEvent = () => {
       currentUser.addUnique("eventId", eventId);
 
       await currentUser.save();
-
       setEventId(savedEvent.id); // Save the event ID to state
 
       // Handle image upload (assuming you have a separate "EventImages" class for images)
@@ -150,7 +153,8 @@ const CreateEvent = () => {
       setIsEventCreated(true);
       // Handle success or redirect to the event page
       console.log("Event created successfully!", savedEvent);
-
+      setIsCreatingEvent(true);
+      setIsEventCreated(true);
       navigate(`/EventPage/${savedEvent.get("eventId")}`, {
         state: { isNewEvent: true },
       });
