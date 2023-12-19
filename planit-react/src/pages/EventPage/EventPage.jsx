@@ -143,7 +143,7 @@ const EventPage = () => {
         setEventImage(eventImage);
         setDescription(result.get("eventDescription"));
         setShoppingList(result.get("shoppingList"));
-        setAttendees(attendeesWithoutCurrentUser); // Set the attendees state
+        setAttendees(attendeesWithoutCurrentUser);
       } catch (error) {
         console.error("Error fetching event data:", error);
       }
