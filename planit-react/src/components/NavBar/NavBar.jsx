@@ -26,8 +26,8 @@ function NavBar() {
           >
             <img
               src="/images/logo.png"
-              width="110"
-              height="80"
+              width="80"
+              height="60"
               className="d-inline-block align-top image"
               alt="React Bootstrap logo"
             />

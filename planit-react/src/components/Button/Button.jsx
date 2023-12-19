@@ -66,6 +66,13 @@ function Button({ textActive, textInactive, isActive, onClick, type }) {
     case "cancel":
       buttonClass = styles.cancelButton;
       break;
+    case "deleteFriend":
+      buttonClass = styles.deleteFriend;
+      break;
+    case "addFriend":
+      buttonClass = styles.addFriend;
+      break;
+
     default:
       buttonClass = styles.normalButton;
   }
