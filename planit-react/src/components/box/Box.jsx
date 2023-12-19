@@ -15,14 +15,11 @@ import styles from "./box.module.css";
 function Box({ title, content = [], type, Button, ExtraButton, children }) {
   const renderContent = (item, index) => {
     if (type === "second") {
-      const showColon = item.label && item.label.length > 0; // Show colon, if label has text
+      const showColon = item.label && item.label.length > 0;
       return (
         <li key={index}>
-          <strong>
-            {item.label}
-            {showColon ? ":" : ""}
-          </strong>{" "}
-          {renderValue(item.value)}
+          {item.label}
+          {showColon ? ":" : ""} <strong>{renderValue(item.value)}</strong>
           {Button && Button(item)}
         </li>
       );
@@ -39,6 +36,22 @@ function Box({ title, content = [], type, Button, ExtraButton, children }) {
       }
     }
   };
+
+  const renderBoxContent = () => {
+    if (content.length === 0 && type !== "shopping") {
+      return (
+        <p className={styles.noFriendsMessage}>
+          You don't seem to have any friends yet, search for them and add them
+          here!
+        </p>
+      );
+    } else {
+      return (
+        <ul>{content.map((item, index) => renderContent(item, index))}</ul>
+      );
+    }
+  };
+
   if (type === "first") {
     return (
       <div className={styles.box}>
@@ -54,7 +67,7 @@ function Box({ title, content = [], type, Button, ExtraButton, children }) {
         {ExtraButton && (
           <div className={styles.extraButton}>{ExtraButton()}</div>
         )}
-        <ul>{content.map((item, index) => renderContent(item, index))}</ul>
+        {renderBoxContent()}
         {children}
       </div>
     );
@@ -62,9 +75,8 @@ function Box({ title, content = [], type, Button, ExtraButton, children }) {
 }
 
 function renderValue(value) {
-  // Handle special rendering for certain types, e.g., Date
   if (value instanceof Date) {
-    return value.toLocaleString(); // Adjust this based on your date formatting preference
+    return value.toLocaleString();
   }
 
   return value;

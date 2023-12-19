@@ -97,7 +97,6 @@ const EditProfile = (props) => {
             src={profile.get("profilePicture").url()}
             alt=""
           ></img>
-
           <div className={styles.editSection}>
             <form action="/updateProfile" method="post" onSubmit={handleSubmit}>
               <InputBox
@@ -115,7 +114,6 @@ const EditProfile = (props) => {
                 placeholder={profile.get("username")}
                 required
               />
-
               <InputBox
                 id="email"
                 label="Email"

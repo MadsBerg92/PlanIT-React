@@ -15,10 +15,33 @@
 .boxContainer {
   display: flex;
   justify-content: center;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .calendarBox {
-  /* width: 600px; */
   display: flex;
   justify-content: center;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.actionItems {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-left: 170px;
+}
+
+.attendeeInfo {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
 }

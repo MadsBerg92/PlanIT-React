@@ -7,7 +7,8 @@
   margin-right: 20px; /* Increase the spacing between the boxes */
   flex: 2;
   max-width: 45%;
-  height: 400px; /* Make the height auto */
+  max-height: 1000px;
+  min-height: 400px;
   overflow-y: auto; /* Allow vertical scrolling when the content doesn't fit */
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
   position: relative;

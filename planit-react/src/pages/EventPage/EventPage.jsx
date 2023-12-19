@@ -4,6 +4,7 @@ import Button from "../../components/Button/Button.jsx";
 import EventCalendar from "../../components/calendar/Calendar.tsx";
 import Box from "../../components/box/Box.jsx";
 import FriendListModal from "../../components/FriendListModal/FriendListModal.jsx";
+import AttendeeListModal from "../../components/AttendeeListModal/AttendeeListModal.jsx";
 import styles from "./EventPage.module.css";
 import Parse from "parse";
 import { useLocation } from "react-router-dom";
@@ -13,10 +14,13 @@ const EventPage = () => {
   const eventIdAsNumber = parseInt(eventId, 10);
   const [isActive, setIsActive] = useState();
   const [eventData, setEventData] = useState([]);
+  const [eventTitle, setEventTitle] = useState("");
   const [description, setDescription] = useState("");
   const [eventImage, setEventImage] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
+  const [attendeeCount, setAttendeeCount] = useState(0);
+  const [showAttendeesList, setShowAteendeesList] = useState(false);
   const [allowFriendsToInvite, setAllowFriendsToInvite] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [eventCreatorId, setEventCreatorId] = useState(null);
@@ -28,6 +32,7 @@ const EventPage = () => {
       const query = new Parse.Query(ParseEvents);
       query.equalTo("eventId", eventIdAsNumber);
       query.select(
+        "title",
         "eventLocation",
         "createdBy",
         "eventDate",
@@ -62,9 +67,11 @@ const EventPage = () => {
         { label: "Event Date", value: result.get("eventDate") },
       ]);
       const eventImage = result.get("image").url();
+      setEventTitle(result.get("title"));
       setEventImage(eventImage);
       setDescription(result.get("eventDescription"));
       setShoppingList(result.get("shoppingList"));
+      setAttendeeCount(attendees.length);
     } catch (error) {
       console.error("Error fetching event data:", error);
     }
@@ -93,13 +100,15 @@ const EventPage = () => {
         const index = attendees.indexOf(userId);
         if (index > -1) {
           attendees.splice(index, 1); // Remove the userId from the attendees array
+          setIsActive(false);
         }
-        setIsActive(false);
       }
 
       event.set("attendees", attendees); // Update the attendees array
 
       await event.save(); // Save the updated event
+
+      setAttendeeCount(attendees.length); // Update the attendee count
     } catch (error) {
       console.error("Error updating event status:", error);
     }
@@ -112,18 +121,25 @@ const EventPage = () => {
   useEffect(() => {
     fetchEventData();
 
-    // Open the "Invite Friends" modal only if the event has just been created
     if (location.state?.isNewEvent) {
       setShowFriendList(true);
     }
   }, [eventId, eventIdAsNumber, location.state]);
 
-  const handleModalOpen = () => {
+  const handleModalOpenInvite = () => {
     setShowFriendList(true);
   };
 
-  const handleModalClose = () => {
+  const handleModalCloseInvite = () => {
     setShowFriendList(false);
+  };
+
+  const handleModalOpenAttendees = () => {
+    setShowAteendeesList(true);
+  };
+
+  const handleModalCloseAttendees = () => {
+    setShowAteendeesList(false);
   };
 
   return (
@@ -132,30 +148,49 @@ const EventPage = () => {
         <img className={styles.image} src={eventImage} alt="logo"></img>
       </div>
       <div className={styles.centered}>
-        <Button
-          textActive={"Attending"}
-          textInactive={"Not Attending"}
-          isActive={isActive}
-          onClick={handleToggle}
-          type="special"
-        />
-        {(currentUserId === eventCreatorId || allowFriendsToInvite) && (
+        <div className={styles.actionItems}>
           <Button
-            textInactive={"Invite Friends"}
-            type="special"
-            onClick={handleModalOpen}
+            textActive={"Attending"}
+            textInactive={"Not Attending"}
+            isActive={isActive}
+            onClick={handleToggle}
+            type={"normal"}
           />
-        )}
+          {(currentUserId === eventCreatorId || allowFriendsToInvite) && (
+            <Button
+              textInactive={"Invite Friends"}
+              type={"special"}
+              onClick={handleModalOpenInvite}
+            />
+          )}
+          <div
+            className={styles.attendeeInfo}
+            onClick={handleModalOpenAttendees}
+          >
+            <span className="material-icons" style={{ cursor: "pointer" }}>
+              group
+            </span>
+            <span style={{ cursor: "pointer", marginLeft: "5px" }}>
+              {attendeeCount === 1
+                ? "1 person is attending"
+                : `${attendeeCount} people are attending`}
+            </span>
+          </div>
+          <AttendeeListModal
+            show={showAttendeesList}
+            onClose={handleModalCloseAttendees}
+          />
+        </div>
       </div>
       <div className={styles.boxContainer}>
-        <Box title="Event Details" content={eventData} type="second"></Box>
-        <Box title="Event Description" content={description} type="first"></Box>
+        <Box title={eventTitle} content={eventData} type="second"></Box>
+        <Box content={description} type="first"></Box>
       </div>
       <div className={styles.calendarBox}>
         <Box type="first" content={<EventCalendar />}></Box>
         <Box title="Shopping List" content={shoppingList} type="shopping"></Box>
       </div>
-      <FriendListModal show={showFriendList} onClose={handleModalClose} />
+      <FriendListModal show={showFriendList} onClose={handleModalCloseInvite} />
     </div>
   );
 };
