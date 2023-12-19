@@ -25,7 +25,7 @@ function NavBar() {
             onClick={() => navigate("Home")}
           >
             <img
-              src="/images/logo.png"
+              src="/images/logo_tab.png"
               width="80"
               height="60"
               className="d-inline-block align-top image"
