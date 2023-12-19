@@ -2,7 +2,9 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import styles from "./EventCard.module.css";
 import { useNavigate, Link } from "react-router-dom";
-import { FaEdit } from "react-icons/fa"; // Import edit icon from react-icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import FontAwesomeIcon
+import { faGear } from "@fortawesome/free-solid-svg-icons";
+
 import Parse from "parse";
 
 /**
@@ -61,9 +63,12 @@ function EventCard({ eventData }) {
           {/* Only show edit icon if the event is created by the current user  */}
         </Nav.Link>
         {eventData.createdBy === currentUserId && (
-          <div>
-            <Link to={`/edit-event/${eventData.eventId}`}>
-              <FaEdit />
+          <div className={`${styles.editLink} editLink`}>
+            <Link
+              to={`/edit-event/${eventData.eventId}`}
+              className={styles.icon}
+            >
+              <FontAwesomeIcon icon={faGear} />
             </Link>
           </div>
         )}

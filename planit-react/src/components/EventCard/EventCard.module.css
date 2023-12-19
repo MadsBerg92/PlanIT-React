@@ -1,4 +1,5 @@
 .mainDiv {
+  position: relative;
   border-radius: 30px;
   margin-top: 30px;
   margin-bottom: 60px;
@@ -43,4 +44,16 @@
 .date {
   margin-left: 20px;
   width: 200px;
+}
+
+.editLink {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 20px; /* Adjust margin as needed */
+  z-index: 1;
+}
+
+.icon {
+  color: black !important;
 }
