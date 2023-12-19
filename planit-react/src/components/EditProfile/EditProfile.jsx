@@ -1,5 +1,3 @@
-// EditProfile.jsx
-
 import style from "./EditProfile.module.css";
 import styles from "../../pages/ProfilePage/ProfilePage.module.css";
 import { useState, useEffect } from "react";
@@ -51,7 +49,6 @@ const EditProfile = (props) => {
     }
   };
 
-  //Submit button when updating profile information
   /**
    * Handles the form submission for editing the user profile.
    *

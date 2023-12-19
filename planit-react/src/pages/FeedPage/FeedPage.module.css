@@ -18,7 +18,6 @@
   transition: left 0.3s;
   padding: 20px;
   z-index: 100;
-  /* border-style: ridge; */
 }
 
 .sidebar.open {

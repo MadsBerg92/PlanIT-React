@@ -3,15 +3,15 @@ import EventCard from "../../components/EventCard/EventCard.jsx";
 import Parse from "parse";
 import styles from "./FeedPage.module.css";
 import React, { useContext, useEffect, useState } from "react";
-import { LiveQueryClientContext } from "../../index.js"; // replace with the actual path
+import { LiveQueryClientContext } from "../../index.js";
 
 const Feed = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
-  const [sortOrder, setSortOrder] = useState("newest"); // Options: 'newest', 'oldest'
-  const [attendingFilter, setAttendingFilter] = useState("all"); // Options: 'attending', 'notAttending', 'all'
-  const [dateFilter, setDateFilter] = useState("all"); // Options: 'past', 'upcoming', 'all'
-  const [eventFilter, setEventFilter] = useState("all"); // Default value 'all'
+  const [sortOrder, setSortOrder] = useState("newest");
+  const [attendingFilter, setAttendingFilter] = useState("all");
+  const [dateFilter, setDateFilter] = useState("all");
+  const [eventFilter, setEventFilter] = useState("all");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const liveQueryClient = useContext(LiveQueryClientContext);
 
@@ -133,14 +133,12 @@ const Feed = () => {
     const query = new Parse.Query(ParseEvents);
     query.notEqualTo("title", "Temporary Title");
 
-    // Subscribe to the query
     const subscription = liveQueryClient.subscribe(query);
 
     subscription.on("create", (newEvent) => {
       setEvents((prevEvents) => [...prevEvents, newEvent]);
     });
 
-    // Unsubscribe from the query in the cleanup function
     return () => {
       liveQueryClient.unsubscribe(query, subscription);
     };

@@ -11,7 +11,6 @@ export const ShoppingListContext = React.createContext();
  * @returns {JSX.Element} The rendered component.
  */
 export const ShoppingListProvider = ({ children }) => {
-  // State variables
   const [shoppingList, setShoppingList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -57,17 +56,17 @@ export const ShoppingListProvider = ({ children }) => {
     console.log("Saving shopping list with id ", eventId);
     const Events = Parse.Object.extend("Events");
     const query = new Parse.Query(Events);
-    query.equalTo("objectId", eventId); // Use query.equalTo instead of query.get
+    query.equalTo("objectId", eventId);
     try {
-      const results = await query.find(); // Use query.find to get the results
+      const results = await query.find();
       if (results.length === 0) {
         console.error(`No event found with id ${eventId}`);
         return;
       }
-      const event = results[0]; // Get the first result
+      const event = results[0];
       event.set("shoppingList", list);
       await event.save();
-      fetchShoppingList(); // Refresh the list
+      fetchShoppingList();
     } catch (error) {
       console.error("Failed to save new shopping list: ", error);
     }

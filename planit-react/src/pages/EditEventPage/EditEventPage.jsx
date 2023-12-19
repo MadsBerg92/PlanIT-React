@@ -10,7 +10,7 @@ import { Modal } from "react-bootstrap";
 
 const EditEventPage = () => {
   const navigate = useNavigate();
-  const { eventId } = useParams(); // Get the event ID from the URL
+  const { eventId } = useParams();
   console.log(eventId);
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
@@ -56,7 +56,6 @@ const EditEventPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Get form values
     const eventName = document.getElementById("event-name").value;
     const eventDate = document.getElementById("event-date").value;
     const eventTime = document.getElementById("event-time").value;
@@ -65,15 +64,13 @@ const EditEventPage = () => {
     const eventImage = document.getElementById("event-image").files[0];
 
     try {
-      // Fetch the existing event
       const ParseEvents = Parse.Object.extend("Events");
       const query = new Parse.Query(ParseEvents);
       query.equalTo("eventId", parseInt(eventId));
       const existingEvent = await query.first();
 
-      // Set properties for the existing event
       existingEvent.set("title", eventName);
-      existingEvent.set("eventDate", new Date(`${eventDate}T${eventTime}:00`)); // Combine date and time
+      existingEvent.set("eventDate", new Date(`${eventDate}T${eventTime}:00`));
       existingEvent.set("eventLocation", eventLocation);
       existingEvent.set("eventDescription", eventDescription);
       existingEvent.set("allowFriendsToInvite", allowFriendsToInvite);
@@ -84,10 +81,8 @@ const EditEventPage = () => {
         );
       }
 
-      // Save the existing event
       await existingEvent.save();
 
-      // Handle success or redirect to the event page
       console.log("Event updated successfully!", existingEvent);
       navigate("/Home");
     } catch (error) {

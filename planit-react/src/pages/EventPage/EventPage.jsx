@@ -20,7 +20,6 @@ const EventPage = () => {
   const location = useLocation();
   const { eventId } = useParams();
   const eventIdAsNumber = parseInt(eventId, 10);
-  const [checkedItems, setCheckedItems] = useState([]);
   const [eventDetails, setEventDetails] = useState({
     isActive: false,
     eventData: [],
@@ -123,7 +122,7 @@ const EventPage = () => {
           shoppingList: result.get("shoppingList"),
           attendeesCount: attendees.length,
           allowFriendsToInvite: result.get("allowFriendsToInvite"),
-          attendeesData: attendeesData, // Add this line
+          attendeesData: attendeesData,
         }));
       }
     } catch (error) {
@@ -154,10 +153,9 @@ const EventPage = () => {
     }));
     const ParseEvents = Parse.Object.extend("Events");
     const query = new Parse.Query(ParseEvents);
-    query.equalTo("eventId", parseInt(eventId)); // replace eventId with your event id
+    query.equalTo("eventId", parseInt(eventId));
     const event = await query.first();
 
-    // Update the shoppingList array in the event
     event.set("shoppingList", updatedShoppingList);
     await event.save();
     currentUser.set("shoppingListItem", updatedShoppingList);
@@ -222,12 +220,10 @@ const EventPage = () => {
             textInactive={"Not Attending"}
             isActive={eventDetails.isActive}
             onClick={handleToggle}
-            type={"normal"}
           />
           {eventDetails.allowFriendsToInvite && (
             <Button
               textInactive="Invite Friends"
-              type="special"
               onClick={() => handleModalOpen("showFriendList")}
             />
           )}

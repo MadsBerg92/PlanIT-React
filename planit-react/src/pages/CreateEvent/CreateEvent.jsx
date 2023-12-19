@@ -29,27 +29,19 @@ const CreateEvent = () => {
     const newEvent = new ParseEvents();
     const randomEventId = Math.floor(Math.random() * 1000000);
 
-    // Set minimal properties for the new event (eventId is set to 0 to identify it as a temporary event)
-    // This is done in order to create a shopping list for the event before its created
     newEvent.set("title", "Temporary Title");
     newEvent.set("createdBy", Parse.User.current().id);
     newEvent.set("attendees", [Parse.User.current().id]);
     newEvent.set("eventId", randomEventId);
 
-    // Save the new event
     const savedEvent = await newEvent.save();
-    // Save the event ID to the ref
     eventIdRef.current = savedEvent.id;
-    // Save the event ID to state
     setIsEventCreated(false);
     setEventId(savedEvent.id);
   };
 
   useEffect(() => {
-    // This function runs when the component mounts
-
     return () => {
-      // This function runs when the component unmounts
       setIsUnmounting(true);
     };
   }, []);
@@ -61,7 +53,6 @@ const CreateEvent = () => {
       hasMountedRef.current = true;
     }
 
-    // Cleanup function
     return async () => {
       if (
         !isCreatingEvent &&
@@ -73,7 +64,6 @@ const CreateEvent = () => {
         const ParseEvents = Parse.Object.extend("Events");
         const query = new Parse.Query(ParseEvents);
 
-        // Check if the event still exists
         const eventExists = await query
           .get(eventIdRef.current)
           .then(() => true)
@@ -96,7 +86,6 @@ const CreateEvent = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Get form values
     const eventName = document.getElementById("event-name").value;
     const eventDate = document.getElementById("event-date").value;
     const eventTime = document.getElementById("event-time").value;
@@ -105,7 +94,6 @@ const CreateEvent = () => {
     const eventImage = document.getElementById("event-image").files[0];
 
     try {
-      // Fetch the previously created event
       const ParseEvents = Parse.Object.extend("Events");
       const query = new Parse.Query(ParseEvents);
       console.log("Fetching event with ID:", eventId);
@@ -113,9 +101,8 @@ const CreateEvent = () => {
       const shoppingList = existingEvent.get("shoppingList");
       const currentUser = Parse.User.current();
 
-      // Set properties for the new event
       existingEvent.set("title", eventName);
-      existingEvent.set("eventDate", new Date(`${eventDate} ${eventTime}`)); // Combine date and time
+      existingEvent.set("eventDate", new Date(`${eventDate} ${eventTime}`));
       existingEvent.set("eventLocation", eventLocation);
       existingEvent.set("eventDescription", eventDescription);
       existingEvent.set("createdDate", new Date());
@@ -125,33 +112,26 @@ const CreateEvent = () => {
       existingEvent.set("shoppingList", shoppingList);
       existingEvent.set("allowFriendsToInvite", allowFriendsToInvite);
 
-      // Save the new event
       const savedEvent = await existingEvent.save();
 
-      // Save the event ID to state
       setEventId(savedEvent.id);
 
-      // Save the shopping list to the event
       saveShoppingList(shoppingList, savedEvent.id);
 
       currentUser.addUnique("eventId", eventId);
 
       await currentUser.save();
-      setEventId(savedEvent.id); // Save the event ID to state
+      setEventId(savedEvent.id);
 
-      // Handle image upload (assuming you have a separate "EventImages" class for images)
       const EventImages = Parse.Object.extend("EventImages");
       const eventImageObject = new EventImages();
       const parseFile = new Parse.File("eventImage.jpg", eventImage);
 
-      // Set properties for the image object
       eventImageObject.set("eventId", savedEvent.id);
       eventImageObject.set("imageFile", parseFile);
 
-      // Save the image object
       await eventImageObject.save();
       setIsEventCreated(true);
-      // Handle success or redirect to the event page
       console.log("Event created successfully!", savedEvent);
       setIsCreatingEvent(true);
       setIsEventCreated(true);
@@ -168,19 +148,10 @@ const CreateEvent = () => {
    * @returns {Promise<void>}
    */
   const handleCancel = async () => {
-    // Fetch the event with eventId of 0
     const ParseEvents = Parse.Object.extend("Events");
     const query = new Parse.Query(ParseEvents);
     query.equalTo("eventId", 0);
     const eventWithIdZero = await query.first();
-
-    // Check if the event exists
-    // if (eventWithIdZero) {
-    //   // Delete the event
-    //   await eventWithIdZero.destroy();
-    // }
-
-    // Navigate back to the previous page
     navigate(-1);
   };
 
