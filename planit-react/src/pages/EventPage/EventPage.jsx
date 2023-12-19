@@ -7,6 +7,23 @@ import FriendListModal from "../../components/FriendListModal/FriendListModal.js
 import AttendeeListModal from "../../components/AttendeeListModal/AttendeeListModal.jsx";
 import styles from "./EventPage.module.css";
 import Parse from "parse";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faLocationDot,
+  faUser,
+  faCalendarDays,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
+
+// Transfrom fetched date to a more readable format
+const formatDate = (dateString) => {
+  const options = { weekday: "long", day: "numeric", month: "long" };
+  const formattedDate = new Date(dateString).toLocaleDateString(
+    "en-US",
+    options
+  );
+  return formattedDate;
+};
 import { useLocation } from "react-router-dom";
 
 const EventPage = () => {
@@ -19,6 +36,10 @@ const EventPage = () => {
   const [eventImage, setEventImage] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
   const [showFriendList, setShowFriendList] = useState(false);
+  const [eventTitle, setEventTitle] = useState("");
+  const [attendeesData, setAttendeesData] = useState([]);
+  const [attendees, setAttendees] = useState([]); // Added state for attendees
+  const [attendeesCount, setAttendeesCount] = useState(0);
   const [attendeeCount, setAttendeeCount] = useState(0);
   const [showAttendeesList, setShowAteendeesList] = useState(false);
   const [allowFriendsToInvite, setAllowFriendsToInvite] = useState(false);
@@ -26,7 +47,7 @@ const EventPage = () => {
   const [eventCreatorId, setEventCreatorId] = useState(null);
   const location = useLocation();
 
-  const fetchEventData = async () => {
+  const fetchAttendeesData = async (attendeeIds) => {
     try {
       const ParseEvents = Parse.Object.extend("Events");
       const query = new Parse.Query(ParseEvents);
@@ -73,46 +94,134 @@ const EventPage = () => {
       setShoppingList(result.get("shoppingList"));
       setAttendeeCount(attendees.length);
     } catch (error) {
-      console.error("Error fetching event data:", error);
+      console.error("Error fetching attendees data:", error);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const ParseEvents = Parse.Object.extend("Events");
+        const query = new Parse.Query(ParseEvents);
+        query.equalTo("eventId", eventIdAsNumber);
+        query.select(
+          "eventLocation",
+          "createdBy",
+          "eventDate",
+          "eventDescription",
+          "creatorName",
+          "image",
+          "shoppingList",
+          "title",
+          "attendees"
+        );
+
+        const result = await query.first();
+
+        const currentUserId = Parse.User.current().id;
+
+        const attendees = result.get("attendees") || [];
+        const attendeesWithoutCurrentUser = attendees.filter(
+          (attendeeId) => attendeeId !== currentUserId
+        );
+
+        //showing number of attendees
+        setAttendeesCount(attendeesWithoutCurrentUser.length);
+
+        const currentUser = Parse.User.current();
+        const isAttending = attendees.includes(currentUser.id);
+
+        setIsActive(isAttending);
+        setEventTitle(result.get("title"));
+
+        await fetchAttendeesData(attendeesWithoutCurrentUser);
+
+        const updatedAttendeesData = attendeesData
+          .map((attendee) => attendee.value)
+          .join(", ");
+
+        setEventData([
+          {
+            label: (
+              <>
+                <FontAwesomeIcon icon={faLocationDot} /> Location
+              </>
+            ),
+            value: result.get("eventLocation"),
+          },
+          {
+            label: (
+              <>
+                <FontAwesomeIcon icon={faUser} /> Hosted by
+              </>
+            ),
+            value: result.get("creatorName"),
+          },
+          {
+            label: (
+              <>
+                <FontAwesomeIcon icon={faCalendarDays} /> Date
+              </>
+            ),
+            value: formatDate(result.get("eventDate")),
+          },
+          {
+            label: (
+              <>
+                {" "}
+                <FontAwesomeIcon icon={faUsers} />
+                {` ${attendeesCount} `} People attending{" "}
+              </>
+            ),
+            value: updatedAttendeesData,
+          },
+        ]);
+
+        const eventImage = result.get("image").url();
+        setEventImage(eventImage);
+        setDescription(result.get("eventDescription"));
+        setShoppingList(result.get("shoppingList"));
+        setAttendees(attendeesWithoutCurrentUser);
+      } catch (error) {
+        console.error("Error fetching event data:", error);
+      }
+    };
+
+    fetchData();
+  }, [eventIdAsNumber, attendees, attendeesData]);
 
   const handleToggle = async () => {
     try {
       const ParseEvents = Parse.Object.extend("Events");
       const query = new Parse.Query(ParseEvents);
 
-      // Fetch the specific event using the eventId
       query.equalTo("eventId", eventIdAsNumber);
 
-      const event = await query.first(); // Use the dynamic eventId here
+      const event = await query.first();
 
-      // Get the userId
       const userId = Parse.User.current().id;
-
-      // Fetch the attendees array
       const attendees = event.get("attendees") || [];
 
       if (!isActive && !attendees.includes(userId)) {
-        attendees.push(userId); // Add the userId to the attendees array
+        attendees.push(userId);
         setIsActive(true);
       } else {
         const index = attendees.indexOf(userId);
         if (index > -1) {
-          attendees.splice(index, 1); // Remove the userId from the attendees array
+          attendees.splice(index, 1);
           setIsActive(false);
         }
       }
 
-      event.set("attendees", attendees); // Update the attendees array
+      event.set("attendees", attendees);
+      await event.save();
 
-      await event.save(); // Save the updated event
-
-      setAttendeeCount(attendees.length); // Update the attendee count
+      setAttendeeCount(attendees.length);
     } catch (error) {
       console.error("Error updating event status:", error);
     }
   };
+
   useEffect(() => {
     console.log("Current user ID:", currentUserId);
     console.log("Event creator ID:", eventCreatorId);

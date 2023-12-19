@@ -21,6 +21,7 @@ function Box({ title, content = [], type, Button, ExtraButton, children }) {
           {item.label}
           {showColon ? ":" : ""} <strong>{renderValue(item.value)}</strong>
           {Button && Button(item)}
+          
         </li>
       );
     } else if (type === "shopping") {
