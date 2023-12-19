@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./shoppingList.module.css";
+import styles from "./ShoppingList.module.css";
 import InputBox from "../InputBox/InputBox";
 import { useState, useEffect, useContext } from "react";
 import Button from "../Button/Button";

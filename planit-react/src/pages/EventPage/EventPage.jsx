@@ -7,6 +7,7 @@ import FriendListModal from "../../components/FriendListModal/FriendListModal.js
 import AttendeeListModal from "../../components/AttendeeListModal/AttendeeListModal.jsx";
 import styles from "./EventPage.module.css";
 import Parse from "parse";
+import { useLocation } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocationDot,
@@ -15,180 +16,130 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
-// Transfrom fetched date to a more readable format
-const formatDate = (dateString) => {
-  const options = { weekday: "long", day: "numeric", month: "long" };
-  const formattedDate = new Date(dateString).toLocaleDateString(
-    "en-US",
-    options
-  );
-  return formattedDate;
-};
-import { useLocation } from "react-router-dom";
-
 const EventPage = () => {
+  const location = useLocation();
   const { eventId } = useParams();
   const eventIdAsNumber = parseInt(eventId, 10);
-  const [isActive, setIsActive] = useState();
-  const [eventData, setEventData] = useState([]);
-  const [eventTitle, setEventTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [eventImage, setEventImage] = useState("");
-  const [shoppingList, setShoppingList] = useState([]);
-  const [showFriendList, setShowFriendList] = useState(false);
-  const [eventTitle, setEventTitle] = useState("");
-  const [attendeesData, setAttendeesData] = useState([]);
-  const [attendees, setAttendees] = useState([]); // Added state for attendees
-  const [attendeesCount, setAttendeesCount] = useState(0);
-  const [attendeeCount, setAttendeeCount] = useState(0);
-  const [showAttendeesList, setShowAteendeesList] = useState(false);
-  const [allowFriendsToInvite, setAllowFriendsToInvite] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState(null);
-  const [eventCreatorId, setEventCreatorId] = useState(null);
-  const location = useLocation();
+  const [eventDetails, setEventDetails] = useState({
+    isActive: false,
+    eventData: [],
+    eventTitle: "",
+    description: "",
+    eventImage: "",
+    shoppingList: [],
+    attendeesCount: 0,
+    showFriendList: false,
+    showAttendeesList: false,
+    allowFriendsToInvite: false,
+  });
 
-  const fetchAttendeesData = async (attendeeIds) => {
+  const formatDate = (dateString) => {
+    const options = { weekday: "long", day: "numeric", month: "long" };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "en-US",
+      options
+    );
+    return formattedDate;
+  };
+
+  const formatEventData = (result, attendeesData) => {
+    const attendeeUsernames = attendeesData.map((a) => a.username).join(", ");
+    const formattedData = [
+      {
+        label: (
+          <>
+            <FontAwesomeIcon icon={faLocationDot} /> Location
+          </>
+        ),
+        value: result.get("eventLocation"),
+      },
+      {
+        label: (
+          <>
+            <FontAwesomeIcon icon={faUser} /> Hosted by
+          </>
+        ),
+        value: result.get("creatorName"),
+      },
+      {
+        label: (
+          <>
+            <FontAwesomeIcon icon={faCalendarDays} /> Date
+          </>
+        ),
+        value: formatDate(result.get("eventDate")),
+      },
+      {
+        label: (
+          <div
+            onClick={() => handleModalOpen("showAttendeesList")}
+            className={styles.attendeeInfo}
+          >
+            <FontAwesomeIcon icon={faUsers} />
+            <span style={{ cursor: "pointer", marginLeft: "5px" }}>
+              {attendeesData.length === 1
+                ? "1 person is attending"
+                : `${attendeesData.length} people are attending`}
+            </span>
+          </div>
+        ),
+        value: attendeeUsernames,
+      },
+    ];
+
+    return formattedData;
+  };
+
+  const fetchEventData = async () => {
     try {
       const ParseEvents = Parse.Object.extend("Events");
       const query = new Parse.Query(ParseEvents);
       query.equalTo("eventId", eventIdAsNumber);
-      query.select(
-        "title",
-        "eventLocation",
-        "createdBy",
-        "eventDate",
-        "eventDescription",
-        "creatorName",
-        "image",
-        "shoppingList"
-      );
-
       const result = await query.first();
-      // Fetch the allowFriendsToInvite value
-      const allowFriendsToInvite = result.get("allowFriendsToInvite");
 
-      // Set the state variable
-      setAllowFriendsToInvite(allowFriendsToInvite);
+      if (result) {
+        const currentUser = Parse.User.current();
+        const attendees = result.get("attendees") || [];
+        const isAttending = attendees.includes(currentUser.id);
 
-      // Check if the current user is in the list of attendees
-      const attendees = result.get("attendees") || [];
-      const currentUser = Parse.User.current();
-      const eventCreator = result.get("createdBy");
-      const isAttending = attendees.includes(currentUser.id);
+        const User = Parse.Object.extend("User");
+        const userQuery = new Parse.Query(User);
+        userQuery.containedIn("objectId", attendees);
+        const attendeesResults = await userQuery.find();
 
-      setCurrentUserId(currentUser.id);
-      setEventCreatorId(eventCreator);
+        const attendeesData = attendeesResults.map((user) => ({
+          id: user.id,
+          username: user.get("username"),
+        }));
 
-      // Set the initial state based on user's attendance
-      setIsActive(isAttending);
-
-      setEventData([
-        { label: "Location", value: result.get("eventLocation") },
-        { label: "Created By", value: result.get("creatorName") },
-        { label: "Event Date", value: result.get("eventDate") },
-      ]);
-      const eventImage = result.get("image").url();
-      setEventTitle(result.get("title"));
-      setEventImage(eventImage);
-      setDescription(result.get("eventDescription"));
-      setShoppingList(result.get("shoppingList"));
-      setAttendeeCount(attendees.length);
+        setEventDetails((prevDetails) => ({
+          ...prevDetails,
+          isActive: isAttending,
+          eventData: formatEventData(result, attendeesData),
+          eventTitle: result.get("title"),
+          description: result.get("eventDescription"),
+          eventImage: result.get("image").url(),
+          shoppingList: result.get("shoppingList"),
+          attendeesCount: attendees.length,
+          allowFriendsToInvite: result.get("allowFriendsToInvite"),
+          attendeesData: attendeesData, // Add this line
+        }));
+      }
     } catch (error) {
-      console.error("Error fetching attendees data:", error);
+      console.error("Error fetching event data:", error);
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const ParseEvents = Parse.Object.extend("Events");
-        const query = new Parse.Query(ParseEvents);
-        query.equalTo("eventId", eventIdAsNumber);
-        query.select(
-          "eventLocation",
-          "createdBy",
-          "eventDate",
-          "eventDescription",
-          "creatorName",
-          "image",
-          "shoppingList",
-          "title",
-          "attendees"
-        );
+    fetchEventData();
 
-        const result = await query.first();
-
-        const currentUserId = Parse.User.current().id;
-
-        const attendees = result.get("attendees") || [];
-        const attendeesWithoutCurrentUser = attendees.filter(
-          (attendeeId) => attendeeId !== currentUserId
-        );
-
-        //showing number of attendees
-        setAttendeesCount(attendeesWithoutCurrentUser.length);
-
-        const currentUser = Parse.User.current();
-        const isAttending = attendees.includes(currentUser.id);
-
-        setIsActive(isAttending);
-        setEventTitle(result.get("title"));
-
-        await fetchAttendeesData(attendeesWithoutCurrentUser);
-
-        const updatedAttendeesData = attendeesData
-          .map((attendee) => attendee.value)
-          .join(", ");
-
-        setEventData([
-          {
-            label: (
-              <>
-                <FontAwesomeIcon icon={faLocationDot} /> Location
-              </>
-            ),
-            value: result.get("eventLocation"),
-          },
-          {
-            label: (
-              <>
-                <FontAwesomeIcon icon={faUser} /> Hosted by
-              </>
-            ),
-            value: result.get("creatorName"),
-          },
-          {
-            label: (
-              <>
-                <FontAwesomeIcon icon={faCalendarDays} /> Date
-              </>
-            ),
-            value: formatDate(result.get("eventDate")),
-          },
-          {
-            label: (
-              <>
-                {" "}
-                <FontAwesomeIcon icon={faUsers} />
-                {` ${attendeesCount} `} People attending{" "}
-              </>
-            ),
-            value: updatedAttendeesData,
-          },
-        ]);
-
-        const eventImage = result.get("image").url();
-        setEventImage(eventImage);
-        setDescription(result.get("eventDescription"));
-        setShoppingList(result.get("shoppingList"));
-        setAttendees(attendeesWithoutCurrentUser);
-      } catch (error) {
-        console.error("Error fetching event data:", error);
-      }
-    };
-
-    fetchData();
-  }, [eventIdAsNumber, attendees, attendeesData]);
+    if (location.state?.isNewEvent) {
+      setEventDetails((prevDetails) => ({
+        ...prevDetails,
+        showFriendList: true,
+      }));
+    }
+  }, [eventId, eventIdAsNumber, location.state]);
 
   const handleToggle = async () => {
     try {
@@ -198,108 +149,92 @@ const EventPage = () => {
       query.equalTo("eventId", eventIdAsNumber);
 
       const event = await query.first();
-
       const userId = Parse.User.current().id;
       const attendees = event.get("attendees") || [];
 
-      if (!isActive && !attendees.includes(userId)) {
+      let newIsActive = !eventDetails.isActive;
+      if (newIsActive && !attendees.includes(userId)) {
         attendees.push(userId);
-        setIsActive(true);
-      } else {
+      } else if (!newIsActive) {
         const index = attendees.indexOf(userId);
         if (index > -1) {
           attendees.splice(index, 1);
-          setIsActive(false);
         }
       }
 
       event.set("attendees", attendees);
       await event.save();
 
-      setAttendeeCount(attendees.length);
+      setEventDetails((prevDetails) => ({
+        ...prevDetails,
+        isActive: newIsActive,
+        attendeesCount: attendees.length,
+      }));
     } catch (error) {
       console.error("Error updating event status:", error);
     }
   };
 
-  useEffect(() => {
-    console.log("Current user ID:", currentUserId);
-    console.log("Event creator ID:", eventCreatorId);
-  }, [currentUserId, eventCreatorId]);
-
-  useEffect(() => {
-    fetchEventData();
-
-    if (location.state?.isNewEvent) {
-      setShowFriendList(true);
-    }
-  }, [eventId, eventIdAsNumber, location.state]);
-
-  const handleModalOpenInvite = () => {
-    setShowFriendList(true);
+  const handleModalOpen = (type) => {
+    setEventDetails((prevDetails) => ({ ...prevDetails, [type]: true }));
   };
 
-  const handleModalCloseInvite = () => {
-    setShowFriendList(false);
-  };
-
-  const handleModalOpenAttendees = () => {
-    setShowAteendeesList(true);
-  };
-
-  const handleModalCloseAttendees = () => {
-    setShowAteendeesList(false);
+  const handleModalClose = (type) => {
+    setEventDetails((prevDetails) => ({ ...prevDetails, [type]: false }));
   };
 
   return (
     <div>
       <div className={styles.centered}>
-        <img className={styles.image} src={eventImage} alt="logo"></img>
+        <img
+          className={styles.image}
+          src={eventDetails.eventImage}
+          alt="Event"
+        />
       </div>
       <div className={styles.centered}>
         <div className={styles.actionItems}>
           <Button
             textActive={"Attending"}
             textInactive={"Not Attending"}
-            isActive={isActive}
+            isActive={eventDetails.isActive}
             onClick={handleToggle}
             type={"normal"}
           />
-          {(currentUserId === eventCreatorId || allowFriendsToInvite) && (
+          {eventDetails.allowFriendsToInvite && (
             <Button
-              textInactive={"Invite Friends"}
-              type={"special"}
-              onClick={handleModalOpenInvite}
+              textInactive="Invite Friends"
+              type="special"
+              onClick={() => handleModalOpen("showFriendList")}
             />
           )}
-          <div
-            className={styles.attendeeInfo}
-            onClick={handleModalOpenAttendees}
-          >
-            <span className="material-icons" style={{ cursor: "pointer" }}>
-              group
-            </span>
-            <span style={{ cursor: "pointer", marginLeft: "5px" }}>
-              {attendeeCount === 1
-                ? "1 person is attending"
-                : `${attendeeCount} people are attending`}
-            </span>
-          </div>
-          <AttendeeListModal
-            show={showAttendeesList}
-            onClose={handleModalCloseAttendees}
-          />
         </div>
       </div>
+
       <div className={styles.boxContainer}>
-        <Box title={eventTitle} content={eventData} type="second"></Box>
-        <Box content={description} type="first"></Box>
+        <Box
+          title={eventDetails.eventTitle}
+          content={eventDetails.eventData}
+          type="second"
+        ></Box>
+        <Box content={eventDetails.description} type="first"></Box>
       </div>
       <div className={styles.calendarBox}>
         <Box type="first" content={<EventCalendar />}></Box>
-        <Box title="Shopping List" content={shoppingList} type="shopping"></Box>
+        <Box
+          title="Shopping List"
+          content={eventDetails.shoppingList}
+          type="shopping"
+        ></Box>
       </div>
-      <FriendListModal show={showFriendList} onClose={handleModalCloseInvite} />
+      <FriendListModal
+        show={eventDetails.showFriendList}
+        onClose={() => handleModalClose("showFriendList")}
+      />
+      <AttendeeListModal
+        show={eventDetails.showAttendeesList}
+        onClose={() => handleModalClose("showAttendeesList")}
+      />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./box.module.css";
+import styles from "./Box.module.css";
 
 /**
  * Renders a box component with customizable content based on the provided props.
@@ -13,15 +13,21 @@ import styles from "./box.module.css";
  * @returns {React.ReactNode} The rendered Box component.
  */
 function Box({ title, content = [], type, Button, ExtraButton, children }) {
+  const boxClass = type === "friendBox" ? styles.friendBox : styles.box;
+
   const renderContent = (item, index) => {
-    if (type === "second") {
+    if (type === "second" || type === "friendBox") {
       const showColon = item.label && item.label.length > 0;
       return (
         <li key={index}>
-          {item.label}
-          {showColon ? ":" : ""} <strong>{renderValue(item.value)}</strong>
-          {Button && Button(item)}
-          
+          <div>
+            {item.label}
+            {showColon ? ":" : ""}
+          </div>
+          <strong>
+            {renderValue(item.value)}
+            {Button && Button(item)}
+          </strong>
         </li>
       );
     } else if (type === "shopping") {
@@ -55,7 +61,7 @@ function Box({ title, content = [], type, Button, ExtraButton, children }) {
 
   if (type === "first") {
     return (
-      <div className={styles.box}>
+      <div className={boxClass}>
         <h2>{title}</h2>
         <div>{content}</div>
         {children}
@@ -63,7 +69,7 @@ function Box({ title, content = [], type, Button, ExtraButton, children }) {
     );
   } else {
     return (
-      <div className={styles.box}>
+      <div className={boxClass}>
         <h2>{title}</h2>
         {ExtraButton && (
           <div className={styles.extraButton}>{ExtraButton()}</div>

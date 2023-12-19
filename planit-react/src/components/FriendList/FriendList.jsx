@@ -131,7 +131,7 @@ const FriendList = () => {
       <div className={styles.friendlistpage}>
         <Box
           title="Friend List"
-          type="second"
+          type="friendBox"
           content={friends.map((friend) => ({
             value: (
               <div className={styles.friendItem}>
