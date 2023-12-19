@@ -4,6 +4,8 @@ import Parse from "parse";
 import styles from "./FeedPage.module.css";
 import React, { useContext, useEffect, useState } from "react";
 import { LiveQueryClientContext } from "../../index.js"; // replace with the actual path
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
 const Feed = () => {
   const navigate = useNavigate();
@@ -161,9 +163,11 @@ const Feed = () => {
   return (
     <div className={styles.body}>
       <button onClick={toggleSidebar} className={styles.sidebarToggle}>
-        <span className="material-icons">
-          {isSidebarOpen ? "" : "settings"}
-        </span>
+        <p className={styles.icon}>
+          {" "}
+          <FontAwesomeIcon icon={faFilter} />
+          {isSidebarOpen ? "" : "Filter"}
+        </p>
       </button>
       <div className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ""}`}>
         <button onClick={toggleSidebar} className={styles.closeSidebarButton}>
