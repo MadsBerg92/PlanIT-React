@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styles from "../calendar/calendar.module.css";
@@ -12,7 +12,32 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 function EventCalendar() {
   const [value, onChange] = useState<Value>(new Date());
   const { eventId } = useParams();
+  const [suggestedDates, setSuggestedDates] = useState<string[]>([]);
   const eventIdAsNumber = parseInt(eventId || "0", 10);
+
+  useEffect(() => {
+    // Fetch suggested dates when the component mounts
+    fetchSuggestedDates();
+  }, [eventIdAsNumber]); // Re-fetch suggested dates when eventIdAsNumber changes
+
+  const fetchSuggestedDates = async () => {
+    try {
+      const ParseEvents = Parse.Object.extend("Events");
+      const query = new Parse.Query(ParseEvents);
+      query.equalTo("eventId", eventIdAsNumber);
+
+      const eventObject = await query.first();
+
+      if (eventObject) {
+        const existingSuggestedDates = eventObject.get("suggestedDate") || [];
+        setSuggestedDates(existingSuggestedDates);
+      } else {
+        console.error("Event not found");
+      }
+    } catch (error) {
+      console.error("Error fetching suggested dates:", error);
+    }
+  };
 
   async function HandleCalendarSubmit() {
     try {
@@ -26,7 +51,6 @@ function EventCalendar() {
       const ParseEvents = Parse.Object.extend("Events");
       const query = new Parse.Query(ParseEvents);
       query.equalTo("eventId", eventIdAsNumber);
-      console.log(eventIdAsNumber);
 
       const eventObject = await query.first();
 
@@ -42,6 +66,8 @@ function EventCalendar() {
         await eventObject.save();
 
         console.log("Suggested dates updated successfully");
+
+        setSuggestedDates(updatedSuggestedDates);
 
         //Sets the value back to new Date
         onChange(new Date());
@@ -67,6 +93,15 @@ function EventCalendar() {
           onClick={HandleCalendarSubmit}
           type={"special"}
         />
+      </div>
+
+      <div className={styles.suggestedDates}>
+        <h3>Suggested Dates:</h3>
+        <ul>
+          {suggestedDates.map((date, index) => (
+            <li key={index}>{date}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
