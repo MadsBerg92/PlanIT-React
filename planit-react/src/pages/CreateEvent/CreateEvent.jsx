@@ -42,7 +42,20 @@ const CreateEvent = () => {
       createTempEvent();
       hasMountedRef.current = true;
     }
-  }, []);
+
+    // Cleanup function
+    return async () => {
+      if (eventId) {
+        console.log("Destroying temporary event...");
+        const ParseEvents = Parse.Object.extend("Events");
+        const query = new Parse.Query(ParseEvents);
+        const tempEvent = await query.get(eventId);
+        if (tempEvent) {
+          await tempEvent.destroy();
+        }
+      }
+    };
+  }, [eventId]);
 
   /**
    * Handles the form submission for creating an event.
