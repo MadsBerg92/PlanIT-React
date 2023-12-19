@@ -16,6 +16,10 @@ const CreateEvent = () => {
   const { shoppingList, saveShoppingList } = useContext(ShoppingListContext);
   const hasMountedRef = useRef(false);
   const [allowFriendsToInvite, setAllowFriendsToInvite] = useState(false);
+  const [isCreatingEvent, setIsCreatingEvent] = useState(false);
+  const [isUnmounting, setIsUnmounting] = useState(false);
+  const eventIdRef = useRef(null);
+  const [isEventCreated, setIsEventCreated] = useState(false);
 
   const createTempEvent = async () => {
     const ParseEvents = Parse.Object.extend("Events");
@@ -31,10 +35,17 @@ const CreateEvent = () => {
 
     // Save the new event
     const savedEvent = await newEvent.save();
-
+    // Save the event ID to the ref
+    eventIdRef.current = savedEvent.id;
     // Save the event ID to state
+    setIsEventCreated(false);
     setEventId(savedEvent.id);
   };
+  useEffect(() => {
+    return () => {
+      setIsUnmounting(true);
+    };
+  }, []);
 
   useEffect(() => {
     if (!hasMountedRef.current) {
@@ -45,17 +56,29 @@ const CreateEvent = () => {
 
     // Cleanup function
     return async () => {
-      if (eventId) {
+      if (
+        !isCreatingEvent &&
+        eventIdRef.current &&
+        isUnmounting &&
+        isEventCreated
+      ) {
         console.log("Destroying temporary event...");
         const ParseEvents = Parse.Object.extend("Events");
         const query = new Parse.Query(ParseEvents);
-        const tempEvent = await query.get(eventId);
-        if (tempEvent) {
+
+        // Check if the event still exists
+        const eventExists = await query
+          .get(eventIdRef.current)
+          .then(() => true)
+          .catch(() => false);
+
+        if (eventExists) {
+          const tempEvent = await query.get(eventIdRef.current);
           await tempEvent.destroy();
         }
       }
     };
-  }, [eventId]);
+  }, [isCreatingEvent, isUnmounting, isEventCreated]);
 
   /**
    * Handles the form submission for creating an event.
@@ -65,8 +88,8 @@ const CreateEvent = () => {
    */
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsCreatingEvent(true);
 
-    await createTempEvent();
     // Get form values
     const eventName = document.getElementById("event-name").value;
     const eventDate = document.getElementById("event-date").value;
@@ -124,7 +147,7 @@ const CreateEvent = () => {
 
       // Save the image object
       await eventImageObject.save();
-
+      setIsEventCreated(true);
       // Handle success or redirect to the event page
       console.log("Event created successfully!", savedEvent);
 
@@ -148,10 +171,10 @@ const CreateEvent = () => {
     const eventWithIdZero = await query.first();
 
     // Check if the event exists
-    if (eventWithIdZero) {
-      // Delete the event
-      await eventWithIdZero.destroy();
-    }
+    // if (eventWithIdZero) {
+    //   // Delete the event
+    //   await eventWithIdZero.destroy();
+    // }
 
     // Navigate back to the previous page
     navigate(-1);
