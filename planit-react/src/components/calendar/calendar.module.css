@@ -2,3 +2,14 @@
   display: flex;
   justify-content: center;
 }
+
+.suggestedDates {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.suggestionText {
+  font-size: medium;
+}
