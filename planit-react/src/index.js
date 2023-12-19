@@ -13,12 +13,25 @@ const PARSE_HOST_URL = "https://parseapi.back4app.com/";
 Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
 Parse.serverURL = PARSE_HOST_URL;
 
+const LiveQueryClient = Parse.LiveQueryClient;
+const client = new LiveQueryClient({
+  applicationId: PARSE_APPLICATION_ID,
+  serverURL: "wss://planit.b4a.io", // Replace with your WebSocket server URL
+  javascriptKey: PARSE_JAVASCRIPT_KEY,
+});
+client.open();
+
+// Make the LiveQuery client available to your React components
+export const LiveQueryClientContext = React.createContext();
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <ShoppingListProvider>
-      <App />
-    </ShoppingListProvider>
+    <LiveQueryClientContext.Provider value={client}>
+      <ShoppingListProvider>
+        <App />
+      </ShoppingListProvider>
+    </LiveQueryClientContext.Provider>
   </React.StrictMode>
 );

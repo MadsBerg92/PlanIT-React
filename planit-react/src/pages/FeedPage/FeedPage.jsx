@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import EventCard from "../../components/EventCard/EventCard.jsx";
 import Parse from "parse";
 import styles from "./FeedPage.module.css";
+import React, { useContext, useEffect, useState } from "react";
+import { LiveQueryClientContext } from "../../index.js"; // replace with the actual path
 
 const Feed = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Feed = () => {
   const [dateFilter, setDateFilter] = useState("all"); // Options: 'past', 'upcoming', 'all'
   const [eventFilter, setEventFilter] = useState("all"); // Default value 'all'
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const liveQueryClient = useContext(LiveQueryClientContext);
 
   const currentUser = Parse.User.current();
 
@@ -127,7 +129,21 @@ const Feed = () => {
 
   useEffect(() => {
     fetchEvents(eventFilter, sortOrder, attendingFilter, dateFilter);
-  }, [eventFilter, sortOrder, attendingFilter, dateFilter]);
+    const ParseEvents = Parse.Object.extend("Events");
+    const query = new Parse.Query(ParseEvents);
+
+    // Subscribe to the query
+    const subscription = liveQueryClient.subscribe(query);
+
+    subscription.on("create", (newEvent) => {
+      setEvents((prevEvents) => [...prevEvents, newEvent]);
+    });
+
+    // Unsubscribe from the query in the cleanup function
+    return () => {
+      liveQueryClient.unsubscribe(query, subscription);
+    };
+  }, [eventFilter, sortOrder, attendingFilter, dateFilter, liveQueryClient]);
 
   function renderValue(dateString) {
     return new Date(dateString).toLocaleDateString();
@@ -142,7 +158,7 @@ const Feed = () => {
   };
 
   return (
-    <div>
+    <div className={styles.body}>
       <button onClick={toggleSidebar} className={styles.sidebarToggle}>
         <span className="material-icons">
           {isSidebarOpen ? "" : "settings"}

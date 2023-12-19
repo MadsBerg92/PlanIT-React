@@ -24,8 +24,8 @@ const Footer = () => {
                   <i className="fas fa-gem me-3"></i>PlanIT
                 </h6>
                 <p>
-                  A space to keep up with all your friends through social
-                  gatherings and interactive... bla bla
+                  The space to keep up with all your friends through social
+                  gatherings.
                 </p>
               </div>
 

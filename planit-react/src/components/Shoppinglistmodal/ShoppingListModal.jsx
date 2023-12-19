@@ -108,7 +108,7 @@ function ShoppingListModal({ eventId, isEditEvent }) {
    * @param {number} id - The ID of the item.
    */
   const handleAddItem = (e, id) => {
-    setInputs(inputs.concat({ id: Date.now(), name: "" }));
+    setInputs(inputs.concat({ id: Date.now(), name: "", checked: false }));
   };
 
   /**
@@ -171,40 +171,36 @@ function ShoppingListModal({ eventId, isEditEvent }) {
                       onChange={(event) => handleInputChange(input.id, event)}
                     />
                   ))}
-                  <button
-                    type="button"
+                  <Button
+                    type="submit"
+                    textInactive="Add Item"
                     onClick={handleAddItem}
-                    className={styles.btn}
-                  >
-                    Add Item
-                  </button>
+                  />
                   <div>
                     {inputs.map((input, index) => (
                       <li key={input.id}>
                         Item {index + 1}: {input.name}
-                        <button
+                        <Button
+                          type="delete"
+                          textInactive="Delete"
                           onClick={() => handleDelete(input.id)}
-                          className={styles["delete-btn"]}
-                        >
-                          Delete
-                        </button>
+                        />
                       </li>
                     ))}
                   </div>
                 </div>
                 <br />
                 <div className="modal-footer">
-                  <button
-                    type="button"
-                    className={styles["btn-close"]}
-                    data-dismiss="modal"
+                  <Button
+                    type="cancel"
+                    textInactive="Close"
                     onClick={handleCloseModal}
-                  >
-                    Close
-                  </button>
-                  <button type="submit" className={styles.btn}>
-                    Save changes
-                  </button>
+                  />
+                  <Button
+                    type="submit"
+                    textInactive="Save changes"
+                    onClick={handleSubmit}
+                  />
                 </div>
               </div>
             </div>
