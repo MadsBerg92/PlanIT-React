@@ -1,5 +1,4 @@
 .mainDiv {
-
   position: relative;
   border-radius: 30px;
 
@@ -34,13 +33,11 @@
   height: 150px;
   object-fit: cover;
   margin-right: 40px;
-
 }
 
 h5 {
   font-size: medium;
   border-radius: 10%;
-
 }
 
 .descriptionDateContainer {
@@ -59,20 +56,22 @@ h5 {
 }
 
 .date {
-  width: 200px;
+  font-weight: 500;
+  margin-top: 5px;
+  margin-left: none !important;
 }
-
 
 .editLink {
   position: absolute;
   top: 0;
   right: 0;
-  margin: 20px; /* Adjust margin as needed */
+  margin: 20px;
   z-index: 1;
 }
 
 .icon {
   color: black !important;
+}
 
 @media screen and (max-width: 768px) {
   .mainDiv {
@@ -86,5 +85,4 @@ h5 {
     width: 100px;
     height: 100px;
   }
-
 }
