@@ -1,0 +1,14 @@
+.main-content {
+  flex-grow: 1;
+  background-size: fit-content;
+  background-color: rgb(243, 240, 240);
+  background-position: center;
+}
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: rgb(243, 240, 240);
+  background-size: fit-content;
+  background-position: center;
+}

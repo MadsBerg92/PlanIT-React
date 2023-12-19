@@ -1,16 +1,23 @@
 .mainDiv {
+  position: relative;
   border-radius: 30px;
+
   margin-top: 30px;
-  margin-bottom: 60px;
+  margin-bottom: 80px;
   margin-left: 160px;
   margin-right: 160px;
   padding: 20px 40px;
-  box-shadow: 5px 5px #e4e2e2cc;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-style: inset;
   border-color: #e4e2e22d;
   overflow: hidden;
+  background-color: #f8f9fa;
 }
-
+.mainDiv:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+  transition: transform 0.1s ease-in-out;
+}
 .nameText {
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -23,7 +30,14 @@
 
 .info img {
   width: 200px;
+  height: 150px;
+  object-fit: cover;
   margin-right: 40px;
+}
+
+h5 {
+  font-size: medium;
+  border-radius: 10%;
 }
 
 .descriptionDateContainer {
@@ -37,10 +51,38 @@
   word-wrap: break-word;
   max-height: 150px;
   overflow: hidden;
-  width: 450px;
+  width: auto;
+  padding-right: 30px;
 }
 
 .date {
-  margin-left: 20px;
-  width: 200px;
+  font-weight: 500;
+  margin-top: 5px;
+  margin-left: none !important;
+}
+
+.editLink {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 20px;
+  z-index: 1;
+}
+
+.icon {
+  color: black !important;
+}
+
+@media screen and (max-width: 768px) {
+  .mainDiv {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .description {
+    width: 100%;
+  }
+  .info img {
+    width: 100px;
+    height: 100px;
+  }
 }

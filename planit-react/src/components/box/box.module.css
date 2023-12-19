@@ -1,6 +1,5 @@
 .box,
 .friendBox {
-  /* display: flex; */
   margin-top: 20px;
   background-color: #ffffff;
   padding: 30px;
@@ -42,6 +41,12 @@
   padding: 0;
 }
 
+.box li {
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+  transition: all 0.2s ease;
+}
+
 .box li:hover {
   background-color: #f9f9f9;
 }
@@ -60,7 +65,7 @@
 
 .friendBox {
   display: block;
-  max-width: 60%;
+  max-width: 50%;
 }
 
 .extraButton {
@@ -68,4 +73,23 @@
   padding: 15px;
   top: 0;
   right: 0;
+}
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.checkboxLabel input {
+  width: auto;
+  margin-right: 10px;
+}
+
+.fade {
+  opacity: 0.5;
+  pointer-events: none;
 }

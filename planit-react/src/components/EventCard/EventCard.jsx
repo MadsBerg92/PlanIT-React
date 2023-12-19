@@ -2,8 +2,11 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import styles from "./EventCard.module.css";
 import { useNavigate, Link } from "react-router-dom";
-import { FaEdit } from "react-icons/fa"; // Import edit icon from react-icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import FontAwesomeIcon
+import { faGear } from "@fortawesome/free-solid-svg-icons";
+
 import Parse from "parse";
+import { useState, useEffect } from "react";
 
 /**
  * Renders an event card component.
@@ -16,17 +19,23 @@ import Parse from "parse";
 function EventCard({ eventData }) {
   const navigate = useNavigate();
 
+  const [formattedDate, setFormattedDate] = useState("");
+
   /**
    * Renders the content based on the type of event.
    * @returns {JSX.Element|null} The rendered content.
    */
-  const renderContent = () => {
-    return (
-      <div>
-        <li>Date: {eventData.eventDate}</li>
-      </div>
-    );
-  };
+  useEffect(() => {
+    const eventDate = new Date(eventData.eventDate);
+    const options = {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      hour: "numeric",
+      year: "numeric",
+    };
+    setFormattedDate(eventDate.toLocaleDateString("en-US", options));
+  }, [eventData.eventDate]);
 
   const handleEventClick = () => {
     navigate(`/EventPage/${eventData.eventId}`);
@@ -41,7 +50,7 @@ function EventCard({ eventData }) {
       <div className={styles.mainDiv}>
         <Nav.Link onClick={handleEventClick}>
           <div>
-            <h5 className={styles.nameText}>{eventData.eventName}</h5>
+            <h4 className={styles.nameText}>{eventData.eventName}</h4>
           </div>
           <div className={styles.contentDiv}>
             <div className={styles.info}>
@@ -54,16 +63,19 @@ function EventCard({ eventData }) {
               </div>
 
               <div className={styles.date}>
-                <ul>{renderContent()}</ul>
+                <ul> {formattedDate}</ul>
               </div>
             </div>
           </div>
           {/* Only show edit icon if the event is created by the current user  */}
         </Nav.Link>
         {eventData.createdBy === currentUserId && (
-          <div>
-            <Link to={`/edit-event/${eventData.eventId}`}>
-              <FaEdit />
+          <div className={`${styles.editLink} editLink`}>
+            <Link
+              to={`/edit-event/${eventData.eventId}`}
+              className={styles.icon}
+            >
+              <FontAwesomeIcon icon={faGear} />
             </Link>
           </div>
         )}

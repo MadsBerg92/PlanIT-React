@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Box.module.css";
+import styles from "./box.module.css";
 
 /**
  * Renders a box component with customizable content based on the provided props.
@@ -12,7 +12,15 @@ import styles from "./Box.module.css";
  * @param {React.ReactNode} props.children - The children components to be rendered inside the box.
  * @returns {React.ReactNode} The rendered Box component.
  */
-function Box({ title, content = [], type, Button, ExtraButton, children }) {
+function Box({
+  title,
+  content = [],
+  type,
+  Button,
+  ExtraButton,
+  children,
+  onChange,
+}) {
   const boxClass = type === "friendBox" ? styles.friendBox : styles.box;
 
   const renderContent = (item, index) => {
@@ -33,8 +41,18 @@ function Box({ title, content = [], type, Button, ExtraButton, children }) {
     } else if (type === "shopping") {
       if (item) {
         return (
-          <li key={index}>
-            {index + 1}: {item.name}
+          <li key={index} className={styles.checkboxLabel}>
+            <label htmlFor={`item${index}`}>{item.name}</label>{" "}
+            {item.checked && (
+              <span className={styles.fade}>{item.checkedBy}</span>
+            )}
+            <input
+              type="checkbox"
+              id={`item${index}`}
+              name={`item${index}`}
+              checked={item.checked}
+              onChange={() => onChange(item)}
+            />
             {Button && Button(item)}
           </li>
         );

@@ -1,4 +1,3 @@
-import styles from "../../components/InputBox/InputBox.module.css";
 import Button from "../../components/Button/Button";
 import InputBox from "../../components/InputBox/InputBox";
 import ShoppingListModal from "../../components/Shoppinglistmodal/ShoppingListModal";
@@ -8,7 +7,7 @@ import { useState, useContext, useEffect } from "react";
 import { ShoppingListContext } from "../../Context/ShoppingListContext";
 import { useRef } from "react";
 import React from "react";
-import { useLocation } from "react-router-dom";
+import styles from "./CreateEvent.module.css";
 
 const CreateEvent = () => {
   console.log("Rendering CreateEvent component...");
@@ -43,7 +42,20 @@ const CreateEvent = () => {
       createTempEvent();
       hasMountedRef.current = true;
     }
-  }, []);
+
+    // Cleanup function
+    return async () => {
+      if (eventId) {
+        console.log("Destroying temporary event...");
+        const ParseEvents = Parse.Object.extend("Events");
+        const query = new Parse.Query(ParseEvents);
+        const tempEvent = await query.get(eventId);
+        if (tempEvent) {
+          await tempEvent.destroy();
+        }
+      }
+    };
+  }, [eventId]);
 
   /**
    * Handles the form submission for creating an event.

@@ -20,6 +20,7 @@ const EventPage = () => {
   const location = useLocation();
   const { eventId } = useParams();
   const eventIdAsNumber = parseInt(eventId, 10);
+  const [checkedItems, setCheckedItems] = useState([]);
   const [eventDetails, setEventDetails] = useState({
     isActive: false,
     eventData: [],
@@ -141,6 +142,28 @@ const EventPage = () => {
     }
   }, [eventId, eventIdAsNumber, location.state]);
 
+  const handleCheckboxChange = async (item) => {
+    const currentUser = Parse.User.current();
+    const updatedShoppingList = eventDetails.shoppingList.map((i) =>
+      i.id === item.id ? { ...i, checked: !i.checked } : i
+    );
+
+    setEventDetails((prevDetails) => ({
+      ...prevDetails,
+      shoppingList: updatedShoppingList,
+    }));
+    const ParseEvents = Parse.Object.extend("Events");
+    const query = new Parse.Query(ParseEvents);
+    query.equalTo("eventId", parseInt(eventId)); // replace eventId with your event id
+    const event = await query.first();
+
+    // Update the shoppingList array in the event
+    event.set("shoppingList", updatedShoppingList);
+    await event.save();
+    currentUser.set("shoppingListItem", updatedShoppingList);
+    await currentUser.save();
+  };
+
   const handleToggle = async () => {
     try {
       const ParseEvents = Parse.Object.extend("Events");
@@ -223,8 +246,9 @@ const EventPage = () => {
         <Box type="first" content={<EventCalendar />}></Box>
         <Box
           title="Shopping List"
-          content={eventDetails.shoppingList}
           type="shopping"
+          content={eventDetails.shoppingList}
+          onChange={handleCheckboxChange}
         ></Box>
       </div>
       <FriendListModal

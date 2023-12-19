@@ -3,6 +3,7 @@ import Parse from "parse";
 import styles from "./Login.module.css";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/Button/Button";
 
 /**
  * Form component for user sign up and login.
@@ -39,7 +40,13 @@ const Login = () => {
       user.set("password", password);
       user.set("email", email);
       user.set("userId", uuidv4());
+      // Create a Parse.File object with the image file
+      const profilePictureFile = new Parse.File("user-profile.png", {
+        uri: "./Images/user-profile.png",
+      });
 
+      // Set the profilePicture field to the Parse.File object
+      user.set("profilePicture", profilePictureFile);
       user
         .signUp()
         .then((user) => {
@@ -78,7 +85,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className={styles.body}>
       <div className={styles.header}>
         <img src=".\Images\logo_tab.png" alt="logo" className={styles.logo} />
       </div>
@@ -108,7 +115,7 @@ const Login = () => {
               {errorMessage && (
                 <p className={styles.error_message}>{errorMessage}</p>
               )}
-              <button type="submit">Create Account</button>
+              <Button type="login" textInactive="Create Account" />
               <br />
               <br />
               <h5>Already have an account?</h5>
@@ -134,7 +141,7 @@ const Login = () => {
               {errorMessage && (
                 <p className={styles.error_message}>{errorMessage}</p>
               )}
-              <button type="submit">Login</button>
+              <Button type="login" textInactive="Login" />
               <br />
               <br />
               <h5>Don't have an account?</h5>
@@ -142,9 +149,11 @@ const Login = () => {
           </>
         )}
         <div className={styles.is_signed_up}>
-          <button onClick={switchForm} className={styles.question_button}>
-            {isSignUp ? "Sign In" : "Create Account"}
-          </button>
+          <Button
+            onClick={switchForm}
+            type="cancel"
+            textInactive={isSignUp ? "Sign In" : "Create Account"}
+          ></Button>
         </div>
       </div>
     </div>

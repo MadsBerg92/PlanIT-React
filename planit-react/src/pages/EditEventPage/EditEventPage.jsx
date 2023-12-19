@@ -3,10 +3,8 @@ import InputBox from "../../components/InputBox/InputBox";
 import ShoppingListModal from "../../components/Shoppinglistmodal/ShoppingListModal";
 import Parse from "parse";
 import { useState, useContext, useEffect } from "react";
-import { ShoppingListContext } from "../../Context/ShoppingListContext";
-import { useRef } from "react";
 import { React } from "react";
-import styles from "../../components/InputBox/InputBox.module.css";
+import styles from "./EditEventPage.module.css";
 import { useParams, useNavigate } from "react-router";
 import { Modal } from "react-bootstrap";
 
