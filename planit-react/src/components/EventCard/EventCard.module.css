@@ -25,6 +25,11 @@
 .info img {
   width: 200px;
   margin-right: 40px;
+  font-size: small;
+}
+
+h5 {
+  font-size: medium;
 }
 
 .descriptionDateContainer {
@@ -38,11 +43,11 @@
   word-wrap: break-word;
   max-height: 150px;
   overflow: hidden;
-  width: 450px;
+  width: auto;
+  padding-right: 30px;
 }
 
 .date {
-  margin-left: 20px;
   width: 200px;
 }
 

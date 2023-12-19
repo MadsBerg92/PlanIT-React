@@ -43,7 +43,7 @@ function EventCard({ eventData }) {
       <div className={styles.mainDiv}>
         <Nav.Link onClick={handleEventClick}>
           <div>
-            <h5 className={styles.nameText}>{eventData.eventName}</h5>
+            <h4 className={styles.nameText}>{eventData.eventName}</h4>
           </div>
           <div className={styles.contentDiv}>
             <div className={styles.info}>
