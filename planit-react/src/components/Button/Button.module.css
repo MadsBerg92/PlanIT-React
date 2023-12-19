@@ -23,10 +23,7 @@
   background-color: #a0c686; /* Change the background color to green when active */
 }
 
-.active:hover {
-  border: none;
-  padding: 10px 20px;
-}
+
 
 /* Add different styling here */
 .specialButton {
@@ -53,7 +50,7 @@
 }
 
 .btn {
-  background-color: #50a717;
+  background-color: #3f771a;
   color: white;
   padding: 6px 10px;
   border: none;
@@ -66,7 +63,7 @@
 }
 
 .createButton {
-  background-color: #396918;
+  background-color: #3f771a;
   color: white;
   padding: 6px 10px;
   border: none;
@@ -157,7 +154,7 @@
   color: #ffffff;
 }
 .addFriend {
-  background-color: #396918;
+  background-color: #3f771a;
   color: white;
   padding: 6px 10px;
   border: none;
@@ -165,4 +162,28 @@
   border-radius: 50px;
   font-size: 16px;
   width: fit-content;
+}
+.submitBtn {
+  background-color: #3f771a;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  width: fit-content;
+}
+.loginBtn {
+  background-color: #3f771a;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  width: 150px;
 }

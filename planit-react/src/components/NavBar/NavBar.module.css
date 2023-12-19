@@ -2,6 +2,9 @@
   font-size: x-large;
   color: green;
 }
+.bar {
+  background-color: white !important;
+}
 
 .title:hover {
   color: green;
@@ -21,7 +24,7 @@
 
 .navlink:hover,
 .navlink.active {
-  color: green;
+  color: #3f771a;
 }
 
 .navlink::before {

@@ -5,7 +5,7 @@ import styles from "../../pages/ProfilePage/ProfilePage.module.css";
 import { useState, useEffect } from "react";
 import Parse from "parse";
 import InputBox from "../../components/InputBox/InputBox.jsx";
-
+import Button from "../Button/Button.jsx";
 /**
  * EditProfile component for editing user profile information.
  *
@@ -91,7 +91,6 @@ const EditProfile = (props) => {
     <div>
       {isEditing ? (
         <div>
-          <div className={styles.header}></div>
           <img
             id="profile-picture-preview"
             className={style.profile_picture}
@@ -123,16 +122,13 @@ const EditProfile = (props) => {
                 placeholder={profile.get("email")}
                 required
               />
-              <button type="submit" className={styles.updateButton}>
-                Save Changes
-              </button>
-              <button onClick={handleBack}>Back</button>
+              <Button type="submit" textInactive="Save Changes" />
+              <Button type="cancel" textInactive="Back" onClick={handleBack} />
             </form>
           </div>
         </div>
       ) : (
         <div>
-          <div className={style.header}></div>
           <img
             id="profile-picture-preview"
             className={style.profile_picture}
@@ -158,13 +154,11 @@ const EditProfile = (props) => {
                 disabled={true}
                 required
               />
-
-              <button
-                className={style.button}
+              <Button
+                type="create"
+                textInactive="Edit Your Profile"
                 onClick={() => setIsEditing(true)}
-              >
-                Edit your profile
-              </button>
+              />
             </form>
           </div>
         </div>
