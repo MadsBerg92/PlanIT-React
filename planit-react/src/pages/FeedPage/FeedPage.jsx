@@ -131,6 +131,7 @@ const Feed = () => {
     fetchEvents(eventFilter, sortOrder, attendingFilter, dateFilter);
     const ParseEvents = Parse.Object.extend("Events");
     const query = new Parse.Query(ParseEvents);
+    query.notEqualTo("title", "Temporary Title");
 
     // Subscribe to the query
     const subscription = liveQueryClient.subscribe(query);
