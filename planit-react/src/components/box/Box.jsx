@@ -21,14 +21,21 @@ function Box({
   children,
   onChange,
 }) {
+  const boxClass = type === "friendBox" ? styles.friendBox : styles.box;
+
   const renderContent = (item, index) => {
-    if (type === "second") {
+    if (type === "second" || type === "friendBox") {
       const showColon = item.label && item.label.length > 0;
       return (
         <li key={index}>
-          {item.label}
-          {showColon ? ":" : ""} <strong>{renderValue(item.value)}</strong>
-          {Button && Button(item)}
+          <div>
+            {item.label}
+            {showColon ? ":" : ""}
+          </div>
+          <strong>
+            {renderValue(item.value)}
+            {Button && Button(item)}
+          </strong>
         </li>
       );
     } else if (type === "shopping") {
@@ -72,7 +79,7 @@ function Box({
 
   if (type === "first") {
     return (
-      <div className={styles.box}>
+      <div className={boxClass}>
         <h2>{title}</h2>
         <div>{content}</div>
         {children}
@@ -80,7 +87,7 @@ function Box({
     );
   } else {
     return (
-      <div className={styles.box}>
+      <div className={boxClass}>
         <h2>{title}</h2>
         {ExtraButton && (
           <div className={styles.extraButton}>{ExtraButton()}</div>

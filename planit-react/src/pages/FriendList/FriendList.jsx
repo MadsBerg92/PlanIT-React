@@ -141,7 +141,7 @@ const FriendListPage = () => {
         <Box
           className={styles.Box}
           title="Friend List"
-          type="second"
+          type="friendBox"
           content={friends.map((friend) => ({
             value: (
               <div className={styles.friendItem}>
