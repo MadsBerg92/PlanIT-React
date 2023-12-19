@@ -25,9 +25,27 @@ const FriendListModal = ({ show, onClose }) => {
 
   useEffect(() => {
     if (show) {
-      fetchFriendList(); // fetchFriendList is now an internal function
+      fetchFriendList();
+      fetchInvitedFriends();
     }
   }, [show]);
+
+  const fetchInvitedFriends = async () => {
+    try {
+      const ParseEvents = Parse.Object.extend("Events");
+      const query = new Parse.Query(ParseEvents);
+      query.equalTo("eventId", eventIdAsNumber);
+
+      const eventObject = await query.first();
+
+      if (eventObject) {
+        const invitedFriends = eventObject.get("invitedTo") || [];
+        setSelectedFriends(invitedFriends);
+      }
+    } catch (error) {
+      console.error("Error fetching invited friends:", error);
+    }
+  };
 
   /**
    * Fetches the friend list for the current user.
@@ -113,19 +131,16 @@ const FriendListModal = ({ show, onClose }) => {
       const eventObject = await query.first();
 
       if (eventObject) {
-        const existingAttendees = eventObject.get("attendees") || [];
-        const uniqueAttendees = new Set([
-          ...existingAttendees,
+        const existingInvited = eventObject.get("invitedTo") || [];
+        const uniqueInvited = new Set([
+          ...existingInvited,
           ...selectedFriendIds,
         ]);
 
-        eventObject.set("attendees", Array.from(uniqueAttendees));
+        eventObject.set("invitedTo", Array.from(uniqueInvited));
         await eventObject.save();
 
         // Notify parent component to update display names
-        updateAttendeeNames(Array.from(uniqueAttendees));
-
-        console.log("Attendees updated successfully");
 
         // Add the objectId of the event to the eventId column of the invited users
         for (const friendId of selectedFriendIds) {
