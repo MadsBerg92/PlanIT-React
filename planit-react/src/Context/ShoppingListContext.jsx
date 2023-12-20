@@ -56,7 +56,7 @@ export const ShoppingListProvider = ({ children }) => {
     console.log("Saving shopping list with id ", eventId);
     const Events = Parse.Object.extend("Events");
     const query = new Parse.Query(Events);
-    query.equalTo("objectId", eventId);
+    query.equalTo("eventId", parseInt(eventId));
     try {
       const results = await query.find();
       if (results.length === 0) {
