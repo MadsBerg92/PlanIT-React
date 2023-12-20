@@ -3,15 +3,17 @@ import EventCard from "../../components/EventCard/EventCard.jsx";
 import Parse from "parse";
 import styles from "./FeedPage.module.css";
 import React, { useContext, useEffect, useState } from "react";
-import { LiveQueryClientContext } from "../../index.js"; // replace with the actual path
+import { LiveQueryClientContext } from "../../index.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
 const Feed = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
-  const [sortOrder, setSortOrder] = useState("newest"); // Options: 'newest', 'oldest'
-  const [attendingFilter, setAttendingFilter] = useState("all"); // Options: 'attending', 'notAttending', 'all'
-  const [dateFilter, setDateFilter] = useState("all"); // Options: 'past', 'upcoming', 'all'
-  const [eventFilter, setEventFilter] = useState("all"); // Default value 'all'
+  const [sortOrder, setSortOrder] = useState("newest");
+  const [attendingFilter, setAttendingFilter] = useState("all");
+  const [dateFilter, setDateFilter] = useState("all");
+  const [eventFilter, setEventFilter] = useState("all");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const liveQueryClient = useContext(LiveQueryClientContext);
 
@@ -133,14 +135,12 @@ const Feed = () => {
     const query = new Parse.Query(ParseEvents);
     query.notEqualTo("title", "Temporary Title");
 
-    // Subscribe to the query
     const subscription = liveQueryClient.subscribe(query);
 
     subscription.on("create", (newEvent) => {
       setEvents((prevEvents) => [...prevEvents, newEvent]);
     });
 
-    // Unsubscribe from the query in the cleanup function
     return () => {
       liveQueryClient.unsubscribe(query, subscription);
     };
@@ -161,14 +161,14 @@ const Feed = () => {
   return (
     <div className={styles.body}>
       <button onClick={toggleSidebar} className={styles.sidebarToggle}>
-        <span className="material-icons">
-          {isSidebarOpen ? "" : "settings"}
-        </span>
+        <p className={styles.icon}>
+          <FontAwesomeIcon icon={faFilter} className={styles.margin} />
+          {isSidebarOpen ? "" : "Filter"}
+        </p>
       </button>
       <div className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ""}`}>
         <button onClick={toggleSidebar} className={styles.closeSidebarButton}>
           <span className="material-icons">
-            {" "}
             {!isSidebarOpen ? "" : "close"}
           </span>
         </button>

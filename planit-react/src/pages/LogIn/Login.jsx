@@ -40,12 +40,10 @@ const Login = () => {
       user.set("password", password);
       user.set("email", email);
       user.set("userId", uuidv4());
-      // Create a Parse.File object with the image file
       const profilePictureFile = new Parse.File("user-profile.png", {
         uri: "./Images/user-profile.png",
       });
 
-      // Set the profilePicture field to the Parse.File object
       user.set("profilePicture", profilePictureFile);
       user
         .signUp()
@@ -59,7 +57,7 @@ const Login = () => {
           console.log(
             "User logged in successful with name: " + user.get("username")
           );
-          navigate("/Home"); // navigate to FeedPage after successful login
+          navigate("/Home");
         })
         .catch((error) => {
           console.log("Error: " + error.code + " " + error.message);
@@ -73,7 +71,7 @@ const Login = () => {
           console.log(
             "User logged in successful with name: " + user.get("username")
           );
-          navigate("/Home"); // navigate to FeedPage after successful login
+          navigate("/Home");
         })
         .catch((error) => {
           console.log("Error: " + error.code + " " + error.message);

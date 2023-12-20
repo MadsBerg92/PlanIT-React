@@ -19,7 +19,7 @@
   background-color: #d3e4cd;
   color: #9ab693;
 }
-/* Edit Profile Page Styles */
+
 .header {
   display: flex;
   align-items: center;
@@ -33,8 +33,6 @@
   margin-left: auto;
   margin-right: auto;
 }
-
-/* My Profile Info Styles */
 
 .profile_picture {
   width: 80px;

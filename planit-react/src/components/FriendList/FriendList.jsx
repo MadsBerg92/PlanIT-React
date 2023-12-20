@@ -79,7 +79,6 @@ const FriendList = () => {
 
       await currentUser.save();
 
-      // Fetch the updated friend list
       const User = Parse.Object.extend("User");
       const friendList = currentUser.get("friendList");
       const query = new Parse.Query(User);

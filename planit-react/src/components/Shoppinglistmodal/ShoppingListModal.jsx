@@ -20,10 +20,8 @@ function ShoppingListModal({ eventId, isEditEvent }) {
   const [shoppingListItems, setShoppingListItems] = useState([]);
 
   const { saveShoppingList, shoppingList } = useContext(ShoppingListContext);
-  //useState for modal starting as false
   const [showModal, setShowModal] = useState(false);
 
-  //useState for inputs starting as empty array with one object
   const [inputs, setInputs] = useState([{ id: 1, name: "" }]);
 
   const navigate = useNavigate();
@@ -49,7 +47,6 @@ function ShoppingListModal({ eventId, isEditEvent }) {
       if (fetchedShoppingList) {
         setShoppingListItems(fetchedShoppingList);
 
-        // Map the fetched shopping list items to the format expected by the inputs state
         const newInputs = fetchedShoppingList.map((item) => ({
           id: item.id,
           name: item.name,
@@ -64,7 +61,6 @@ function ShoppingListModal({ eventId, isEditEvent }) {
     }
   };
 
-  //Opens the shopping list modal
   const handleOpenModal = (event) => {
     event.preventDefault();
     console.log("Opening modal");
@@ -119,8 +115,8 @@ function ShoppingListModal({ eventId, isEditEvent }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("event id:", eventId);
-    saveShoppingList(inputs, eventId); // Save the shopping list to the database
-    setShowModal(false); // Close the modal
+    saveShoppingList(inputs, eventId);
+    setShowModal(false);
   };
 
   return (

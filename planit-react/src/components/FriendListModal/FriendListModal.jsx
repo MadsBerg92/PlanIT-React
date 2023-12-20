@@ -63,7 +63,6 @@ const FriendListModal = ({ show, onClose }) => {
         const friendListFromParse = userResult.get("friendList");
 
         if (friendListFromParse) {
-          // Fetch User objects for each friend
           const friendUserQuery = new Parse.Query(Parse.User);
           friendUserQuery.containedIn("objectId", friendListFromParse);
 
@@ -97,20 +96,15 @@ const FriendListModal = ({ show, onClose }) => {
    */
   const updateAttendeeNames = async (attendeeIds) => {
     try {
-      // Create a query for the User object
       const User = Parse.Object.extend("User");
       const query = new Parse.Query(User);
 
-      // Query users whose objectId is in the attendeeIds array
       query.containedIn("objectId", attendeeIds);
 
-      // Execute the query
       const results = await query.find();
 
-      // Extract usernames from the results
       const attendeeNames = results.map((user) => user.get("username"));
 
-      // Update the state with these names
       setAttendeeNames(attendeeNames);
     } catch (error) {
       console.error("Error fetching attendee names:", error);
@@ -126,7 +120,7 @@ const FriendListModal = ({ show, onClose }) => {
     try {
       const ParseEvents = Parse.Object.extend("Events");
       const query = new Parse.Query(ParseEvents);
-      query.equalTo("eventId", eventIdAsNumber); // Assuming eventIdAsNumber is available
+      query.equalTo("eventId", eventIdAsNumber);
 
       const eventObject = await query.first();
 
@@ -140,9 +134,6 @@ const FriendListModal = ({ show, onClose }) => {
         eventObject.set("invitedTo", Array.from(uniqueInvited));
         await eventObject.save();
 
-        // Notify parent component to update display names
-
-        // Add the objectId of the event to the eventId column of the invited users
         for (const friendId of selectedFriendIds) {
           await Parse.Cloud.run("addEventToUser", {
             userId: friendId,
@@ -154,7 +145,6 @@ const FriendListModal = ({ show, onClose }) => {
       }
     } catch (error) {
       console.error("Error updating attendees:", error);
-      // Handle the error or display an error message
     }
   };
 
