@@ -54,3 +54,13 @@
   font-weight: bold;
   margin-bottom: 5px;
 }
+
+.icon {
+  color: black;
+  font-size: large;
+  margin-right: 10px;
+}
+
+.margin {
+  margin-right: 5px;
+}

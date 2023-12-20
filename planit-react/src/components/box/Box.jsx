@@ -32,10 +32,8 @@ function Box({
             {item.label}
             {showColon ? ":" : ""}
           </div>
-          <strong>
-            {renderValue(item.value)}
-            {Button && Button(item)}
-          </strong>
+          {renderValue(item.value)}
+          {Button && Button(item)}
         </li>
       );
     } else if (type === "shopping") {
