@@ -56,7 +56,7 @@ const CreateEvent = () => {
     return async () => {
       if (
         !isCreatingEvent &&
-        eventIdRef.current &&
+        !eventIdRef.current &&
         isUnmounting &&
         !isEventCreated
       ) {

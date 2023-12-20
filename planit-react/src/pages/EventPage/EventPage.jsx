@@ -122,6 +122,7 @@ const EventPage = () => {
           shoppingList: result.get("shoppingList"),
           attendeesCount: attendees.length,
           allowFriendsToInvite: result.get("allowFriendsToInvite"),
+          createdBy: result.get("createdBy"),
           attendeesData: attendeesData,
         }));
       }
@@ -221,12 +222,13 @@ const EventPage = () => {
             isActive={eventDetails.isActive}
             onClick={handleToggle}
           />
-          {eventDetails.allowFriendsToInvite && (
-            <Button
-              textInactive="Invite Friends"
-              onClick={() => handleModalOpen("showFriendList")}
-            />
-          )}
+          {eventDetails.allowFriendsToInvite ||
+            (eventDetails.createdBy === Parse.User.current().id && (
+              <Button
+                textInactive="Invite Friends"
+                onClick={() => handleModalOpen("showFriendList")}
+              />
+            ))}
         </div>
       </div>
 
