@@ -1,0 +1,37 @@
+.friendlistpage {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.flexContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-top: 4%;
+}
+
+.friendItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.boldText {
+  padding-top: 4px;
+  font-weight: bold;
+}
+
+.noFriendsMessage {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+}

@@ -1,38 +1,93 @@
 import React from "react";
 import styles from "./shoppingList.module.css";
 import InputBox from "../InputBox/InputBox";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Button from "../Button/Button";
 import { ShoppingListContext } from "../../Context/ShoppingListContext";
+import Parse from "parse";
+import { useNavigate } from "react-router-dom";
 
-function ShoppingListModal() {
-  //useState for modal starting as false
+/**
+ * Renders a modal component for managing a shopping list.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.eventId - The ID of the event associated with the shopping list.
+ * @returns {JSX.Element} The rendered ShoppingListModal component.
+ */
+
+function ShoppingListModal({ eventId, isEditEvent }) {
+  const [shoppingListItems, setShoppingListItems] = useState([]);
+
+  const { saveShoppingList, shoppingList } = useContext(ShoppingListContext);
   const [showModal, setShowModal] = useState(false);
 
-  //useState for inputs starting as empty array with one object
   const [inputs, setInputs] = useState([{ id: 1, name: "" }]);
 
-  //useContext for shoppingList
-  const { shoppingList, setShoppingList } =
-    React.useContext(ShoppingListContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isEditEvent) {
+      fetchShoppingList();
+    }
+  }, [eventId, isEditEvent]);
 
-  //Opens the shopping list modal
-  const handleOpenModal = () => {
+  const fetchShoppingList = async () => {
+    console.log(`Fetching shopping list for event with id ${eventId}`);
+
+    const Event = Parse.Object.extend("Events");
+    const query = new Parse.Query(Event);
+    query.equalTo("eventId", parseInt(eventId));
+    const event = await query.first();
+
+    if (event) {
+      const fetchedShoppingList = event.get("shoppingList");
+      console.log("Event fetched:", event);
+      console.log("fetchedShoppingList:", fetchedShoppingList);
+
+      if (fetchedShoppingList) {
+        setShoppingListItems(fetchedShoppingList);
+
+        const newInputs = fetchedShoppingList.map((item) => ({
+          id: item.id,
+          name: item.name,
+        }));
+        console.log("newInputs:", newInputs);
+        setInputs(newInputs);
+      } else {
+        console.log(`No shopping list found for event with id ${eventId}`);
+      }
+    } else {
+      console.log(`No event found with id ${eventId}`);
+    }
+  };
+
+  const handleOpenModal = (event) => {
+    event.preventDefault();
+    console.log("Opening modal");
     setShowModal(true);
   };
 
-  //Closes the shopping list modal
+  /**
+   * Closes the shopping list modal.
+   */
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
-  //Handler for deleting items from the shopping list
+  /**
+   * Deletes an input from the inputs array based on the provided id.
+   * @param {number} id - The id of the input to be deleted.
+   */
   const handleDelete = (id) => {
     const newInputs = inputs.filter((input) => input.id !== id);
     setInputs(newInputs);
   };
 
-  //Handler for changing the input value
+  /**
+   * Handles the input change for a specific input field.
+   * @param {string} id - The id of the input field.
+   * @param {object} event - The event object containing the target value.
+   */
   const handleInputChange = (id, event) => {
     const newInputs = inputs.map((input) => {
       if (input.id === id) {
@@ -43,25 +98,27 @@ function ShoppingListModal() {
     setInputs(newInputs);
   };
 
-  //Handler for adding a new inputfield and Object to the shopping lists with a unique id through Date.now()
+  /**
+   * Handles adding a new inputfield and Object to the shopping lists with a unique id through Date.now()
+   * @param {Event} e - The event object.
+   * @param {number} id - The ID of the item.
+   */
   const handleAddItem = (e, id) => {
-    setInputs(inputs.concat({ id: Date.now(), name: "" }));
+    setInputs(inputs.concat({ id: Date.now(), name: "", checked: false }));
   };
 
-  //Handler for submitting the shopping list storing the inputs in the shoppingList state
+  /**
+   * Handles the form submission for the shopping list.
+   * @param {Event} event - The form submission event.
+   * @returns {void}
+   */
   const handleSubmit = (event) => {
     event.preventDefault();
-    setShoppingList(inputs);
-    console.log(inputs);
+    console.log("event id:", eventId);
+    saveShoppingList(inputs, eventId);
+    setShowModal(false);
   };
 
-  //useEffect for closing the modal when the shopping list is updated
-
-  useEffect(() => {
-    if (showModal) {
-      setShowModal(false);
-    }
-  }, [shoppingList]);
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -70,7 +127,6 @@ function ShoppingListModal() {
           textInactive="Shopping List"
           onClick={handleOpenModal}
         ></Button>
-
         {showModal && (
           <div
             className={`modal fade show ${styles.modal}`}
@@ -101,7 +157,7 @@ function ShoppingListModal() {
                   {inputs.map((input, index) => (
                     <InputBox
                       key={input.id}
-                      type="text"
+                      type="item"
                       id={`item-${input.id}`}
                       name={`item${input.id}`}
                       label={`Item ${index + 1}:`}
@@ -111,40 +167,36 @@ function ShoppingListModal() {
                       onChange={(event) => handleInputChange(input.id, event)}
                     />
                   ))}
-                  <button
-                    type="button"
+                  <Button
+                    type="submit"
+                    textInactive="Add Item"
                     onClick={handleAddItem}
-                    className={styles.btn}
-                  >
-                    Add Item
-                  </button>
+                  />
                   <div>
                     {inputs.map((input, index) => (
                       <li key={input.id}>
                         Item {index + 1}: {input.name}
-                        <button
+                        <Button
+                          type="delete"
+                          textInactive="Delete"
                           onClick={() => handleDelete(input.id)}
-                          className={styles["delete-btn"]}
-                        >
-                          Delete
-                        </button>
+                        />
                       </li>
                     ))}
                   </div>
-                  <br />
                 </div>
+                <br />
                 <div className="modal-footer">
-                  <button
-                    type="button"
-                    className={styles["btn-close"]}
-                    data-dismiss="modal"
+                  <Button
+                    type="cancel"
+                    textInactive="Close"
                     onClick={handleCloseModal}
-                  >
-                    Close
-                  </button>
-                  <button type="submit" className={styles.btn}>
-                    Save changes
-                  </button>
+                  />
+                  <Button
+                    type="submit"
+                    textInactive="Save changes"
+                    onClick={handleSubmit}
+                  />
                 </div>
               </div>
             </div>

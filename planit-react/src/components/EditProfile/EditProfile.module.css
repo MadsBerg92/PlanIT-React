@@ -38,3 +38,23 @@
   background-color: #d3e4cd;
   color: #9ab693;
 }
+
+.profile_picture {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: block;
+  margin: 20px auto;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}

@@ -1,9 +1,8 @@
-/* button.module.css */
 .normalButton {
   display: inline-block;
   padding: 10px 20px;
   border: none;
-  border-radius: 50px; /* Use a high value to create a circular shape */
+  border-radius: 50px;
   background-color: #d3e4cd;
   color: #000000;
   font-weight: bold;
@@ -14,56 +13,16 @@
 }
 
 .normalButton:hover {
-  background-color: #a0c686; /* Darker Green */
+  border: solid thin;
+  padding: 9px 20px;
 }
 
 .active {
-  /* Define your active state styling here */
-  background-color: #a0c686; /* Change the background color to green when active */
-}
-
-.active:hover {
-  background-color: #d3e4cd;
-}
-
-/* Add different styling here */
-.specialButton {
-  display: inline-block;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 50px; /* Use a high value to create a circular shape */
-  background-color: #d3e4cd;
-  color: #000000;
-  font-weight: bold;
-  font-size: 14px;
-  margin: 5px;
-  cursor: pointer;
-  width: 150px;
-}
-
-.specialButton:hover {
-  background-color: #a0c686; /* Darker Green */
-}
-
-.customButton {
-  /* Add your custom button styles here */
-}
-
-.btn {
-  background-color: #50a717;
-  color: white;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 20px;
-  border-radius: 50px;
-  font-size: 16px;
-  width: 30%;
+  background-color: #a0c686;
 }
 
 .createButton {
-  background-color: #50a717;
+  background-color: #3f771a;
   color: white;
   padding: 6px 10px;
   border: none;
@@ -72,11 +31,101 @@
   margin-top: 20px;
   border-radius: 50px;
   font-size: 16px;
-  width: 10%;
+  width: fit-content;
+}
+
+.createButton:hover {
+  background-color: #50a717;
+  color: white;
 }
 
 .shoppingListBtn {
-  background-color: rgb(4, 98, 221);
+  background-color: rgb(26, 105, 209);
+  border: none;
+  color: rgb(252, 252, 252);
+  padding: 6px 10px;
+  border-bottom: solid thin rgb(1, 1, 65);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  width: fit-content;
+}
+
+.shoppingListBtn:hover {
+  background-color: rgb(31, 31, 184);
+  color: rgb(252, 252, 252);
+}
+
+.deleteButton {
+  background-color: #d30a0a;
+  color: #ffffff;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  width: fit-content;
+}
+
+.deleteButton:hover {
+  background-color: #ff0000;
+  color: #ffffff;
+}
+
+.cancelButton {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  width: fit-content;
+  border: solid thin rgb(0, 0, 0);
+  width: 120px;
+}
+
+.cancelButton:hover {
+  background-color: #f2f2f2;
+  color: #000000;
+}
+
+.deleteFriend {
+  background-color: #d30a0a;
+  color: #ffffff;
+  padding: 6px 6px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  width: fit-content;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deleteFriend:hover {
+  background-color: #ff0000;
+  color: #ffffff;
+}
+.addFriend {
+  background-color: #3f771a;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+  font-size: 16px;
+  width: fit-content;
+}
+.submitBtn {
+  background-color: #3f771a;
   color: white;
   padding: 6px 10px;
   border: none;
@@ -85,5 +134,17 @@
   margin-top: 20px;
   border-radius: 50px;
   font-size: 16px;
-  width: 10%;
+  width: fit-content;
+}
+.loginBtn {
+  background-color: #3f771a;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  width: 150px;
 }

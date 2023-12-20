@@ -1,50 +1,85 @@
-import styles from "./Button.module.css"
-import React from 'react';
-import {useState} from 'react';
+import styles from "./Button.module.css";
+import React from "react";
+import { useState, useEffect } from "react";
+import Parse from "parse";
 
-function Button(props) {
-  //Setting the status
-  const [isActive, setIsActive] = useState(false);
+/**
+ * Button component.
+ * @param {Object} props - The component props.
+ * @param {string} props.textActive - The text to display when the button is active.
+ * @param {string} props.textInactive - The text to display when the button is inactive.
+ * @param {boolean} props.isActive - Indicates whether the button is active or not.
+ * @param {function} props.onClick - The function to be called when the button is clicked.
+ * @param {string} props.type - The type of button.
+ * @returns {JSX.Element} The rendered Button component.
+ */
+function Button({ textActive, textInactive, isActive, onClick, type }) {
+  const [userId, setUserId] = useState("");
 
-  const buttonText = isActive ? props.textActive : props.textInactive
-  
-  const toggleStatus = () => {
-    setIsActive(!isActive);
-  }
-  
+  const buttonText = isActive ? textActive : textInactive;
 
-  // Changing the styling by defining type.
-  let buttonClass = styles.normalButton;
-
-  if (props.type === 'special') {
-    buttonClass = styles.specialButton;
-  } else if (props.type === 'custom') {
-    buttonClass = styles.customButton;
-  } 
-    else if (props.type === "create") {
-  buttonClass = styles.createButton;
-  } else if (props.type === "shoppingList") {
-  buttonClass = styles.shoppingListBtn;
-}
-  //Define a different onclick function when you create an instance of button to change the onclick behavior!
-  return (
-    <button
-      className={`${buttonClass} ${isActive ? styles.active : ""}`}  // Optional: Pass a class name as a prop for styling
-      onClick={ () => {
-        
-        if (props.onClick) {
-          props.onClick();
+  useEffect(() => {
+    /**
+     * Fetches the user ID asynchronously.
+     * @returns {Promise<void>} A promise that resolves when the user ID is fetched.
+     */
+    const fetchUserId = async () => {
+      try {
+        const currentUser = Parse.User.current();
+        if (currentUser) {
+          setUserId(currentUser.id);
         } else {
-          toggleStatus();
+          console.log("No current user.");
         }
-      }}    
-      // disabled={props.disabled}    // Optional: Disable the button based on a prop
-      type={props.type}
-    >
-      {buttonText}              {/* Button label passed as a prop */}
-    </button>
+      } catch (error) {
+        console.error("Error fetching userId:", error);
+      }
+    };
+
+    fetchUserId();
+  }, []);
+
+  let buttonClass;
+
+  switch (type) {
+    case "create":
+      buttonClass = styles.createButton;
+      break;
+    case "shoppingList":
+      buttonClass = styles.shoppingListBtn;
+      break;
+    case "delete":
+      buttonClass = styles.deleteButton;
+      break;
+    case "cancel":
+      buttonClass = styles.cancelButton;
+      break;
+    case "deleteFriend":
+      buttonClass = styles.deleteFriend;
+      break;
+    case "addFriend":
+      buttonClass = styles.addFriend;
+      break;
+    case "submit":
+      buttonClass = styles.submitBtn;
+      break;
+    case "login":
+      buttonClass = styles.loginBtn;
+      break;
+    default:
+      buttonClass = styles.normalButton;
+  }
+
+  return (
+    <div>
+      <button
+        className={`${buttonClass} ${isActive ? styles.active : ""}`}
+        onClick={onClick}
+      >
+        {buttonText}
+      </button>
+    </div>
   );
 }
 
 export default Button;
-

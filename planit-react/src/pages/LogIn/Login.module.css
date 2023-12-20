@@ -1,23 +1,7 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.header i.material-icons {
-  font-size: 70px;
-  margin-left: 10%;
-}
-
-.header h1 {
-  color: #9ab693;
-  font-variant: small-caps;
-  margin-right: 10%;
-}
-
-.header i.material-icons,
-.header h1 {
-  padding-top: 1%;
+  justify-content: center;
 }
 
 .stroke {
@@ -27,78 +11,49 @@
   margin-right: auto;
 }
 
-.stroke h2 {
-  margin: auto;
-  text-align: center;
-}
-
+.stroke h2,
 .stroke h5 {
   margin: auto;
   text-align: center;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-form input {
-  margin-bottom: 20px;
-  padding: 10px;
-  width: 100%;
-  max-width: 500px;
-  border: 1px solid #d3e4cd;
-  border-radius: 55px;
-}
-
-form input:focus {
-  outline: none;
-  border: 1px solid #9ab693;
-}
-
-form button {
-  margin-top: 20px;
-  padding: 10px;
-  width: 10%;
-  border: 1px solid #d3e4cd;
-  border-radius: 5px;
-  background-color: #9ab693;
-  color: white;
-  font-weight: bold;
-}
-
 form button:hover {
-  background-color: #d3e4cd;
-  color: #9ab693;
-}
-
-form p {
-  margin-top: 20px;
-  font-size: 12px;
-  color: #9ab693;
-}
-
-form p a {
-  color: #9ab693;
-  text-decoration: none;
-}
-
-form p a:hover {
-  color: #d3e4cd;
-  text-decoration: underline;
+  background-color: #3f752c;
+  color: #ffffff;
 }
 
 .logo {
-  width: 10rem; /* Adjust this to your desired width */
-  height: auto; /* This keeps the aspect ratio of the image */
-  margin-left: 10%;
+  width: 10%;
+  height: 10%;
+  margin-top: 3%;
+  margin-right: 1%;
 }
 
-.form-input {
-  margin-bottom: 20px;
+.error_message {
+  color: red;
+  margin-top: 10px;
+}
+
+.question_button {
+  margin-top: 20px;
   padding: 10px;
-  width: 60%;
-  border: 1px solid #d3e4cd;
+  width: 10%;
+  border: 1px solid #050607;
   border-radius: 5px;
+  background-color: #fafafa;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
+
+.question_button:hover {
+  background-color: #ebebeb;
+  color: #9ab693;
+  color: black;
+}
+
+.is_signed_up {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }

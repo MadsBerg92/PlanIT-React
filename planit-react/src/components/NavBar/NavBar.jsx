@@ -4,13 +4,20 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import styles from "./NavBar.module.css";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
+/**
+ * Renders the navigation bar component.
+ *
+ * @returns {JSX.Element} The rendered navigation bar.
+ */
 
 function NavBar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
-    <Navbar className={styles.bar} data-bs-theme="dark">
+    <Navbar bg="light" className={`sticky-top ${styles.bar}`}>
       <Container>
         <Nav.Link>
           <Navbar.Brand
@@ -18,39 +25,46 @@ function NavBar() {
             onClick={() => navigate("Home")}
           >
             <img
-              src="/images/logo.png"
-              width="50"
-              height="40"
+              src="/images/logo_tab.png"
+              width="80"
+              height="60"
               className="d-inline-block align-top image"
               alt="React Bootstrap logo"
             />
-            PlanIT
           </Navbar.Brand>
         </Nav.Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto justify-content-between">
             <Nav.Link
-              className={styles.navlink}
+              className={`${styles.navlink} ${
+                location.pathname === "/Home" ? styles.active : ""
+              }`}
               onClick={() => navigate("Home")}
             >
               Home
             </Nav.Link>
             <Nav.Link
-              className={styles.navlink}
+              className={`${styles.navlink} ${
+                location.pathname === "/event-creation" ? styles.active : ""
+              }`}
               onClick={() => navigate("/event-creation")}
             >
               Create Event
             </Nav.Link>
             <Nav.Link
-              className={styles.navlink}
-              onClick={() => navigate("Home")}
+              className={`${styles.navlink} ${
+                location.pathname === "/Friendlist" ? styles.active : ""
+              }`}
+              onClick={() => navigate("Friendlist")}
             >
-              My Events
+              My Friends
             </Nav.Link>
           </Nav>
           <NavDropdown
-            className={`${styles.dropdown} ms-auto`}
+            className={`${styles.dropdown}  ${
+              location.pathname === "/profile" ? styles.active : ""
+            } ms-auto `}
             title="Profile"
             id="basic-nav-dropdown"
           >
@@ -60,10 +74,9 @@ function NavBar() {
             >
               My Profile
             </NavDropdown.Item>
-            <NavDropdown.Item onClick={() => navigate("/edit-profile")}>
+            <NavDropdown.Item onClick={() => navigate("/profile")}>
               Edit Profile
             </NavDropdown.Item>
-            {/* TODO: This is dummy to redirect to the login page, log out will be added later */}
             <NavDropdown.Item onClick={() => navigate("/")}>
               Logout
             </NavDropdown.Item>

@@ -1,3 +1,10 @@
+.formGroup {
+  text-align: center;
+  background-color: rgb(243, 240, 240);
+
+  font-family: "Gabarito", sans-serif;
+}
+
 .eventImagePreview {
   display: block;
   margin: 0 auto;
@@ -5,12 +12,18 @@
   height: auto;
   margin-top: 10px;
 }
-
-.formGroup {
-  text-align: center;
-  background-color: white;
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Gabarito", sans-serif;
 }
-
+.form label,
+.form input,
+.form textarea,
+.form select {
+  display: block;
+}
 input[type="text"],
 input[type="date"],
 input[type="time"],
@@ -22,17 +35,4 @@ textarea {
   font-size: 16px;
   max-width: 500px;
   border-radius: 20px;
-}
-
-#error-message {
-  color: red;
-  margin-top: 10px;
-}
-
-.site-content {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  background-color: #f2f2f2;
 }

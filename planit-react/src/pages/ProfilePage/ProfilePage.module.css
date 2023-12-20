@@ -1,10 +1,3 @@
-.header {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-  justify-content: space-around;
-}
-
 .profileImage {
   width: 150px;
   height: 150px;
@@ -22,17 +15,34 @@
   width: 50%;
 }
 
-.editButton {
-  padding: 10px;
-  border: 1px solid #d3e4cd;
-  border-radius: 5px;
-  background-color: #9ab693;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
 .editButton:hover {
   background-color: #d3e4cd;
   color: #9ab693;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.editSection {
+  margin-top: 50px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile_picture {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: block;
+  margin: 20px auto;
 }

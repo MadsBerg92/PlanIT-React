@@ -1,8 +1,9 @@
-import styles from "./ProfilePage.module.css";
+import style from "./EditProfile.module.css";
+import styles from "../../pages/ProfilePage/ProfilePage.module.css";
 import { useState, useEffect } from "react";
 import Parse from "parse";
-import InputBox from "../../components/InputBox/InputBox";
-import Button from "../../components/Button/Button";
+import InputBox from "../../components/InputBox/InputBox.jsx";
+import Button from "../Button/Button.jsx";
 /**
  * EditProfile component for editing user profile information.
  *
@@ -11,7 +12,7 @@ import Button from "../../components/Button/Button";
  * @returns {JSX.Element} The EditProfile component.
  */
 
-const ProfilePage = (props) => {
+const EditProfile = (props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState(null);
 
@@ -89,11 +90,10 @@ const ProfilePage = (props) => {
         <div>
           <img
             id="profile-picture-preview"
-            className={styles.profile_picture}
+            className={style.profile_picture}
             src={profile.get("profilePicture").url()}
             alt=""
           ></img>
-
           <div className={styles.editSection}>
             <form action="/updateProfile" method="post" onSubmit={handleSubmit}>
               <InputBox
@@ -111,7 +111,6 @@ const ProfilePage = (props) => {
                 placeholder={profile.get("username")}
                 required
               />
-
               <InputBox
                 id="email"
                 label="Email"
@@ -129,7 +128,7 @@ const ProfilePage = (props) => {
         <div>
           <img
             id="profile-picture-preview"
-            className={styles.profile_picture}
+            className={style.profile_picture}
             src={profile.get("profilePicture").url()}
           ></img>
           <div className={styles.editSection}>
@@ -165,4 +164,4 @@ const ProfilePage = (props) => {
   );
 };
 
-export default ProfilePage;
+export default EditProfile;

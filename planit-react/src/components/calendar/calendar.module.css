@@ -1,5 +1,21 @@
 .calendarBox {
   display: flex;
   justify-content: center;
-  /* background-color: aqua; */
+}
+
+.suggestedDates {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.suggestionText {
+  font-size: medium;
+}
+
+.button {
+  position: absolute;
+  left: 10;
+  bottom: 0;
 }
