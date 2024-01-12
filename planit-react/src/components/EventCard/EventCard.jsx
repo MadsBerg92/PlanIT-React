@@ -26,7 +26,7 @@ function EventCard({ eventData }) {
    * @returns {JSX.Element|null} The rendered content.
    */
   useEffect(() => {
-    const eventDate = new Date(eventData.eventDate);
+    const eventDate = new Date(eventData.eventCompareDate);
     const options = {
       weekday: "long",
       day: "numeric",

@@ -55,13 +55,12 @@ const Feed = () => {
         const results = await query.find();
 
         const eventsFromParse = results.map((result) => ({
-          type: "specific",
           eventData: {
             eventId: result.get("eventId"),
             eventCreator: result.get("creatorName"),
             eventName: result.get("title"),
             eventDescription: result.get("eventDescription"),
-            eventDate: renderValue(result.get("eventDate")),
+            // eventDate: renderValue(result.get("eventDate")),
             eventCompareDate: result.get("eventDate"),
             image: result.get("image").url(),
             eventRSVP: result.get("RSVP"),
@@ -146,9 +145,9 @@ const Feed = () => {
     };
   }, [eventFilter, sortOrder, attendingFilter, dateFilter, liveQueryClient]);
 
-  function renderValue(dateString) {
-    return new Date(dateString).toLocaleDateString();
-  }
+  // function renderValue(dateString) {
+  //   return new Date(dateString).toLocaleDateString();
+  // }
 
   const handleEventClick = (eventId) => {
     navigate(`/Eventpage/${eventId}`);

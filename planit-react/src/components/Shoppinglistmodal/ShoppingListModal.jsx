@@ -36,7 +36,7 @@ function ShoppingListModal({ eventId, isEditEvent }) {
 
     const Event = Parse.Object.extend("Events");
     const query = new Parse.Query(Event);
-    query.equalTo("eventId", parseInt(eventId));
+    query.equalTo("objectId", eventId);
     const event = await query.first();
 
     if (event) {
