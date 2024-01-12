@@ -50,3 +50,15 @@
   color: #000000;
   background-color: #dddddd;
 }
+
+.modalfooter {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.item-row {
+  display: flex;
+  align-items: flex-start;
+}

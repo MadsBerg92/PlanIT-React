@@ -36,7 +36,7 @@ function ShoppingListModal({ eventId, isEditEvent }) {
 
     const Event = Parse.Object.extend("Events");
     const query = new Parse.Query(Event);
-    query.equalTo("eventId", parseInt(eventId));
+    query.equalTo("objectId", eventId);
     const event = await query.first();
 
     if (event) {
@@ -153,37 +153,30 @@ function ShoppingListModal({ eventId, isEditEvent }) {
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
+                <Button
+                  type="submit"
+                  textInactive="Add Item"
+                  onClick={handleAddItem}
+                />
                 <div className="modal-body">
                   {inputs.map((input, index) => (
-                    <InputBox
-                      key={input.id}
-                      type="item"
-                      id={`item-${input.id}`}
-                      name={`item${input.id}`}
-                      label={`Item ${index + 1}:`}
-                      placeholder="Enter item name"
-                      required
-                      value={input.name}
-                      onChange={(event) => handleInputChange(input.id, event)}
-                    />
+                    <div key={input.id} className={styles["item-row"]}>
+                      <InputBox
+                        type="item"
+                        id={`item-${input.id}`}
+                        name={`item${input.id}`}
+                        placeholder="Enter item name"
+                        required
+                        value={input.name}
+                        onChange={(event) => handleInputChange(input.id, event)}
+                      />
+                      <Button
+                        type="delete"
+                        textInactive="Delete"
+                        onClick={() => handleDelete(input.id)}
+                      />
+                    </div>
                   ))}
-                  <Button
-                    type="submit"
-                    textInactive="Add Item"
-                    onClick={handleAddItem}
-                  />
-                  <div>
-                    {inputs.map((input, index) => (
-                      <li key={input.id}>
-                        Item {index + 1}: {input.name}
-                        <Button
-                          type="delete"
-                          textInactive="Delete"
-                          onClick={() => handleDelete(input.id)}
-                        />
-                      </li>
-                    ))}
-                  </div>
                 </div>
                 <br />
                 <div className="modal-footer">

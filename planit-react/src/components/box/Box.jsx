@@ -48,7 +48,7 @@ function Box({
               type="checkbox"
               id={`item${index}`}
               name={`item${index}`}
-              checked={item.checked}
+              checked={!!item.checked}
               onChange={() => onChange(item)}
             />
             {Button && Button(item)}
