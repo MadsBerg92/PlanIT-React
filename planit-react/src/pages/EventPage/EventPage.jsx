@@ -222,13 +222,13 @@ const EventPage = () => {
             isActive={eventDetails.isActive}
             onClick={handleToggle}
           />
-          {eventDetails.allowFriendsToInvite ||
-            (eventDetails.createdBy === Parse.User.current().id && (
-              <Button
-                textInactive="Invite Friends"
-                onClick={() => handleModalOpen("showFriendList")}
-              />
-            ))}
+          {(eventDetails.allowFriendsToInvite ||
+            eventDetails.createdBy === Parse.User.current().id) && (
+            <Button
+              textInactive="Invite Friends"
+              onClick={() => handleModalOpen("showFriendList")}
+            />
+          )}
         </div>
       </div>
 
